@@ -1,7 +1,8 @@
 {
-  "name": "react-redux-starter-kit",
-  "version": "3.0.1",
-  "description": "Get started with React, Redux, and React-Router!",
+  "name": "stylist-advised-me",
+  "version": "1.0.0",
+  "productName": "Stylist Advised Me",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "clean": "rimraf dist",
@@ -15,9 +16,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/davezuko/react-redux-starter-kit.git"
+    "url": "git+https://github.com/levanlevi/stylistadvised.git"
   },
-  "author": "David Zukowski <david@zuko.me> (http://zuko.me)",
+  "author": {
+    "name": "Levan Khunjgurua",
+    "email": "l.khunjgurua@gmail.com",
+    "url": "https://github.com/levanlevi"
+  },
   "license": "MIT",
   "dependencies": {
     "bootstrap": "^4.0.0-alpha",
@@ -28,6 +33,7 @@
     "promise": "^7.1.1",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
+    "react-bootstrap": "^0.31.1",
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.4",
     "react-router": "^3.0.0",

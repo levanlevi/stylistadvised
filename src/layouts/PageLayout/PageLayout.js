@@ -1,14 +1,33 @@
 import React from 'react'
 import { IndexLink, Link } from 'react-router'
+import { Nav, Navbar, NavItem } from 'react-bootstrap';
 import PropTypes from 'prop-types'
-import './PageLayout.scss'
+
+//import './PageLayout.scss';
+
+import Background from '../../assets/golddress.jpg';
+
+var styleWithBackground = {
+  width: "100%",
+  height: "800px",
+  backgroundImage: "url(" + Background + ")"
+};
 
 export const PageLayout = ({ children }) => (
-  <div className='container text-center'>
-    <h1>React Redux Starter Kit</h1>
-    <IndexLink to='/' activeClassName='page-layout__nav-item--active'>Home</IndexLink>
-    {' · '}
-    <Link to='/counter' activeClassName='page-layout__nav-item--active'>Counter</Link>
+  <div style={styleWithBackground}>
+    <Navbar navbar-fixed-top>
+       <Navbar.Header>
+        <Navbar.Brand>
+          <a href="/">Stylist advised me</a>
+        </Navbar.Brand>
+      </Navbar.Header>
+      <Nav pullRight>
+        <NavItem eventKey={1} href="/">How it works</NavItem>
+        <NavItem eventKey={2}>
+          <Link to='/signup'>Sing Up</Link>
+        </NavItem>
+      </Nav>
+    </Navbar>
     <div className='page-layout__viewport'>
       {children}
     </div>
