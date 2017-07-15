@@ -10,8 +10,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 // TODO need to configure environmental variables
-// var db = mongoose.connect('mongodb://127.0.0.1:27017/sphone');
-//var db = mongoose.connect('mongodb://flatorez:cde32123!@cluster0-shard-00-00-5ilpq.mongodb.net:27017,cluster0-shard-00-01-5ilpq.mongodb.net:27017,cluster0-shard-00-02-5ilpq.mongodb.net:27017/sphoneApp?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin');
+//var db = mongoose.connect('mongodb://127.0.0.1:27017/sphone');
+var db = mongoose.connect('mongodb://flatorez:cde32123!@cluster0-shard-00-00-5ilpq.mongodb.net:27017,cluster0-shard-00-01-5ilpq.mongodb.net:27017,cluster0-shard-00-02-5ilpq.mongodb.net:27017/stylistApp?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin');
 
 const app = express()
 app.use(compress())
@@ -72,19 +72,14 @@ if (project.env === 'development') {
   app.use(express.static(path.resolve(project.basePath, project.outDir)))
 }
 
-// var Place = require('./models/placeModel');
-// var Track = require('./models/trackModel');
+var User = require('./models/userModel');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// var placeRouter = require('./routes/placeRoutes')(Place, Track);
-// var trackRouter = require('./routes/trackRoutes')();
-// var playlistRouter = require('./routes/playlistRoutes')(Place, Track);
+var userRouter = require('./routes/userRoutes')(User);
 
-// app.use('/api/places', placeRouter);
-// app.use('/api/tracks', trackRouter);
-// app.use('/api/playlist', playlistRouter);
+app.use('/api/users', userRouter);
 
 app.get('/', function (req, res) {
   res.send('welcome to stylistadvised.me api!');
