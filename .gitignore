@@ -57,6 +57,9 @@ typings/
 # dotenv environment variables file
 .env
 
+# App packaged
+dist
+
 #Packages settings
 package-lock.json
 
