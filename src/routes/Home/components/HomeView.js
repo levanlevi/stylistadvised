@@ -1,17 +1,20 @@
-import React from 'react'
-import DuckImage from '../assets/Duck.jpg'
+import React from 'react';
+import { Button, Col, Jumbotron, Grid, Row } from 'react-bootstrap';
+
 import './HomeView.scss'
 
 export const HomeView = () => (
-  <div>
-    <div>
-      <h4>Welcome!</h4>
-      <img alt='This is a duck, because Redux!' className='duck' src={DuckImage} />
-    </div>
-    <div>
-      <h2>News on Server Side Development</h2>
-    </div>
-  </div>
+  <Grid>
+    <Row className="show-grid">
+      <Col xs={8} xsOffset={2}>
+        <Jumbotron>
+          <h1>Welcome to the "stylist advised me" project!</h1>
+          <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+          <p><Button bsStyle="primary">Learn more</Button></p>
+        </Jumbotron>
+      </Col>
+    </Row>
+  </Grid>
 )
 
 export default HomeView
