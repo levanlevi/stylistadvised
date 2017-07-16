@@ -59,6 +59,7 @@ typings/
 
 # App packaged
 dist
+public/lib
 
 #Packages settings
 package-lock.json

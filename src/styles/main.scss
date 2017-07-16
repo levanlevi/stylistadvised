@@ -23,11 +23,11 @@ a {
   -webkit-transition: all 0.35s;
   -moz-transition: all 0.35s;
   transition: all 0.35s;
-  color: #fdcc52;
+  color: #1a66e0;
 }
 a:hover,
 a:focus {
-  color: #fcbd20;
+  color: #1a66e0;
 }
 hr {
   max-width: 100px;
@@ -67,11 +67,11 @@ p {
   font-family: 'Catamaran', 'Helvetica', 'Arial', 'sans-serif';
   font-weight: 200;
   letter-spacing: 1px;
-  color: #fdcc52;
+  color: #1a66e0;
 }
 .navbar-default .navbar-header .navbar-brand:hover,
 .navbar-default .navbar-header .navbar-brand:focus {
-  color: #fcbd20;
+  color: #1a66e0;
 }
 .navbar-default .navbar-header .navbar-toggle {
   font-size: 12px;
@@ -90,11 +90,11 @@ p {
 }
 .navbar-default .nav > li > a:hover,
 .navbar-default .nav > li > a:focus:hover {
-  color: #fdcc52;
+  color: #1a66e0;
 }
 .navbar-default .nav > li.active > a,
 .navbar-default .nav > li.active > a:focus {
-  color: #fdcc52 !important;
+  color: #1a66e0 !important;
   background-color: transparent;
 }
 .navbar-default .nav > li.active > a:hover,
@@ -130,7 +130,7 @@ p {
   }
   .navbar-default.affix .navbar-header .navbar-brand:hover,
   .navbar-default.affix .navbar-header .navbar-brand:focus {
-    color: #fdcc52;
+    color: #1a66e0;
   }
   .navbar-default.affix .nav > li > a,
   .navbar-default.affix .nav > li > a:focus {
@@ -138,19 +138,21 @@ p {
   }
   .navbar-default.affix .nav > li > a:hover,
   .navbar-default.affix .nav > li > a:focus:hover {
-    color: #fdcc52;
+    color: #1a66e0;
   }
 }
 header {
   position: relative;
   width: 100%;
+  height: 800px;
   min-height: auto;
   overflow-y: hidden;
-  background: url("../assets/bg-pattern.png"), #7b4397;
+  background: url("../assets/golddress.jpg");
   /* fallback for old browsers */
-  background: url("../assets/bg-pattern.png"), -webkit-linear-gradient(to left, #7b4397, #dc2430);
+  background: url("../assets/golddress.jpg");
   /* Chrome 10-25, Safari 5.1-6 */
-  background: url("../assets/bg-pattern.png"), linear-gradient(to left, #7b4397, #dc2430);
+  background: url("../assets/golddress.jpg");
+  background-size:100% auto;
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   color: white;
 }
@@ -297,7 +299,7 @@ section.cta {
   background-size: cover;
   -o-background-size: cover;
   background-position: center;
-  background-image: url('../assets/bg-cta.jpg');
+  background-image: url('../assets/golddress.jpg');
   padding: 250px 0;
 }
 section.cta .cta-content {

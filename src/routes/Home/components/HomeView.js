@@ -1,20 +1,24 @@
 import React from 'react';
-import { Button, Col, Jumbotron, Grid, Row } from 'react-bootstrap';
+import { Button, Col, Grid, Row } from 'react-bootstrap';
 
-import './HomeView.scss'
+//import './HomeView.scss'
 
 export const HomeView = () => (
-  <Grid>
-    <Row className="show-grid">
-      <Col xs={8} xsOffset={2}>
-        <Jumbotron>
-          <h1>Welcome to the "stylist advised me" project!</h1>
-          <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-          <p><Button bsStyle="primary">Learn more</Button></p>
-        </Jumbotron>
-      </Col>
-    </Row>
-  </Grid>
+  <div class="container">
+    <Grid>
+      <Row className="show-grid">
+        <Col xs={4} xsOffset={1}>
+          <div class="header-content">
+            <div class="header-content-inner">
+              <h1>Welcome!</h1>
+              <h1>Here you can find a personal stylist. He will advise you on new fashion trends, clothing styles, colours and make-up.</h1>
+              <Button bsStyle="btn btn-outline btn-xl page-scroll">Learn more</Button>
+            </div>
+          </div>
+        </Col>
+      </Row>
+    </Grid>
+  </div>
 )
 
 export default HomeView
