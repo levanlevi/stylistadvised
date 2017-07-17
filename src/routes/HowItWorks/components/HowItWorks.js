@@ -2,31 +2,31 @@ import React from 'react';
 import { Button, Col, ControlLabel, Form, FormGroup, FormControl, Grid, Row, Well } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-export const Signup = ({ signup, submit, doubleAsync }) => (
-  <div className="header-content">
+export const HowItWorks = ({ signup, increment, doubleAsync }) => (
+  <div>
     <Grid>
-      <Row>
-        <Col xs={5}>
+      <Row className="show-grid">
+        <Col xs={6}>
           <Form horizontal>
-            <FormGroup bsSize="lg" controlId="formHorizontalFirstName">
+            <FormGroup controlId="formHorizontalEmail">
               <Col sm={12}>
-                <FormControl type="text" placeholder="First name" value={signup.firstName} />
+                <FormControl type="text" placeholder="First name" />
               </Col>
             </FormGroup>
 
-            <FormGroup bsSize="lg" controlId="formHorizontalLastName">
+            <FormGroup controlId="formHorizontalEmail">
               <Col sm={12}>
                 <FormControl type="text" placeholder="Last name" />
               </Col>
             </FormGroup>
 
-            <FormGroup bsSize="lg" controlId="formHorizontalEmail">
+            <FormGroup controlId="formHorizontalEmail">
               <Col sm={12}>
                 <FormControl type="email" placeholder="Email" />
               </Col>
             </FormGroup>
 
-            <FormGroup bsSize="lg" controlId="formHorizontalPassword">
+            <FormGroup controlId="formHorizontalPassword">
               <Col sm={12}>
                 <FormControl type="password" placeholder="Password" />
               </Col>
@@ -34,7 +34,7 @@ export const Signup = ({ signup, submit, doubleAsync }) => (
 
             <FormGroup>
               <Col sm={12}>
-                <Button className="btn btn-outline btn-xl page-scroll" onClick={submit}>Sign in</Button>
+                <Button bsStyle="btn btn-outline btn-xl page-scroll" type="submit">Sign in</Button>
               </Col>
             </FormGroup>
           </Form>
@@ -43,10 +43,10 @@ export const Signup = ({ signup, submit, doubleAsync }) => (
     </Grid>
   </div>
 )
-Signup.propTypes = {
-  signup: PropTypes.object.isRequired,
-  submit: PropTypes.func.isRequired,
+HowItWorks.propTypes = {
+  counter: PropTypes.number.isRequired,
+  increment: PropTypes.func.isRequired,
   doubleAsync: PropTypes.func.isRequired,
 }
 
-export default Signup
+export default HowItWorks

@@ -1,9 +1,9 @@
-import browserHistory from 'react-router/lib/browserHistory'
+import browserHistory from 'react-router/lib/browserHistory';
 
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const LOCATION_CHANGE = 'LOCATION_CHANGE'
+export const LOCATION_CHANGE = 'LOCATION_CHANGE';
 
 // ------------------------------------
 // Actions
@@ -19,7 +19,7 @@ export function locationChange (location = '/') {
 // Specialized Action Creator
 // ------------------------------------
 export const updateLocation = ({ dispatch }) => {
-  return (nextLocation) => dispatch(locationChange(nextLocation))
+  return (nextLocation) => dispatch(locationChange(nextLocation));
 }
 
 // ------------------------------------

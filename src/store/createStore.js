@@ -1,20 +1,20 @@
-import { applyMiddleware, compose, createStore as createReduxStore } from 'redux'
-import thunk from 'redux-thunk'
-import { browserHistory } from 'react-router'
-import makeRootReducer from './reducers'
-import { updateLocation } from './location'
+import { applyMiddleware, compose, createStore as createReduxStore } from 'redux';
+import thunk from 'redux-thunk';
+import { browserHistory } from 'react-router';
+import makeRootReducer from './reducers';
+import { updateLocation } from './location';
 
 const createStore = (initialState = {}) => {
   // ======================================================
   // Middleware Configuration
   // ======================================================
-  const middleware = [thunk]
+  const middleware = [thunk];
 
   // ======================================================
   // Store Enhancers
   // ======================================================
-  const enhancers = []
-  let composeEnhancers = compose
+  const enhancers = [];
+  let composeEnhancers = compose;
 
   if (__DEV__) {
     if (typeof window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ === 'function') {
@@ -45,7 +45,7 @@ const createStore = (initialState = {}) => {
     })
   }
 
-  return store
+  return store;
 }
 
 export default createStore

@@ -144,7 +144,6 @@ p {
 header {
   position: relative;
   width: 100%;
-  height: 800px;
   min-height: auto;
   overflow-y: hidden;
   background: url("../assets/golddress.jpg");
@@ -155,6 +154,7 @@ header {
   background-size:100% auto;
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   color: white;
+  background-size: contain;
 }
 header .header-content {
   text-align: center;
