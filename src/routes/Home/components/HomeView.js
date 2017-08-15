@@ -1,8 +1,6 @@
 import React from 'react';
 import { Button, Col, Grid, Form, FormGroup, FormControl, Row } from 'react-bootstrap';
 
-//import './HomeView.scss'
-
 import FirstUrl from '../../../assets/golddress.jpg';
 import SecondUrl from '../../../assets/golddress.jpg';
 

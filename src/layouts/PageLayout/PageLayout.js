@@ -3,8 +3,6 @@ import { IndexLink, Link } from 'react-router'
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
 import PropTypes from 'prop-types'
 
-//import './PageLayout.scss';
-
 export const PageLayout = ({ children }) => (
   <div>
     {/* <header>
@@ -16,7 +14,7 @@ export const PageLayout = ({ children }) => (
         </div>
       </nav>
     </header> */}
-    <div className='page-layout__viewport'>
+    <div>
       {children}
     </div>
   </div>
