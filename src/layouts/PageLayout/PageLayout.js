@@ -3,7 +3,7 @@ import { IndexLink, Link } from 'react-router'
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
 import PropTypes from 'prop-types'
 
-import './PageLayout.scss';
+//import './PageLayout.scss';
 
 export const PageLayout = ({ children }) => (
   <div>
