@@ -7,7 +7,7 @@ import './PageLayout.scss';
 
 export const PageLayout = ({ children }) => (
   <div>
-    <header>
+    {/* <header>
       <nav id="mainNav" className="navbar navbar-default navbar-fixed-top affix-top">
         <div className="container">
           <div className="navbar-header">                
@@ -15,10 +15,10 @@ export const PageLayout = ({ children }) => (
           </div>
         </div>
       </nav>
-      <div className='page-layout__viewport'>
-        {children}
-      </div> 
-    </header>
+    </header> */}
+    <div className='page-layout__viewport'>
+      {children}
+    </div>
   </div>
 )
 PageLayout.propTypes = {

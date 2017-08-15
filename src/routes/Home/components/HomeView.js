@@ -3,6 +3,17 @@ import { Button, Col, Grid, Form, FormGroup, FormControl, Row } from 'react-boot
 
 //import './HomeView.scss'
 
+import FirstUrl from '../../../assets/goldDress.jpg';
+import SecondUrl from '../../../assets/goldDress.jpg';
+
+var firstStyle = {
+  backgroundImage: "url(" + FirstUrl + ")"
+};
+
+var secondStyle = {
+  backgroundImage: "url(" + SecondUrl + ")"
+};
+
 var eMail;
 
 function fetchData(value) {
@@ -39,27 +50,29 @@ function validateEmail(email) {
 }
 
 export const HomeView = () => (
-  <div className="container">
-    <Grid>
-      <Row className="show-grid">
-        <Col xs={5}>
-          <div className="header-content">
-            <div className="header-content-inner">
-              <h1>Welcome!</h1>
-              <h1>Here you can find a personal stylist. He will advise you on new fashion trends, clothing styles, colours and make-up.</h1>
-              <Form horizontal>
-                <FormGroup bsSize="lg" controlId="formHorizontalEmail">
-                  <Col sm={10}>
-                    <FormControl type="email" placeholder="Email" onChange={onEmailChange} />
-                  </Col>
-                </FormGroup>
-              </Form>              
-               <button onClick={submit} className="btn btn-outline btn-xl page-scroll">Send me letter, when goes online</button> 
-            </div>
+  <div>    
+    <section className="g-pos-rel">
+      <div className="js-carousel" data-autoplay="true" data-infinite="true" data-fade="true" data-speed="5000">
+        <div className="js-slide g-min-height-100vh g-flex-centered g-bg-cover g-bg-pos-top-center g-bg-img-hero g-bg-black-opacity-0_2--after" style={firstStyle}></div>
+        <div className="js-slide g-min-height-100vh g-flex-centered g-bg-cover g-bg-pos-top-center g-bg-img-hero g-bg-black-opacity-0_3--after" style={secondStyle}></div>
+      </div>
+      <div className="g-absolute-centered--y g-left-0 g-right-0">
+        <div className="container g-z-index-1">
+          <div className="g-max-width-600">
+            <h1 className="g-color-white g-font-weight-700 g-font-size-40 g-font-size-60--md g-mb-30">Stylist advised me</h1>
+            <p className="h3 g-color-white g-font-weight-300 g-letter-spacing-1 mb-5">Here you can find a personal stylist. He will advise you on new fashion trends, clothing styles, colours and make-up.</p>
           </div>
-        </Col>
-      </Row>
-    </Grid>
+          <div className="input-group g-max-width-400 g-rounded-50">
+            <input onChange={onEmailChange} className="form-control u-shadow-v19 g-brd-none g-color-gray-dark-v4 g-placeholder-gray-dark-v3 g-rounded-50 g-px-25" type="email" placeholder="Enter email"></input>
+            <span className="input-group-addon u-shadow-v19 g-brd-none g-bg-white">
+              <button onClick={submit} className="btn u-btn-primary g-width-40 g-height-40 rounded-circle g-pa-0" type="submit">
+                <i className="fa fa-send"></i>
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 )
 

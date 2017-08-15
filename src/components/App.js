@@ -13,6 +13,15 @@ class App extends React.Component {
     return false
   }
 
+  componentDidMount() {
+    const script = document.createElement("script");
+
+    script.src = "/js/unifyInit.js";
+    script.async = true;
+
+    document.body.appendChild(script);
+  }
+
   render () {
     return (
       <Provider store={this.props.store}>
