@@ -3,8 +3,8 @@ import { Button, Col, Grid, Form, FormGroup, FormControl, Row } from 'react-boot
 
 //import './HomeView.scss'
 
-import FirstUrl from '../../../assets/goldDress.jpg';
-import SecondUrl from '../../../assets/goldDress.jpg';
+import FirstUrl from '../../../assets/golddress.jpg';
+import SecondUrl from '../../../assets/golddress.jpg';
 
 var firstStyle = {
   backgroundImage: "url(" + FirstUrl + ")"
