@@ -27,13 +27,15 @@ function fetchData(value) {
     body: JSON.stringify(body),
     headers: { 'Content-Type': 'application/json' },
   })
-  .then((response) => { console.log(response); })
+  .then((response) => { alert("Thank you!"); })
   .catch((error) => { console.warn(error); })
 }
 
 function submit() {
   if (eMail && validateEmail(eMail)) {
-    fetchData(eMail);
+    alert("Thank you!");
+    fetchData(eMail);    
+    document.getElementById("emailInput").value = "";
   }
 }
 
@@ -61,7 +63,7 @@ export const HomeView = () => (
             <p className="h3 g-color-white g-font-weight-300 g-letter-spacing-1 mb-5">We invite you to join us, and you will be among the first to know that we go online.</p>
           </div>
           <div className="input-group g-max-width-400 g-rounded-50">
-            <input onChange={onEmailChange} className="form-control u-shadow-v19 g-brd-none g-color-gray-dark-v4 g-placeholder-gray-dark-v3 g-rounded-50 g-px-25" type="email" placeholder="Enter email"></input>
+            <input id="emailInput" onChange={onEmailChange} className="form-control u-shadow-v19 g-brd-none g-color-gray-dark-v4 g-placeholder-gray-dark-v3 g-rounded-50 g-px-25" type="email" placeholder="Enter email"></input>
             <span className="input-group-addon u-shadow-v19 g-brd-none g-bg-white">
               <button onClick={submit} className="btn u-btn-primary g-width-40 g-height-40 rounded-circle g-pa-0" type="submit">
                 <i className="fa fa-send"></i>
