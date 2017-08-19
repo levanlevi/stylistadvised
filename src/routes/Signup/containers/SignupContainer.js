@@ -14,7 +14,6 @@ import Signup from '../components/Signup'
 
 const mapDispatchToProps = {
   submit,
-  doubleAsync
 }
 
 const mapStateToProps = (state) => ({
