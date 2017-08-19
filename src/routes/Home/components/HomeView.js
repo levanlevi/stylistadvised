@@ -27,8 +27,8 @@ function fetchData(value) {
     body: JSON.stringify(body),
     headers: { 'Content-Type': 'application/json' },
   })
-  .then((response) => { alert("Thank you!"); })
-  .catch((error) => { console.warn(error); })
+  .then((response) => { console.log("Success!"); })
+  .catch((error) => { console.warn("Error!"); })
 }
 
 function submit() {
