@@ -1,20 +1,26 @@
-const express = require('express')
-const path = require('path')
-const webpack = require('webpack')
-const logger = require('../build/lib/logger')
-const webpackConfig = require('../build/webpack.config')
-const project = require('../project.config')
-const compress = require('compression')
-
+const express = require('express');
+const path = require('path');
+const webpack = require('webpack');
+const compress = require('compression');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-// TODO need to configure environmental variables
-//var db = mongoose.connect('mongodb://127.0.0.1:27017/sphone');
-var db = mongoose.connect('mongodb://flatorez:cde32123!@cluster0-shard-00-00-5ilpq.mongodb.net:27017,cluster0-shard-00-01-5ilpq.mongodb.net:27017,cluster0-shard-00-02-5ilpq.mongodb.net:27017/stylistApp?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin');
+const logger = require('../build/lib/logger');
+const webpackConfig = require('../build/webpack.config');
+const project = require('../project.config');
 
-const app = express()
-app.use(compress())
+// TODO need to configure environmental variables
+var db = mongoose.connect('mongodb://flatorez:cde32123!@cluster0-shard-00-00-5ilpq.mongodb.net:27017,cluster0-shard-00-01-5ilpq.mongodb.net:27017,cluster0-shard-00-02-5ilpq.mongodb.net:27017/stylistApp?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin', {
+  useMongoClient: true,
+});
+
+const app = express();
+app.use(compress());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+var User = require('./models/userModel');
+var userRouter = require('./routes/userRoutes')(User);
 
 // ------------------------------------
 // Apply Webpack HMR Middleware
@@ -24,13 +30,13 @@ if (project.env === 'development') {
 
   logger.info('Enabling webpack development and HMR middleware')
   app.use(require('webpack-dev-middleware')(compiler, {
-    publicPath: webpackConfig.output.publicPath,
-    contentBase: path.resolve(project.basePath, project.srcDir),
-    hot: true,
-    quiet: false,
-    noInfo: false,
-    lazy: false,
-    stats: 'normal',
+    publicPath  : webpackConfig.output.publicPath,
+    contentBase : path.resolve(project.basePath, project.srcDir),
+    hot         : true,
+    quiet       : false,
+    noInfo      : false,
+    lazy        : false,
+    stats       : 'normal',
   }))
   app.use(require('webpack-hot-middleware')(compiler, {
     path: '/__webpack_hmr'
@@ -42,21 +48,22 @@ if (project.env === 'development') {
   // when the application is compiled.
   app.use(express.static(path.resolve(project.basePath, 'public')))
 
+  app.use('/api/users', userRouter);
+
   // This rewrites all routes requests to the root /index.html file
   // (ignoring file requests). If you want to implement universal
   // rendering, you'll want to remove this middleware.
-  // app.use('*', function (req, res, next) {
-  //   res.send('welcome');
-  //   // const filename = path.join(compiler.outputPath, 'index.html')
-  //   // compiler.outputFileSystem.readFile(filename, (err, result) => {
-  //   //   if (err) {
-  //   //     return next(err)
-  //   //   }
-  //   //   res.set('content-type', 'text/html')
-  //   //   res.send(result)
-  //   //   res.end()
-  //   // })
-  // })
+  app.use('*', function (req, res, next) {
+    const filename = path.join(compiler.outputPath, 'index.html')
+    compiler.outputFileSystem.readFile(filename, (err, result) => {
+      if (err) {
+        return next(err)
+      }
+      res.set('content-type', 'text/html')
+      res.send(result)
+      res.end()
+    })
+  })
 } else {
   logger.warn(
     'Server is being run outside of live development mode, meaning it will ' +
@@ -71,18 +78,5 @@ if (project.env === 'development') {
   // server in production.
   app.use(express.static(path.resolve(project.basePath, project.outDir)))
 }
-
-var User = require('./models/userModel');
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-var userRouter = require('./routes/userRoutes')(User);
-
-app.use('/api/users', userRouter);
-
-app.get('/', function (req, res) {
-  res.send('welcome to stylistadvised.me api!');
-});
 
 module.exports = app

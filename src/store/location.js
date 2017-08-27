@@ -9,10 +9,7 @@ export const LOCATION_CHANGE = 'LOCATION_CHANGE';
 // Actions
 // ------------------------------------
 export function locationChange (location = '/') {
-  return {
-    type    : LOCATION_CHANGE,
-    payload : location
-  }
+  return { type: LOCATION_CHANGE, payload : location };
 }
 
 // ------------------------------------
@@ -27,7 +24,5 @@ export const updateLocation = ({ dispatch }) => {
 // ------------------------------------
 const initialState = browserHistory.getCurrentLocation()
 export default function locationReducer (state = initialState, action) {
-  return action.type === LOCATION_CHANGE
-    ? action.payload
-    : state
+  return action.type === LOCATION_CHANGE ? action.payload : state;
 }

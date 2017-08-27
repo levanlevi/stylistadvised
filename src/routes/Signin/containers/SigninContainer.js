@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
-import { submit, doubleAsync } from '../modules/signin';
 
 import Signin from '../components/Signin';
+import { submit } from '../modules/signin';
 
 const mapDispatchToProps = {
   submit,
 }
 
 const mapStateToProps = (state) => ({
-  state : state.signin
+  state: state.signin
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signin)
