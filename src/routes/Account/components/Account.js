@@ -4,9 +4,9 @@ import { Link } from 'react-router';
 
 import UserImage from '../assets/img5.jpg';
 
-class Signin extends React.Component {
+class Account extends React.Component {
   static propTypes = {
-    signup: PropTypes.object,
+    account: PropTypes.object,
     submit: PropTypes.func.isRequired,
   }
 
@@ -14,20 +14,25 @@ class Signin extends React.Component {
     super(props);
 
     this.state = {
-      name: "",
-      password: "",
-      isKeepSignedIn: false,
+      firstName: this.props.state.fname,
+      lastName: this.props.state.lname,
+      email: this.props.state.email,
+      city: this.props.state.city,
+      country: this.props.state.country,
+      postCode: this.props.state.postCode,
     };
 
     this.setName = this.setName.bind(this);
     this.setIsKeepSignedIn = this.setIsKeepSignedIn.bind(this);
     this.setPassword = this.setPassword.bind(this);
 
+    this.cancel = this.cancel.bind(this);
     this.submit = this.submit.bind(this);
   }
 
   componentDidMount() {
-    $.HSCore.components.HSCarousel.init('.js-carousel');
+    // Form Select
+    $.HSCore.components.HSSelect.init('.js-custom-select');
   }
 
   setName(event) {
@@ -42,8 +47,13 @@ class Signin extends React.Component {
     this.setState({ password: event.target.value });
   }
 
+  cancel() {
+    console.log('cancel');
+  }
+
   submit() {
-    this.props.submit(this.state);
+    console.log('Save Changes');
+    //this.props.submit(this.state);
   }
 
   render () {
@@ -51,9 +61,9 @@ class Signin extends React.Component {
       <div>
         <header id="js-header" className="u-header u-header--sticky-top u-header--toggle-section u-header--change-appearance"
                 data-header-fix-moment="300">
-          <div className="u-header__section u-header__section--dark g-transition-0_3 g-py-10"
+          <div className="u-header__section u-header__section--dark g-bg-black g-transition-0_3 g-py-10"
               data-header-fix-moment-exclude="g-py-10"
-              data-header-fix-moment-classes="g-bg-black-opacity-0_7 g-py-0">
+              data-header-fix-moment-classes="g-py-0">
             <nav className="navbar navbar-toggleable-md">
               <div className="container">
                 <button className="navbar-toggler navbar-toggler-right btn g-line-height-1 g-brd-none g-pa-0 g-pos-abs g-right-0" type="button"
@@ -76,9 +86,7 @@ class Signin extends React.Component {
 
                 <div className="collapse navbar-collapse align-items-center flex-sm-row g-pt-10 g-pt-5--lg" id="navBar">
                   <ul className="navbar-nav text-uppercase g-font-weight-600 ml-auto">                    
-                    <li className="nav-item g-mx-100--lg"></li>
-
-                    <Link className="nav-item g-mx-20--lg" to='/signup'>Sign Up</Link>
+                    <li className="nav-item g-mx-120--lg"></li>
                   </ul>
                 </div>
               </div>
@@ -99,7 +107,7 @@ class Signin extends React.Component {
 
                   {/* <!-- User Info --> */}
                   <span className="g-pos-abs g-top-20 g-left-0">
-                    <a className="btn btn-sm u-btn-primary rounded-0" href="#">Johne Doe</a>
+                    <a className="btn btn-sm u-btn-primary rounded-0" href="#">{this.state.firstName} {this.state.lastName}</a>
                     <small className="d-block g-bg-black g-color-white g-pa-5">Project Manager</small>
                   </span>
                   {/* <!-- End User Info --> */}
@@ -135,17 +143,29 @@ class Signin extends React.Component {
                     <p>Below are name, email addresse, contacts and more on file for your account.</p>
 
                     <ul className="list-unstyled g-mb-30">
-                      {/* <!-- Name --> */}
+                      {/* <!-- First Name --> */}
                       <li className="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
                         <div className="g-pr-10">
-                          <strong className="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Name</strong>
-                          <span className="align-top">John Doe</span>
+                          <strong className="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">First Name</strong>
+                          <span className="align-top">{this.state.firstName}</span>
                         </div>
                         <span>
                           <i className="icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"></i>
                         </span>
                       </li>
-                      {/* <!-- End Name --> */}
+                      {/* <!-- End First Name --> */}
+
+                      {/* <!-- Last Name --> */}
+                      <li className="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
+                        <div className="g-pr-10">
+                          <strong className="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Last Name</strong>
+                          <span className="align-top">{this.state.lastName}</span>
+                        </div>
+                        <span>
+                          <i className="icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"></i>
+                        </span>
+                      </li>
+                      {/* <!-- End Last Name --> */}
 
                       {/* <!-- Your ID --> */}
                       <li className="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
@@ -187,7 +207,7 @@ class Signin extends React.Component {
                       <li className="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
                         <div className="g-pr-10">
                           <strong className="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Primary email address</strong>
-                          <span className="align-top">john.doe@htmlstream.com</span>
+                          <span className="align-top">{this.state.email}</span>
                         </div>
                         <span>
                           <i className="icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"></i>
@@ -318,7 +338,7 @@ class Signin extends React.Component {
                           <label className="form-check-inline u-check g-pl-25">
                             <input className="hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" />
                             <div className="u-check-icon-checkbox-v4 g-absolute-centered--y g-left-0">
-                              <i className="fa" data-check-icon="&#xf00c"></i>
+                              <i className="fa" data-check-icon=""></i>
                             </div>
                             Verify login requests
                           </label>
@@ -334,7 +354,7 @@ class Signin extends React.Component {
                           <label className="form-check-inline u-check g-pl-25">
                             <input className="hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" />
                             <div className="u-check-icon-checkbox-v4 g-absolute-centered--y g-left-0">
-                              <i className="fa" data-check-icon="&#xf00c"></i>
+                              <i className="fa" data-check-icon=""></i>
                             </div>
                             Require personal information to reset my password
                           </label>
@@ -376,71 +396,8 @@ class Signin extends React.Component {
                     <form>
                       {/* <!-- Payment Options --> */}
                       <div className="row">
-                        {/* <!-- Visa Card --> */}
-                        <div className="col-md-3">
-                          <label className="u-check w-100 g-mb-25">
-                            <strong className="d-block g-color-gray-dark-v2 g-font-weight-700 g-mb-10">Visa card</strong>
-                            <input className="hidden-xs-up g-pos-abs g-top-10 g-right-10" type="radio" name="profilePayments" checked="" />
-
-                            <div className="g-brd-primary--checked g-bg-primary-opacity-0_2--checked g-brd-around g-brd-gray-light-v2 g-rounded-5">
-                              <div className="media g-pa-12">
-                                <div className="media-body align-self-center g-color-blue">
-                                  <i className="fa fa-cc-visa g-font-size-30 align-self-center mx-auto"></i>
-                                </div>
-
-                                <div className="d-flex align-self-center g-width-20 g-ml-15">
-                                  <div className="u-check-icon-radio-v5 g-pos-rel g-width-20 g-height-20"><i></i></div>
-                                </div>
-                              </div>
-                            </div>
-                          </label>
-                        </div>
-                        {/* <!-- End Visa Card --> */}
-
-                        {/* <!-- Master Card --> */}
-                        <div className="col-md-3">
-                          <label className="u-check w-100 g-mb-25">
-                            <strong className="d-block g-color-gray-dark-v2 g-font-weight-700 g-mb-10">Master card</strong>
-                            <input className="hidden-xs-up g-pos-abs g-top-10 g-right-10" type="radio" name="profilePayments" />
-
-                            <div className="g-brd-primary--checked g-bg-primary-opacity-0_2--checked g-brd-around g-brd-gray-light-v2 g-rounded-5">
-                              <div className="media g-pa-12">
-                                <div className="media-body align-self-center g-color-lightred">
-                                  <i className="fa fa-cc-mastercard g-font-size-30 align-self-center mx-auto"></i>
-                                </div>
-
-                                <div className="d-flex align-self-center g-width-20 g-ml-15">
-                                  <div className="u-check-icon-radio-v5 g-pos-rel g-width-20 g-height-20"><i></i></div>
-                                </div>
-                              </div>
-                            </div>
-                          </label>
-                        </div>
-                        {/* <!-- End Master Card --> */}
-
-                        {/* <!-- Amazon Payments --> */}
-                        <div className="col-md-3">
-                          <label className="u-check w-100 g-mb-25">
-                            <strong className="d-block g-color-gray-dark-v2 g-font-weight-700 g-mb-10">Amazon payments</strong>
-                            <input className="hidden-xs-up g-pos-abs g-top-10 g-right-10" type="radio" name="profilePayments" />
-
-                            <div className="g-brd-primary--checked g-bg-primary-opacity-0_2--checked g-brd-around g-brd-gray-light-v2 g-rounded-5">
-                              <div className="media g-pa-12">
-                                <div className="media-body align-self-center g-color-orange">
-                                  <i className="fa fa-amazon g-font-size-30 align-self-center mx-auto"></i>
-                                </div>
-
-                                <div className="d-flex align-self-center g-width-20 g-ml-15">
-                                  <div className="u-check-icon-radio-v5 g-pos-rel g-width-20 g-height-20"><i></i></div>
-                                </div>
-                              </div>
-                            </div>
-                          </label>
-                        </div>
-                        {/* <!-- End Amazon Payments --> */}
-
                         {/* <!-- Paypal --> */}
-                        <div className="col-md-3">
+                        <div className="col-md-12">
                           <label className="u-check w-100 g-mb-25">
                             <strong className="d-block g-color-gray-dark-v2 g-font-weight-700 g-mb-10">Paypal</strong>
                             <input className="hidden-xs-up g-pos-abs g-top-10 g-right-10" type="radio" name="profilePayments" />
@@ -458,51 +415,17 @@ class Signin extends React.Component {
                             </div>
                           </label>
                         </div>
-                        {/* <!-- End Paypal --> */}
+                        {/* <!-- End Paypal --> */}                                              
                       </div>
                       {/* <!-- End Payment Options --> */}
-
-                      {/* <!-- Card Name and Number --> */}
-                      <div className="row">
-                        {/* <!-- Card Name --> */}
-                        <div className="col-md-6">
-                          <div className="form-group g-mb-20">
-                            <label className="g-color-gray-dark-v2 g-font-weight-700 g-mb-10" htmlFor="inputGroup1_1">Name on card</label>
-                            <div className="input-group g-brd-primary--focus">
-                              <input className="form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" type="text" placeholder="John Doe" />
-                              <div className="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
-                                <i className="icon-user"></i>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        {/* <!-- End Card Name --> */}
-
-                        {/* <!-- Card Number --> */}
-                        <div className="col-md-6">
-                          <div className="form-group g-mb-20">
-                            <label className="g-color-gray-dark-v2 g-font-weight-700 g-mb-10" htmlFor="inputGroup1_1">Card number</label>
-                            <div className="input-group g-brd-primary--focus">
-                              <input id="inputGroup1_3" className="form-control form-control-md g-brd-right-none rounded-0 g-py-13" type="text"
-                                    placeholder="XXXX-XXXX-XXXX-XXXX"
-                                    data-mask="9999-9999-9999-9999" />
-                              <div className="input-group-addon d-flex align-items-center g-color-gray-dark-v5 rounded-0">
-                                <i className="icon-credit-card"></i>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        {/* <!-- End Card Number --> */}
-                      </div>
-                      {/* <!-- End Card Name and Number --> */}
 
                       {/* <!-- Card Expiration Dates and CVV Code --> */}
                       <div className="row">
                         {/* <!-- Expiration Month --> */}
                         <div className="col-md-4">
                           <label className="g-color-gray-dark-v2 g-font-weight-700 g-mb-10" htmlFor="inputGroup1_1">Expiration month</label>
-                          <select className="js-custom-select u-select-v1 g-brd-gray-light-v2 g-color-gray-dark-v5 w-100 g-pt-11 g-pb-10" data-placeholder="Month" data-open-icon="fa fa-angle-down" data-close-icon="fa fa-angle-up">
-                            <option selected="">Month</option>
+                          <select defaultValue="0" className="js-custom-select u-select-v1 g-brd-gray-light-v2 g-color-gray-dark-v5 w-100 g-pt-11 g-pb-10" data-placeholder="Month" data-open-icon="fa fa-angle-down" data-close-icon="fa fa-angle-up">
+                            <option value="0">Month</option>
                             <option value="1">January</option>
                             <option value="1">February</option>
                             <option value="3">March</option>
@@ -555,7 +478,7 @@ class Signin extends React.Component {
                         <label className="u-check g-pl-25 mb-0">
                           <input className="hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" />
                           <div className="u-check-icon-checkbox-v4 g-absolute-centered--y g-left-0">
-                            <i className="fa" data-check-icon="&#xf00c"></i>
+                            <i className="fa" data-check-icon=""></i>
                           </div>
                           Same as shipping address?
                         </label>
@@ -583,7 +506,7 @@ class Signin extends React.Component {
                         <label className="d-flex align-items-center justify-content-between">
                           <span>Email notification</span>
                           <div className="u-check">
-                            <input className="hidden-xs-up g-pos-abs g-top-0 g-right-0" name="emailNotification" type="checkbox" checked />
+                            <input className="hidden-xs-up g-pos-abs g-top-0 g-right-0" name="emailNotification" type="checkbox" defaultChecked />
                             <div className="u-check-icon-radio-v7">
                               <i className="d-inline-block"></i>
                             </div>
@@ -615,7 +538,7 @@ class Signin extends React.Component {
                         <label className="d-flex align-items-center justify-content-between">
                           <span>Send me email notification for the latest update</span>
                           <div className="u-check">
-                            <input className="hidden-xs-up g-pos-abs g-top-0 g-right-0" name="updateNotification" type="checkbox" checked />
+                            <input className="hidden-xs-up g-pos-abs g-top-0 g-right-0" name="updateNotification" type="checkbox" defaultChecked />
                             <div className="u-check-icon-radio-v7">
                               <i className="d-inline-block"></i>
                             </div>
@@ -631,7 +554,7 @@ class Signin extends React.Component {
                         <label className="d-flex align-items-center justify-content-between">
                           <span>Send me email notification when a user sends me message</span>
                           <div className="u-check">
-                            <input className="hidden-xs-up g-pos-abs g-top-0 g-right-0" name="messageNotification" type="checkbox" checked />
+                            <input className="hidden-xs-up g-pos-abs g-top-0 g-right-0" name="messageNotification" type="checkbox" defaultChecked />
                             <div className="u-check-icon-radio-v7">
                               <i className="d-inline-block"></i>
                             </div>
@@ -659,8 +582,8 @@ class Signin extends React.Component {
                       <hr className="g-brd-gray-light-v4 g-my-25" />
 
                       <div className="text-sm-right">
-                        <a className="btn u-btn-darkgray rounded-0 g-py-12 g-px-25 g-mr-10" href="#">Cancel</a>
-                        <a className="btn u-btn-primary rounded-0 g-py-12 g-px-25" href="#">Save Changes</a>
+                        <a onClick={this.cancel} className="btn u-btn-darkgray rounded-0 g-py-12 g-px-25 g-mr-10" href="#">Cancel</a>
+                        <a onClick={this.submit} className="btn u-btn-primary rounded-0 g-py-12 g-px-25" href="#">Save Changes</a>
                       </div>
                     </form>
                   </div>
@@ -677,4 +600,4 @@ class Signin extends React.Component {
   }
 }
 
-export default Signin
+export default Account
