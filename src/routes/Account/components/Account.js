@@ -22,8 +22,10 @@ class Account extends React.Component {
       postCode: this.props.state.postCode,
     };
 
-    this.setName = this.setName.bind(this);
-    this.setIsKeepSignedIn = this.setIsKeepSignedIn.bind(this);
+    this.setFirstName = this.setFirstName.bind(this);
+    this.setLastName = this.setLastName.bind(this);
+    this.setEmail = this.setEmail.bind(this);
+
     this.setPassword = this.setPassword.bind(this);
 
     this.cancel = this.cancel.bind(this);
@@ -31,16 +33,22 @@ class Account extends React.Component {
   }
 
   componentDidMount() {
+    // Form Focus
+    $.HSCore.helpers.HSFocusState.init();
     // Form Select
     $.HSCore.components.HSSelect.init('.js-custom-select');
   }
 
-  setName(event) {
-    this.setState({ name: event.target.value });
+  setFirstName(event) {
+    this.setState({ firstName: event.target.value });
   }
 
-  setIsKeepSignedIn(event) {
-    this.setState({ isKeepSignedIn: event.target.checked });
+  setLastName(event) {
+    this.setState({ lastName: event.target.value });
+  }
+
+  setEmail(event) {
+    this.setState({ email: event.target.value });
   }
 
   setPassword(event) {
@@ -139,147 +147,59 @@ class Account extends React.Component {
                 <div id="nav-1-1-default-hor-left-underline" className="tab-content">
                   {/* <!-- Edit Profile --> */}
                   <div className="tab-pane fade show active" id="nav-1-1-default-hor-left-underline--1" role="tabpanel">
-                    <h2 className="h4 g-font-weight-300">Manage your Name, ID and Email Addresses</h2>
+                    <h2 className="h4 g-font-weight-300">Manage your First Name, Last Name and Email Addresses</h2>
                     <p>Below are name, email addresse, contacts and more on file for your account.</p>
 
-                    <ul className="list-unstyled g-mb-30">
+                    <form>
                       {/* <!-- First Name --> */}
-                      <li className="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
-                        <div className="g-pr-10">
-                          <strong className="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">First Name</strong>
-                          <span className="align-top">{this.state.firstName}</span>
+                      <div className="form-group row g-mb-25">
+                        <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mb-10">First Name</label>
+                        <div className="col-sm-9">
+                          <div className="input-group g-brd-primary--focus">
+                          <input value={this.state.firstName} onChange={this.setFirstName} className="form-control border-right-0 rounded-0 pr-0" type="text" placeholder="First Name" />
+                            <div className="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
+                              <i className="icon-pencil"></i>
+                            </div>
+                          </div>
                         </div>
-                        <span>
-                          <i className="icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"></i>
-                        </span>
-                      </li>
+                      </div>
                       {/* <!-- End First Name --> */}
 
                       {/* <!-- Last Name --> */}
-                      <li className="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
-                        <div className="g-pr-10">
-                          <strong className="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Last Name</strong>
-                          <span className="align-top">{this.state.lastName}</span>
+                      <div className="form-group row g-mb-25">
+                        <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mb-10">Last Name</label>
+                        <div className="col-sm-9">
+                          <div className="input-group g-brd-primary--focus">
+                          <input value={this.state.lastName} onChange={this.setLastName} className="form-control border-right-0 rounded-0 pr-0" type="text" placeholder="First Name" />
+                            <div className="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
+                              <i className="icon-pencil"></i>
+                            </div>
+                          </div>
                         </div>
-                        <span>
-                          <i className="icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"></i>
-                        </span>
-                      </li>
+                      </div>
                       {/* <!-- End Last Name --> */}
 
-                      {/* <!-- Your ID --> */}
-                      <li className="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
-                        <div className="g-pr-10">
-                          <strong className="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Your ID</strong>
-                          <span className="align-top">FKJ-032440</span>
-                        </div>
-                        <span>
-                          <i className="icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"></i>
-                        </span>
-                      </li>
-                      {/* <!-- End Your ID --> */}
-
-                      {/* <!-- Company Name --> */}
-                      <li className="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
-                        <div className="g-pr-10">
-                          <strong className="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Company name</strong>
-                          <span className="align-top">Htmlstream</span>
-                        </div>
-                        <span>
-                          <i className="icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"></i>
-                        </span>
-                      </li>
-                      {/* <!-- End Company Name --> */}
-
-                      {/* <!-- Position --> */}
-                      <li className="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
-                        <div className="g-pr-10">
-                          <strong className="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Position</strong>
-                          <span className="align-top">Project Manager</span>
-                        </div>
-                        <span>
-                          <i className="icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"></i>
-                        </span>
-                      </li>
-                      {/* <!-- End Position --> */}
-
                       {/* <!-- Primary Email Address --> */}
-                      <li className="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
-                        <div className="g-pr-10">
-                          <strong className="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Primary email address</strong>
-                          <span className="align-top">{this.state.email}</span>
+                      <div className="form-group row g-mb-25">
+                        <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mb-10">Primary email address</label>
+                        <div className="col-sm-9">
+                          <div className="input-group g-brd-primary--focus">
+                          <input value={this.state.email} onChange={this.setEmail} className="form-control border-right-0 rounded-0 pr-0" type="text" placeholder="First Name" />
+                            <div className="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
+                              <i className="icon-pencil"></i>
+                            </div>
+                          </div>
                         </div>
-                        <span>
-                          <i className="icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"></i>
-                        </span>
-                      </li>
+                      </div>
                       {/* <!-- End Primary Email Address --> */}
 
-                      {/* <!-- Linked Account --> */}
-                      <li className="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
-                        <div className="g-pr-10">
-                          <strong className="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Linked account</strong>
-                          <span className="align-top">Facebook</span>
-                        </div>
-                        <span>
-                          <i className="icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"></i>
-                        </span>
-                      </li>
-                      {/* <!-- End Linked Account --> */}
+                      <hr className="g-brd-gray-light-v4 g-my-25" />
 
-                      {/* <!-- Website --> */}
-                      <li className="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
-                        <div className="g-pr-10">
-                          <strong className="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Website</strong>
-                          <span className="align-top">https://htmlstream.com</span>
-                        </div>
-                        <span>
-                          <i className="icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"></i>
-                        </span>
-                      </li>
-                      {/* <!-- End Website --> */}
-
-                      {/* <!-- Phone Number --> */}
-                      <li className="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
-                        <div className="g-pr-10">
-                          <strong className="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Phone number</strong>
-                          <span className="align-top">(+123) 456 7890</span>
-                        </div>
-                        <span>
-                          <i className="icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"></i>
-                        </span>
-                      </li>
-                      {/* <!-- End Phone Number --> */}
-
-                      {/* <!-- Office Number --> */}
-                      <li className="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
-                        <div className="g-pr-10">
-                          <strong className="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Office number</strong>
-                          <span className="align-top">(+123) 456 7891</span>
-                        </div>
-                        <span>
-                          <i className="icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"></i>
-                        </span>
-                      </li>
-                      {/* <!-- End Office Number --> */}
-
-                      {/* <!-- Address --> */}
-                      <li className="d-flex align-items-center justify-content-between g-brd-bottom g-brd-gray-light-v4 g-py-15">
-                        <div className="g-pr-10">
-                          <strong className="d-block d-md-inline-block g-color-gray-dark-v2 g-width-200 g-pr-10">Address</strong>
-                          <span className="align-top">795 Folsom Ave, Suite 600, San Francisco CA, US </span>
-                        </div>
-                        <span>
-                          <i className="icon-pencil g-color-gray-dark-v5 g-color-primary--hover g-cursor-pointer g-pos-rel g-top-1"></i>
-                        </span>
-                      </li>
-                      {/* <!-- End Address --> */}
-                    </ul>
-
-                    <div className="text-sm-right">
-                      <a className="btn u-btn-darkgray rounded-0 g-py-12 g-px-25 g-mr-10" href="#">Cancel</a>
-                      <a className="btn u-btn-primary rounded-0 g-py-12 g-px-25" href="#">Save Changes</a>
-                    </div>
+                      <div className="text-sm-right">
+                        <a className="btn u-btn-darkgray rounded-0 g-py-12 g-px-25 g-mr-10" href="#">Cancel</a>
+                        <a className="btn u-btn-primary rounded-0 g-py-12 g-px-25" href="#">Save Changes</a>
+                      </div>
+                    </form>                    
                   </div>
                   {/* <!-- End Edit Profile --> */}
 
