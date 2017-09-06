@@ -21,14 +21,21 @@ class Account extends React.Component {
     this.state = {
       firstName: this.props.state.fname,
       lastName: this.props.state.lname,
-      email: this.props.state.email,
-      city: this.props.state.city,
-      country: this.props.state.country,
-      postCode: this.props.state.postCode,
     };
+
+    this.setFirstName = this.setFirstName.bind(this);
+    this.setLastName = this.setLastName.bind(this);
 
     this.cancel = this.cancel.bind(this);
     this.submit = this.submit.bind(this);
+  }
+
+  setFirstName(value) {
+    this.setState({ firstName: value });
+  }
+
+  setLastName(value) {
+    this.setState({ lastName: value });
   }
 
   cancel() {
@@ -124,7 +131,11 @@ class Account extends React.Component {
                   {/* <!-- Edit Profile --> */}
                   <div className="tab-pane fade show active" id="nav-1-1-default-hor-left-underline--1" role="tabpanel">
                     <Profile
-                      profileState={this.props.state}
+                      firstName={this.state.firstName}
+                      lastName={this.state.lastName}
+                      email={this.props.state.email}
+                      setFirstName={this.setFirstName}
+                      setLastName={this.setLastName}
                     />
                   </div>
                   {/* <!-- End Edit Profile --> */}
