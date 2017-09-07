@@ -2,7 +2,7 @@
 // Constants
 // ------------------------------------
 export const ACCOUNT_USER_RECEIVED = 'ACCOUNT_USER_RECEIVED'
-export const SIGNUP_SUBMIT = 'SIGNUP_SUBMIT';
+export const ACCOUNT_USER_SUBMIT = 'ACCOUNT_USER_SUBMIT';
 
 //const baseUrl = 'http://stylistadvised.me';
 const baseUrl = 'http://localhost:3000';
@@ -32,8 +32,26 @@ export function getUser(userId) {
   }
 }
 
-export function submit (value) {
-  return { type: SIGNUP_SUBMIT, payload: value };
+export function submit (user) {
+  return async (dispatch) => {
+    try {
+      if (user._id.match(/^[0-9a-fA-F]{24}$/)) {
+        const url = baseUrl + '/api/users/' + user._id;
+        const response = await fetch(
+          url,
+          {
+            method: 'PUT',
+            body: JSON.stringify(user),
+            headers: { 'Content-Type': 'application/json' },
+          }
+        );
+
+        dispatch({ type: ACCOUNT_USER_SUBMIT });
+      }
+    } catch (error) {
+      //dispatch(addToast('danger', 'An error occurred while updating the place.'));
+    }
+  }
 }
 
 export const actions = {
@@ -45,31 +63,34 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [ACCOUNT_USER_RECEIVED]: (state, action) => state.user = action.payload,
-  [SIGNUP_SUBMIT]: (state, action) => login(action.payload, state),
+  [ACCOUNT_USER_RECEIVED]: (state, action) => state = action.payload,
+  [ACCOUNT_USER_SUBMIT]: (state, action) => state,
 }
 
-function login(user, state) {
-  //state.isLogin = true;
-  console.log(user);
-
-  return null;
+async function postUser(user) {
+  try {
+    if (userId.match(/^[0-9a-fA-F]{24}$/)) {
+      const url = baseUrl + '/api/users/' + userId;
+      await fetch(
+        url,
+        {
+          method: 'POST',
+          body: JSON.stringify(user),
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+    }
+  } catch (error) {
+    //dispatch(addToast('danger', 'An error occurred while updating the place.'));
+  }
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {
-  account: {
-    user: {
-      name: "",
-      password: "",
-      isKeepSignedIn: false,
-    },
-  }
-}
+const initialState = {}
 
-export default function signinReducer (state = initialState.account, action) {
+export default function signinReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

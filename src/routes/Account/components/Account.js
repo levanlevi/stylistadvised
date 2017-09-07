@@ -11,7 +11,6 @@ import UserImage from '../assets/img5.jpg';
 
 class Account extends React.Component {
   static propTypes = {
-    account: PropTypes.object,
     submit: PropTypes.func.isRequired,
   }
 
@@ -26,8 +25,8 @@ class Account extends React.Component {
     this.setFirstName = this.setFirstName.bind(this);
     this.setLastName = this.setLastName.bind(this);
 
-    this.cancel = this.cancel.bind(this);
-    this.submit = this.submit.bind(this);
+    this.submitProfile = this.submitProfile.bind(this);
+    this.submitSecurity = this.submitSecurity.bind(this);
   }
 
   setFirstName(value) {
@@ -38,13 +37,18 @@ class Account extends React.Component {
     this.setState({ lastName: value });
   }
 
-  cancel() {
-    console.log('cancel');
+  submitProfile(user) {
+    this.props.state.fname = user.firstName;
+    this.props.state.lname = user.lastName;
+    this.props.state.email = user.email;
+
+    this.props.submit(this.props.state);
   }
 
-  submit() {
-    console.log('Save Changes');
-    //this.props.submit(this.state);
+  submitSecurity(user) {
+    this.props.state.password = user.password;
+
+    this.props.submit(this.props.state);
   }
 
   render () {
@@ -136,6 +140,7 @@ class Account extends React.Component {
                       email={this.props.state.email}
                       setFirstName={this.setFirstName}
                       setLastName={this.setLastName}
+                      submit={this.submitProfile}
                     />
                   </div>
                   {/* <!-- End Edit Profile --> */}
@@ -143,7 +148,8 @@ class Account extends React.Component {
                   {/* <!-- Security Settings --> */}
                   <div className="tab-pane fade" id="nav-1-1-default-hor-left-underline--2" role="tabpanel">
                     <Security 
-                      securityState={this.props.state}
+                      password={this.state.password}
+                      submit={this.submitSecurity}
                     />
                   </div>
                   {/* <!-- End Security Settings --> */}

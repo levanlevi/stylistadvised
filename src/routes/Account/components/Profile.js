@@ -8,6 +8,7 @@ class Profile extends React.Component {
     email: PropTypes.string,
     setFirstName: PropTypes.func.isRequired,
     setLastName: PropTypes.func.isRequired,
+    submit: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -15,12 +16,13 @@ class Profile extends React.Component {
 
     this.state = {
       firstName: this.props.firstName,
-      savedFirstName: this.props.firstName,
       lastName: this.props.lastName,
-      savedLastName: this.props.lastName,
       email: this.props.email,
-      savedEmail: this.props.email,
     };
+
+    this.savedFirstName = this.props.firstName;
+    this.savedLastName = this.props.lastName;
+    this.savedEmail = this.props.email;
 
     this.setFirstName = this.setFirstName.bind(this);
     this.setLastName = this.setLastName.bind(this);
@@ -50,23 +52,22 @@ class Profile extends React.Component {
   }
 
   cancel() {
-    this.setState({ firstName: this.state.savedFirstName });
-    this.props.setFirstName(this.state.savedFirstName);
-    this.setState({ lastName: this.state.savedLastName });
-    this.props.setLastName(this.state.savedLastName);
-    this.setState({ email: this.state.savedEmail });
+    this.setState({ firstName: this.savedFirstName });
+    this.props.setFirstName(this.savedFirstName);
+    this.setState({ lastName: this.savedLastName });
+    this.props.setLastName(this.savedLastName);
+    this.setState({ email: this.savedEmail });
   }
 
   submit() {
-    console.log('Save Changes');
-    //this.props.submit(this.state);
+    this.props.submit(this.state);
   }
 
   render () {
     return (
       <div>
         <h2 className="h4 g-font-weight-300">Manage your First Name, Last Name and Email Addresses</h2>
-        <p>Below are name, email addresse, contacts and more on file for your account.</p>
+        <p className="g-mb-25">Below are name, email addresse, contacts and more on file for your account.</p>
 
         <form>
             {/* <!-- First Name --> */}
