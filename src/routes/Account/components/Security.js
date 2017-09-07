@@ -16,7 +16,9 @@ class Security extends React.Component {
 
     this.savedPassword = this.props.password;
 
-    this.setPassword = this.setPassword.bind(this);
+    this.setCurrentPassword = this.setCurrentPassword.bind(this);
+    this.setNewPassword = this.setNewPassword.bind(this);
+    this.setVerifyPassword = this.setVerifyPassword.bind(this);
 
     this.cancel = this.cancel.bind(this);
     this.submit = this.submit.bind(this);
@@ -28,15 +30,15 @@ class Security extends React.Component {
   }
 
   setCurrentPassword(event) {
-    this.setState({ password: event.target.value });
+    //this.setState({ password: event.target.value });
   }
 
   setNewPassword(event) {
-    this.setState({ password: event.target.value });
+    //this.setState({ password: event.target.value });
   }
 
   setVerifyPassword(event) {
-    this.setState({ password: event.target.value });
+    //this.setState({ password: event.target.value });
   }
 
   cancel() {
