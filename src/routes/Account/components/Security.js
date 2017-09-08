@@ -12,15 +12,15 @@ class Security extends React.Component {
 
     this.state = {
       password: this.props.password,
+      currentPassword: "",
+      newPassword: "",
+      verifyPassword: "",
     };
-
-    this.savedPassword = this.props.password;
 
     this.setCurrentPassword = this.setCurrentPassword.bind(this);
     this.setNewPassword = this.setNewPassword.bind(this);
     this.setVerifyPassword = this.setVerifyPassword.bind(this);
 
-    this.cancel = this.cancel.bind(this);
     this.submit = this.submit.bind(this);
   }
 
@@ -30,23 +30,22 @@ class Security extends React.Component {
   }
 
   setCurrentPassword(event) {
-    //this.setState({ password: event.target.value });
+    this.setState({ currentPassword: event.target.value });
   }
 
   setNewPassword(event) {
-    //this.setState({ password: event.target.value });
+    this.setState({ newPassword: event.target.value });
   }
 
   setVerifyPassword(event) {
-    //this.setState({ password: event.target.value });
-  }
-
-  cancel() {
-    this.setState({ password: this.savedPassword });
+    this.setState({ verifyPassword: event.target.value });
   }
 
   submit() {
-    this.props.submit(this.state);
+    if (this.state.password === this.state.currentPassword && this.state.newPassword === this.state.verifyPassword) {
+      this.state.password = this.state.newPassword;
+      this.props.submit(this.state);
+    }
   }
 
   render () {
@@ -101,8 +100,7 @@ class Security extends React.Component {
           <hr className="g-brd-gray-light-v4 g-my-25" />
 
           <div className="text-sm-right">
-            <a className="btn u-btn-darkgray rounded-0 g-py-12 g-px-25 g-mr-10" href="#">Cancel</a>
-            <a className="btn u-btn-primary rounded-0 g-py-12 g-px-25" href="#">Save Changes</a>
+            <a onClick={this.submit} className="btn u-btn-primary rounded-0 g-py-12 g-px-25" href="#">Save Changes</a>
           </div>
         </form>
       </div>

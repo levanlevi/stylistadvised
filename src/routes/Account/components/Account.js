@@ -47,7 +47,6 @@ class Account extends React.Component {
 
   submitSecurity(user) {
     this.props.state.password = user.password;
-
     this.props.submit(this.props.state);
   }
 
@@ -148,7 +147,7 @@ class Account extends React.Component {
                   {/* <!-- Security Settings --> */}
                   <div className="tab-pane fade" id="nav-1-1-default-hor-left-underline--2" role="tabpanel">
                     <Security 
-                      password={this.state.password}
+                      password={this.props.state.password}
                       submit={this.submitSecurity}
                     />
                   </div>
