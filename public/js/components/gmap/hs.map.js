@@ -94,6 +94,9 @@
           gMapPin = Boolean($this.data('pin')),
           gMapPinIcon = $this.data('pin-icon'),
 
+          gMapMultipleMarkers = Boolean($this.data('multiple-markers')),
+          gMapMarkersLocations = JSON.parse(el.getAttribute('data-markers-locations')),
+
           $gMap;
 
         //Map Type
@@ -228,6 +231,28 @@
           }
         }
         //End Pin
+
+        //Multiple markers
+        if (gMapMultipleMarkers == true) {
+          var infowindow = new google.maps.InfoWindow(),
+            marker,
+            i2;
+
+          for (i2 = 0; i2 < gMapMarkersLocations.length; i2++) {
+            marker = new google.maps.Marker({
+              position: new google.maps.LatLng(gMapMarkersLocations[i2][1], gMapMarkersLocations[i2][2]),
+              map: $gMap
+            });
+
+            google.maps.event.addListener(marker, 'click', (function (marker, i2) {
+              return function () {
+                infowindow.setContent(gMapMarkersLocations[i2][0]);
+                infowindow.open($gMap, marker);
+              }
+            })(marker, i2));
+          }
+        }
+        //End Multiple markers
 
         //Auto Center markers on window resize
         if (!gMapGeolocation) {

@@ -204,10 +204,10 @@
           $w.on('scroll.HSMobileHideOnScroll', function (e) {
             $collection.each(function (i, el) {
               var $this = $(el), $toggler, $nav, offset, $hamburgers, breakpoint;
-              if ($this.hasClass('navbar-toggleable-xl')) breakpoint = breakpointsMap['xl'];
-              else if ($this.hasClass('navbar-toggleable-lg')) breakpoint = breakpointsMap['lg'];
-              else if ($this.hasClass('navbar-toggleable-md')) breakpoint = breakpointsMap['md'];
-              else if ($this.hasClass('navbar-toggleable-xs')) breakpoint = breakpointsMap['xs'];
+              if ($this.hasClass('navbar-expand-xl')) breakpoint = breakpointsMap['xl'];
+              else if ($this.hasClass('navbar-expand-lg')) breakpoint = breakpointsMap['lg'];
+              else if ($this.hasClass('navbar-expand-md')) breakpoint = breakpointsMap['md'];
+              else if ($this.hasClass('navbar-expand-xs')) breakpoint = breakpointsMap['xs'];
 
               if ($w.width() > breakpoint) return;
 

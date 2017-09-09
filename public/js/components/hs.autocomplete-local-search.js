@@ -21,7 +21,7 @@
         return $('<li>' + item.label + '</li>')
           .appendTo(ul);
       }
-    },
+    }
     /*_renderMenu: function (ul, items) {
       var that = this,
         currentCategory = '';
@@ -99,7 +99,10 @@
         $.getJSON(dataUrl, function (data) {
           $this.localcatcomplete({
             delay: 0,
-            source: data
+            source: data,
+            select: function( event, ui ) {
+              window.location = window.location.protocol + '//' + window.location.host + '/' + window.location.pathname.split('/')[1] + '/' + ui.item.url;
+            }
           });
         });
 

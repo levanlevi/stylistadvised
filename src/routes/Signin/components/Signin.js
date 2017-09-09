@@ -132,7 +132,7 @@ class Signin extends React.Component {
                       <label className="form-check-inline u-check g-pl-25 mb-0">
                         <input onChange={this.setIsKeepSignedIn} className="hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox"></input>
                         <div className="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
-                          <i className="fa" data-check-icon="&#xf00c"></i>
+                          <i className="fa" data-check-icon=""></i>
                         </div>
                         Keep signed in
                       </label>

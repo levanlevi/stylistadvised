@@ -22,11 +22,19 @@ class Account extends React.Component {
       lastName: this.props.state.lname,
     };
 
+    this.changeUserPicture = this.changeUserPicture.bind(this);
+
     this.setFirstName = this.setFirstName.bind(this);
     this.setLastName = this.setLastName.bind(this);
 
     this.submitProfile = this.submitProfile.bind(this);
     this.submitSecurity = this.submitSecurity.bind(this);
+
+    console.log(this.props.state);
+  }
+
+  changeUserPicture() {
+    console.log('changeUserPicture');
   }
 
   setFirstName(value) {
@@ -97,7 +105,23 @@ class Account extends React.Component {
                 <div className="u-block-hover g-pos-rel">
                   <figure>
                     <img className="img-fluid w-100 u-block-hover__main--zoom-v1" src={UserImage} alt="Image Description" />
-                  </figure>                
+                  </figure>
+
+                  {/* <!-- Figure Caption --> */}
+                  <figcaption className="u-block-hover__additional--fade g-bg-black-opacity-0_5 g-pa-30">
+                    <div className="u-block-hover__additional--fade u-block-hover__additional--fade-up g-flex-middle">
+                      {/* <!-- Figure Social Icons --> */}
+                      <ul className="list-inline text-center g-flex-middle-item--bottom g-mb-20">                        
+                        <li className="list-inline-item align-middle g-mx-7">
+                          <a onClick={this.changeUserPicture} className="u-icon-v1 u-icon-size--md g-color-white" href="#">
+                            <i className="icon-settings u-line-icon-pro"></i>
+                          </a>
+                        </li>
+                      </ul>
+                      {/* <!-- End Figure Social Icons --> */}
+                    </div>
+                  </figcaption>
+                  {/* <!-- End Figure Caption --> */}
 
                   {/* <!-- User Info --> */}
                   <span className="g-pos-abs g-top-20 g-left-0">

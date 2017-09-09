@@ -38,7 +38,7 @@
 
           if(stylesArr[target] != '' || scriptsArr[target] != '') {
             $('.custombox-content .modal-demo')
-              .append('<ul class="nav text-center justify-content-center u-nav-v5-2 u-nav-primary g-mb-10" role="tablist"></ul><div id="modalMarkupInner" class="tab-content" style="height: calc(100% - 47px);"></div>');
+              .append('<div id="modalMarkupContent" style="height: 100%;"><ul class="nav text-center justify-content-center u-nav-v5-2 u-nav-primary g-mb-10" role="tablist"></ul><div id="modalMarkupInner" class="tab-content" style="height: calc(100% - 47px);"></div></div>');
 
             $('.custombox-content .nav')
               .append('<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#markupHTML" role="tab">HTML</a></li>');
@@ -81,7 +81,7 @@
           Prism.highlightAll();
         },
         onClose: function () {
-          $('#modalMarkupInner').remove();
+          $('#modalMarkupContent').remove();
         }
       });
     }

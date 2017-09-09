@@ -826,45 +826,45 @@
 
       if(element.hasClass('u-header--side-left--xl') || element.hasClass('u-header--side-right--xl')) {
 
-        toggleable = element.find('.navbar-toggleable-xl');
+        toggleable = element.find('.navbar-expand-xl');
 
         if(toggleable.length) {
           toggleable
-            .removeClass('navbar-toggleable-xl')
-            .addClass('navbar-toggleable-lg');
+            .removeClass('navbar-expand-xl')
+            .addClass('navbar-expand-lg');
         }
 
       }
       else if(element.hasClass('u-header--side-left--lg') || element.hasClass('u-header--side-right--lg')) {
 
-        toggleable = element.find('.navbar-toggleable-lg');
+        toggleable = element.find('.navbar-expand-lg');
 
         if(toggleable.length) {
           toggleable
-            .removeClass('navbar-toggleable-lg')
-            .addClass('navbar-toggleable-md');
+            .removeClass('navbar-expand-lg')
+            .addClass('navbar-expand-md');
         }
 
       }
       else if(element.hasClass('u-header--side-left--md') || element.hasClass('u-header--side-right--md')) {
 
-        toggleable = element.find('.navbar-toggleable-md');
+        toggleable = element.find('.navbar-expand-md');
 
         if(toggleable.length) {
           toggleable
-            .removeClass('navbar-toggleable-md')
-            .addClass('navbar-toggleable-sm');
+            .removeClass('navbar-expand-md')
+            .addClass('navbar-expand-sm');
         }
 
       }
       else if(element.hasClass('u-header--side-left--sm') || element.hasClass('u-header--side-right--sm')) {
 
-        toggleable = element.find('.navbar-toggleable-sm');
+        toggleable = element.find('.navbar-expand-sm');
 
         if(toggleable.length) {
           toggleable
-            .removeClass('navbar-toggleable-sm')
-            .addClass('navbar-toggleable');
+            .removeClass('navbar-expand-sm')
+            .addClass('navbar-expand');
         }
 
       }
