@@ -7,7 +7,7 @@ import Payment from './Payment';
 import Profile from './Profile';
 import Security from './Security';
 
-import UserImage from '../assets/img5.jpg';
+import DefaultUserPicture from '../assets/defaultUserPicture.jpg';
 
 class Account extends React.Component {
   static propTypes = {
@@ -20,21 +20,39 @@ class Account extends React.Component {
     this.state = {
       firstName: this.props.state.fname,
       lastName: this.props.state.lname,
+      picture: this.props.state.picture ? this.props.state.picture : DefaultUserPicture,
     };
 
     this.changeUserPicture = this.changeUserPicture.bind(this);
+    this.selectPicture = this.selectPicture.bind(this);
 
     this.setFirstName = this.setFirstName.bind(this);
     this.setLastName = this.setLastName.bind(this);
 
     this.submitProfile = this.submitProfile.bind(this);
     this.submitSecurity = this.submitSecurity.bind(this);
-
-    console.log(this.props.state);
   }
 
   changeUserPicture() {
-    console.log('changeUserPicture');
+    this.refs.fileUploader.click();
+  }
+
+  selectPicture(event) {
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+      var self = this;
+
+      reader.onload = function (e) {
+        self.setState({
+          picture: e.target.result
+        }, function() {
+          self.props.state.picture = self.state.picture;
+          self.props.submit(self.props.state);
+        });
+      }
+
+      reader.readAsDataURL(event.target.files[0]);
+    }
   }
 
   setFirstName(value) {
@@ -104,7 +122,7 @@ class Account extends React.Component {
                 {/* <!-- User Image --> */}
                 <div className="u-block-hover g-pos-rel">
                   <figure>
-                    <img className="img-fluid w-100 u-block-hover__main--zoom-v1" src={UserImage} alt="Image Description" />
+                    <img className="img-fluid w-100 u-block-hover__main--zoom-v1" src={this.state.picture} alt="Image Description" />
                   </figure>
 
                   {/* <!-- Figure Caption --> */}
@@ -116,6 +134,7 @@ class Account extends React.Component {
                           <a onClick={this.changeUserPicture} className="u-icon-v1 u-icon-size--md g-color-white" href="#">
                             <i className="icon-settings u-line-icon-pro"></i>
                           </a>
+                          <input onChange={this.selectPicture} type="file" id="file" ref="fileUploader" style={{display: "none"}} />
                         </li>
                       </ul>
                       {/* <!-- End Figure Social Icons --> */}
