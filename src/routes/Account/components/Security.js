@@ -11,15 +11,17 @@ class Security extends React.Component {
     super(props);
 
     this.state = {
-      password: this.props.password,
-      currentPassword: "",
-      newPassword: "",
-      verifyPassword: "",
+      password: {
+        current: "",
+        new: "",
+        verify: "",
+      },      
+      user: {
+        password: this.props.password,
+      }
     };
 
-    this.setCurrentPassword = this.setCurrentPassword.bind(this);
-    this.setNewPassword = this.setNewPassword.bind(this);
-    this.setVerifyPassword = this.setVerifyPassword.bind(this);
+    this.changePassword = this.changePassword.bind(this);
 
     this.submit = this.submit.bind(this);
   }
@@ -29,22 +31,18 @@ class Security extends React.Component {
     $.HSCore.helpers.HSFocusState.init();
   }
 
-  setCurrentPassword(event) {
-    this.setState({ currentPassword: event.target.value });
-  }
+  changePassword(event) {
+    const field = event.target.name;
+    const password = this.state.password;
+    password[field] = event.target.value;
 
-  setNewPassword(event) {
-    this.setState({ newPassword: event.target.value });
-  }
-
-  setVerifyPassword(event) {
-    this.setState({ verifyPassword: event.target.value });
+    this.setState({ password });
   }
 
   submit() {
-    if (this.state.password === this.state.currentPassword && this.state.newPassword === this.state.verifyPassword) {
-      this.state.password = this.state.newPassword;
-      this.props.submit(this.state);
+    if (this.state.user.password === this.state.password.current && this.state.password.new === this.state.password.verify) {
+      this.state.user.password = this.state.password.new;
+      this.props.submit(this.state.user);
     }
   }
 
@@ -60,7 +58,7 @@ class Security extends React.Component {
             <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mb-10">Current password</label>
             <div className="col-sm-9">
               <div className="input-group g-brd-primary--focus">
-                <input onChange={this.setCurrentPassword} className="form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" type="password" placeholder="Current password" />
+                <input onChange={this.changePassword} name="current" className="form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" type="password" placeholder="Current password" />
                 <div className="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
                   <i className="icon-lock"></i>
                 </div>
@@ -74,7 +72,7 @@ class Security extends React.Component {
             <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mb-10">New password</label>
             <div className="col-sm-9">
               <div className="input-group g-brd-primary--focus">
-                <input onChange={this.setNewPassword} className="form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" type="password" placeholder="New password" />
+                <input onChange={this.changePassword} name="new" className="form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" type="password" placeholder="New password" />
                 <div className="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
                   <i className="icon-lock"></i>
                 </div>
@@ -88,7 +86,7 @@ class Security extends React.Component {
             <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mb-10">Verify password</label>
             <div className="col-sm-9">
               <div className="input-group g-brd-primary--focus">
-                <input onChange={this.setVerifyPassword} className="form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" type="password" placeholder="Verify password" />
+                <input onChange={this.changePassword} name="verify" className="form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" type="password" placeholder="Verify password" />
                 <div className="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
                   <i className="icon-lock"></i>
                 </div>

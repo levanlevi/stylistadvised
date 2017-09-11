@@ -18,19 +18,23 @@ class Account extends React.Component {
     super(props);
 
     this.state = {
-      firstName: this.props.state.fname,
-      lastName: this.props.state.lname,
-      picture: this.props.state.picture ? this.props.state.picture : DefaultUserPicture,
+      user: {
+        firstName: this.props.state.fname,
+        lastName: this.props.state.lname,
+        picture: this.props.state.picture ? this.props.state.picture : DefaultUserPicture,
+      }
     };
 
+    this.changeUser = this.changeUser.bind(this);
     this.changeUserPicture = this.changeUserPicture.bind(this);
     this.selectPicture = this.selectPicture.bind(this);
 
-    this.setFirstName = this.setFirstName.bind(this);
-    this.setLastName = this.setLastName.bind(this);
-
     this.submitProfile = this.submitProfile.bind(this);
     this.submitSecurity = this.submitSecurity.bind(this);
+  }
+
+  changeUser(user) {
+    this.setState({ user: { firstName: user.firstName, lastName: user.lastName, picture: this.state.user.picture } });
   }
 
   changeUserPicture() {
@@ -53,14 +57,6 @@ class Account extends React.Component {
 
       reader.readAsDataURL(event.target.files[0]);
     }
-  }
-
-  setFirstName(value) {
-    this.setState({ firstName: value });
-  }
-
-  setLastName(value) {
-    this.setState({ lastName: value });
   }
 
   submitProfile(user) {
@@ -122,7 +118,7 @@ class Account extends React.Component {
                 {/* <!-- User Image --> */}
                 <div className="u-block-hover g-pos-rel">
                   <figure>
-                    <img className="img-fluid w-100 u-block-hover__main--zoom-v1" src={this.state.picture} alt="Image Description" />
+                    <img className="img-fluid w-100 u-block-hover__main--zoom-v1" src={this.state.user.picture} alt="Image Description" />
                   </figure>
 
                   {/* <!-- Figure Caption --> */}
@@ -144,7 +140,7 @@ class Account extends React.Component {
 
                   {/* <!-- User Info --> */}
                   <span className="g-pos-abs g-top-20 g-left-0">
-                    <a className="btn btn-sm u-btn-primary rounded-0" href="#">{this.state.firstName} {this.state.lastName}</a>
+                    <a className="btn btn-sm u-btn-primary rounded-0" href="#">{this.state.user.firstName} {this.state.user.lastName}</a>
                     <small className="d-block g-bg-black g-color-white g-pa-5">Project Manager</small>
                   </span>
                   {/* <!-- End User Info --> */}
@@ -177,11 +173,10 @@ class Account extends React.Component {
                   {/* <!-- Edit Profile --> */}
                   <div className="tab-pane fade show active" id="nav-1-1-default-hor-left-underline--1" role="tabpanel">
                     <Profile
-                      firstName={this.state.firstName}
-                      lastName={this.state.lastName}
+                      firstName={this.props.state.fname}
+                      lastName={this.props.state.lname}
                       email={this.props.state.email}
-                      setFirstName={this.setFirstName}
-                      setLastName={this.setLastName}
+                      onChange={this.changeUser}
                       submit={this.submitProfile}
                     />
                   </div>
@@ -223,4 +218,4 @@ class Account extends React.Component {
   }
 }
 
-export default Account
+export default Account;

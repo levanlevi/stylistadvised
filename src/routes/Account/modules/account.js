@@ -36,9 +36,8 @@ export function submit (user) {
   return async (dispatch) => {
     try {
       if (user._id.match(/^[0-9a-fA-F]{24}$/)) {
-        console.log(user);
         const url = baseUrl + '/api/users/' + user._id;
-        const response = await fetch(
+        await fetch(
           url,
           {
             method: 'PUT',
@@ -46,8 +45,6 @@ export function submit (user) {
             headers: { 'Content-Type': 'application/json' },
           }
         );
-        const temp = await response.json();
-        console.log(temp);
 
         dispatch({ type: ACCOUNT_USER_SUBMIT });
       }

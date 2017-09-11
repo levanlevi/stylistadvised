@@ -8,11 +8,9 @@ const bodyParser = require('body-parser');
 const logger = require('../build/lib/logger');
 const webpackConfig = require('../build/webpack.config');
 const project = require('../project.config');
+const config = require('../config');
 
-// TODO need to configure environmental variables
-var db = mongoose.connect('mongodb://flatorez:cde32123!@cluster0-shard-00-00-5ilpq.mongodb.net:27017,cluster0-shard-00-01-5ilpq.mongodb.net:27017,cluster0-shard-00-02-5ilpq.mongodb.net:27017/stylistApp?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin', {
-  useMongoClient: true,
-});
+var db = mongoose.connect(config.dbUri, { useMongoClient: true });
 
 const app = express();
 app.use(compress());
@@ -20,6 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 var User = require('./models/userModel');
+var authRouter = require('./routes/authRouter')();
 var userRouter = require('./routes/userRoutes')(User);
 
 // ------------------------------------
@@ -48,6 +47,7 @@ if (project.env === 'development') {
   // when the application is compiled.
   app.use(express.static(path.resolve(project.basePath, 'public')))
 
+  app.use('/api/auth', authRouter);
   app.use('/api/users', userRouter);
 
   // This rewrites all routes requests to the root /index.html file
@@ -79,4 +79,4 @@ if (project.env === 'development') {
   app.use(express.static(path.resolve(project.basePath, project.outDir)))
 }
 
-module.exports = app
+module.exports = app;
