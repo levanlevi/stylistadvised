@@ -1,4 +1,6 @@
-var userController = function (User) {
+const Users = require('mongoose').model('Users');
+
+var userController = function () {
 
   var post = function (req, res) {
     var user = new User(req.body);
@@ -17,7 +19,7 @@ var userController = function (User) {
   var get = function (req, res) {
     var query = req.query;
 
-    User.find(query, '_id fname lname picture email roleType', function (err, users) {
+    Users.find(query, '_id fname lname picture email roleType', function (err, users) {
       if (err)
         res.status(500).send(err);
       else {
@@ -27,7 +29,7 @@ var userController = function (User) {
   }
 
   var singleMiddleware = function (req, res, next) {
-    User.findById(req.params.userId, function (err, user) {
+    Users.findById(req.params.userId, function (err, user) {
       if (err) {
         res.status(500).send(err);
       }

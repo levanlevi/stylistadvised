@@ -1,9 +1,9 @@
 var express = require('express');
 
-var routes = function (User) {
+var routes = function () {
   var userRouter = express.Router();
 
-  var userController = require('./../controllers/userController')(User);
+  var userController = require('./../controllers/userController')();
 
   userRouter.route('/')
     .post(userController.post)

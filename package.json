@@ -44,6 +44,7 @@
     "redbox-react": "^1.3.6",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
+    "validator": "^8.2.0",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
