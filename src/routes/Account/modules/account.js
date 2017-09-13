@@ -1,11 +1,10 @@
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const ACCOUNT_USER_RECEIVED = 'ACCOUNT_USER_RECEIVED'
+export const ACCOUNT_USER_RECEIVED = 'ACCOUNT_USER_RECEIVED';
 export const ACCOUNT_USER_SUBMIT = 'ACCOUNT_USER_SUBMIT';
 
-//const baseUrl = 'http://stylistadvised.me';
-const baseUrl = 'http://localhost:3000';
+const config = require('../../../../config');
 
 // ------------------------------------
 // Actions
@@ -14,7 +13,7 @@ export function getUser(userId) {
   return async (dispatch) => {
     try {
       if (userId.match(/^[0-9a-fA-F]{24}$/)) {
-        const url = baseUrl + '/api/users/' + userId;
+        const url = config.serverUrl + '/api/users/' + userId;
         const response = await fetch(
           url,
           {
@@ -36,7 +35,7 @@ export function submit (user) {
   return async (dispatch) => {
     try {
       if (user._id.match(/^[0-9a-fA-F]{24}$/)) {
-        const url = baseUrl + '/api/users/' + user._id;
+        const url = config.serverUrl + '/api/users/' + user._id;
         await fetch(
           url,
           {
@@ -65,24 +64,6 @@ export const actions = {
 const ACTION_HANDLERS = {
   [ACCOUNT_USER_RECEIVED]: (state, action) => state = action.payload,
   [ACCOUNT_USER_SUBMIT]: (state, action) => state,
-}
-
-async function postUser(user) {
-  try {
-    if (userId.match(/^[0-9a-fA-F]{24}$/)) {
-      const url = baseUrl + '/api/users/' + userId;
-      await fetch(
-        url,
-        {
-          method: 'POST',
-          body: JSON.stringify(user),
-          headers: { 'Content-Type': 'application/json' },
-        }
-      );
-    }
-  } catch (error) {
-    //dispatch(addToast('danger', 'An error occurred while updating the place.'));
-  }
 }
 
 // ------------------------------------

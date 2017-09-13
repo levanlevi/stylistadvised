@@ -5,10 +5,8 @@ var routes = function () {
 
   var authController = require('./../controllers/authController')();
 
-  authRouter.route('/')
-    .post(authController.login)
-    .get(authController.logout)
-    .post(authController.register);
+  authRouter.route('/login').post(authController.login);
+  authRouter.route('/signup').post(authController.register);  
 
   return authRouter;
 };

@@ -63,10 +63,6 @@ var authController = function () {
     })(req, res, next);
   }
 
-  var logout = function (req, res) {
-    
-  }
-
   function validateSignupForm(payload) {
     const errors = {};
     let isFormValid = true;
@@ -137,7 +133,6 @@ var authController = function () {
 
   return {
     login: login,
-    logout: logout,
     register: register,
   };
 };
