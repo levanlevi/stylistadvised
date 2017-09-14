@@ -31,7 +31,7 @@ export function getUser(userId) {
   }
 }
 
-export function submit (user) {
+export function submit(user) {
   return async (dispatch) => {
     try {
       if (user._id.match(/^[0-9a-fA-F]{24}$/)) {
@@ -72,7 +72,7 @@ const ACTION_HANDLERS = {
 const initialState = {}
 
 export default function signinReducer (state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
+  const handler = ACTION_HANDLERS[action.type];
 
-  return handler ? handler(state, action) : state
+  return handler ? handler(state, action) : state;
 }

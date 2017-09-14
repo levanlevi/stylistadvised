@@ -8,12 +8,12 @@ var authController = function () {
     let isFormValid = true;
     let message = '';
 
-    if (!payload || typeof payload.email !== 'string' || payload.email.trim().length === 0) {
+    if (!payload || typeof payload.email !== 'string' || 0 === payload.email.trim().length) {
       isFormValid = false;
       errors.email = 'Please provide your email address.';
     }
 
-    if (!payload || typeof payload.password !== 'string' || payload.password.trim().length === 0) {
+    if (!payload || typeof payload.password !== 'string' || 0 === payload.password.trim().length) {
       isFormValid = false;
       errors.password = 'Please provide your password.';
     }

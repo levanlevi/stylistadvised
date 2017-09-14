@@ -23,8 +23,8 @@ class Signin extends React.Component {
     super(props);
 
     this.state = {
-      name: "",
-      password: "",
+      email: "snowflake33@yandex.ru",
+      password: "cde321",
       isKeepSignedIn: false,
     };
 
@@ -40,7 +40,7 @@ class Signin extends React.Component {
   }
 
   setName(event) {
-    this.setState({ name: event.target.value });
+    this.setState({ email: event.target.value });
   }
 
   setIsKeepSignedIn(event) {
@@ -52,6 +52,7 @@ class Signin extends React.Component {
   }
 
   submit() {
+    console.log(this.props.state);
     this.props.submit(this.state);
   }
 
@@ -157,4 +158,4 @@ class Signin extends React.Component {
   }
 }
 
-export default Signin
+export default Signin;
