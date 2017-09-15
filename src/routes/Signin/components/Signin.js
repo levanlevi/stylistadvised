@@ -52,7 +52,6 @@ class Signin extends React.Component {
   }
 
   submit() {
-    console.log(this.props.state);
     this.props.submit(this.state);
   }
 

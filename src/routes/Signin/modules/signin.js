@@ -38,7 +38,7 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SIGNIN_SUBMIT]: (state, action) => state.token = action.payload.token,
+  [SIGNIN_SUBMIT]: (state, action) => state.token = action.payload,
 }
 
 // ------------------------------------
