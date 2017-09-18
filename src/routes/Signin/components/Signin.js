@@ -23,15 +23,13 @@ class Signin extends React.Component {
     super(props);
 
     this.state = {
-      email: "snowflake33@yandex.ru",
-      password: "cde321",
-      isKeepSignedIn: false,
+      user: {
+        email: "snowflake33@yandex.ru",
+        password: "cde321",
+      }
     };
 
-    this.setName = this.setName.bind(this);
-    this.setIsKeepSignedIn = this.setIsKeepSignedIn.bind(this);
-    this.setPassword = this.setPassword.bind(this);
-
+    this.onChange = this.onChange.bind(this);
     this.submit = this.submit.bind(this);
   }
 
@@ -39,20 +37,16 @@ class Signin extends React.Component {
     $.HSCore.components.HSCarousel.init('.js-carousel');
   }
 
-  setName(event) {
-    this.setState({ email: event.target.value });
-  }
+  onChange(event) {
+    const field = event.target.name;
+    const user = this.state.user;
+    user[field] = event.target.value;
 
-  setIsKeepSignedIn(event) {
-    this.setState({ isKeepSignedIn: event.target.checked });
-  }
-
-  setPassword(event) {
-    this.setState({ password: event.target.value });
+    this.setState({ user });
   }
 
   submit() {
-    this.props.submit(this.state);
+    this.props.submit(this.state.user);
   }
 
   render () {
@@ -114,7 +108,7 @@ class Signin extends React.Component {
                       <span className="input-group-addon g-width-45 g-brd-gray-light-v4 g-color-primary">
                         <i className="icon-finance-067 u-line-icon-pro"></i>
                       </span>
-                      <input onChange={this.setName} className="form-control g-color-black g-brd-left-none g-bg-white g-bg-white--focus g-brd-gray-light-v4 rounded g-pl-0 g-pr-15 g-py-15" type="email" placeholder="Username"></input>
+                      <input onChange={this.onChange} name="email" className="form-control g-color-black g-brd-left-none g-bg-white g-bg-white--focus g-brd-gray-light-v4 rounded g-pl-0 g-pr-15 g-py-15" type="email" placeholder="Username"></input>
                     </div>
                   </div>
 
@@ -123,20 +117,11 @@ class Signin extends React.Component {
                       <span className="input-group-addon g-width-45 g-brd-gray-light-v4 g-color-primary">
                         <i className="icon-media-094 u-line-icon-pro"></i>
                       </span>
-                      <input onChange={this.setPassword} className="form-control g-color-black g-brd-left-none g-bg-white g-bg-white--focus g-brd-gray-light-v4 rounded g-pl-0 g-pr-15 g-py-15" type="password" placeholder="Password"></input>
+                      <input onChange={this.onChange} name="password" className="form-control g-color-black g-brd-left-none g-bg-white g-bg-white--focus g-brd-gray-light-v4 rounded g-pl-0 g-pr-15 g-py-15" type="password" placeholder="Password"></input>
                     </div>
                   </div>
 
-                  <div className="row justify-content-between mb-4">
-                    <div className="col align-self-center">
-                      <label className="form-check-inline u-check g-pl-25 mb-0">
-                        <input onChange={this.setIsKeepSignedIn} className="hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox"></input>
-                        <div className="u-check-icon-checkbox-v6 g-absolute-centered--y g-left-0">
-                          <i className="fa" data-check-icon=""></i>
-                        </div>
-                        Keep signed in
-                      </label>
-                    </div>
+                  <div className="row justify-content-between mb-4">                    
                     <div className="col align-self-center text-right">
                       <a className="g-color-gray-dark-v4 g-color-primary--hover" href="#">Forgot password?</a>
                     </div>

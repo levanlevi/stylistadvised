@@ -22,6 +22,7 @@ export function submit(user) {
       );
   
       const temp = await response.json();
+      console.log(temp);
 
       dispatch({ type: SIGNUP_SUBMIT, payload: temp });
     } catch (error) {
@@ -44,13 +45,9 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {
-  signup: {
-    isLogin: false,
-  }
-}
+const initialState = {}
 
-export default function signupReducer (state = initialState.signup, action) {
+export default function signupReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type];
 
   return handler ? handler(state, action) : state;

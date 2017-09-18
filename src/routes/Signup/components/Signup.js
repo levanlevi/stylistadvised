@@ -15,7 +15,6 @@ var secondImageCarouselStyle = {
 
 class Signup extends React.Component {
   static propTypes = {
-    signup: PropTypes.object,
     submit: PropTypes.func.isRequired,
   }
 
@@ -23,15 +22,14 @@ class Signup extends React.Component {
     super(props);
 
     this.state = {
-      name: "",
-      email: "",
-      password: "",
+      user: {
+        name: "",
+        email: "",
+        password: "",
+      }
     };
 
-    this.setName = this.setName.bind(this);
-    this.setEmail = this.setEmail.bind(this);
-    this.setPassword = this.setPassword.bind(this);
-
+    this.onChange = this.onChange.bind(this);
     this.submit = this.submit.bind(this);
   }
 
@@ -39,22 +37,16 @@ class Signup extends React.Component {
     $.HSCore.components.HSCarousel.init('.js-carousel');
   }
 
-  setName(event) {
-    this.setState({ name: event.target.value });
-  }
+  onChange(event) {
+    const field = event.target.name;
+    const user = this.state.user;
+    user[field] = event.target.value;
 
-  setEmail(event) {
-    this.setState({ email: event.target.value });
-  }
-
-  setPassword(event) {
-    this.setState({ password: event.target.value });
+    this.setState({ user });
   }
 
   submit() {
-    console.log(this.props.signup.isLogin);
-    this.props.submit(this.state);
-    console.log(this.props.signup.isLogin);
+    this.props.submit(this.state.user);
   }
 
   render () {
@@ -116,7 +108,7 @@ class Signup extends React.Component {
                       <span className="input-group-addon g-width-45 g-brd-gray-light-v4 g-color-primary">
                         <i className="icon-finance-067 u-line-icon-pro g-pos-rel g-top-2 g-px-5"></i>
                       </span>
-                      <input onChange={this.setName} className="form-control g-color-black g-brd-left-none g-bg-white g-bg-white--focus g-brd-gray-light-v4 rounded g-pl-0 g-pr-15 g-py-15" type="email" placeholder="User name"></input>
+                      <input onChange={this.onChange} name="name" className="form-control g-color-black g-brd-left-none g-bg-white g-bg-white--focus g-brd-gray-light-v4 rounded g-pl-0 g-pr-15 g-py-15" type="email" placeholder="User name"></input>
                     </div>
                   </div>
 
@@ -125,7 +117,7 @@ class Signup extends React.Component {
                       <span className="input-group-addon g-width-45 g-brd-gray-light-v4 g-color-primary">
                         <i className="icon-communication-062 u-line-icon-pro g-pos-rel g-top-2 g-px-5"></i>
                       </span>
-                      <input onChange={this.setEmail} className="form-control g-color-black g-brd-left-none g-bg-white g-bg-white--focus g-brd-gray-light-v4 rounded g-pl-0 g-pr-15 g-py-15" type="tel" placeholder="Your email"></input>
+                      <input onChange={this.onChange} name="email" className="form-control g-color-black g-brd-left-none g-bg-white g-bg-white--focus g-brd-gray-light-v4 rounded g-pl-0 g-pr-15 g-py-15" type="email" placeholder="Your email"></input>
                     </div>
                   </div>
 
@@ -134,7 +126,7 @@ class Signup extends React.Component {
                       <span className="input-group-addon g-width-45 g-brd-gray-light-v4 g-color-primary">
                         <i className="icon-media-094 u-line-icon-pro g-pos-rel g-top-2 g-px-5"></i>
                       </span>
-                      <input onChange={this.setPassword} className="form-control g-color-black g-brd-left-none g-bg-white g-bg-white--focus g-brd-gray-light-v4 rounded g-pl-0 g-pr-15 g-py-15" type="tel" placeholder="Password"></input>
+                      <input onChange={this.onChange} name="password" className="form-control g-color-black g-brd-left-none g-bg-white g-bg-white--focus g-brd-gray-light-v4 rounded g-pl-0 g-pr-15 g-py-15" type="password" placeholder="Password"></input>
                     </div>
                   </div>
 
