@@ -1,6 +1,8 @@
 // ------------------------------------
 // Constants
 // ------------------------------------
+import auth from '../../auth/modules/auth';
+
 export const SIGNIN_SUBMIT = 'SIGNIN_SUBMIT';
 
 const config = require('../../../../config');
@@ -21,9 +23,10 @@ export function submit(user) {
         }
       );
   
-      const token = await response.json();
+      const result = await response.json();
+      auth.authenticateUser(result.token);
 
-      dispatch({ type: SIGNIN_SUBMIT, payload: token });
+      dispatch({ type: SIGNIN_SUBMIT, payload: result });
     } catch (error) {
       //dispatch(addToast('danger', 'An error occurred while updating the place.'));
     }

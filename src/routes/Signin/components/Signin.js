@@ -47,6 +47,7 @@ class Signin extends React.Component {
 
   submit() {
     this.props.submit(this.state.user);
+    this.context.router.replace('/');
   }
 
   render () {
