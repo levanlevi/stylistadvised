@@ -5,6 +5,8 @@ import transparentImage from '../assets/transparent.png';
 import rightImage from '../assets/first.jpg';
 import leftImage from '../assets/second.jpg';
 
+import auth from '../../auth/modules/auth';
+
 class HomeView extends React.Component {
   
   constructor(props) {
@@ -62,8 +64,8 @@ class HomeView extends React.Component {
                       <a href="#about">About</a>
                     </li>
 
-                    <Link className="nav-item g-mx-20--lg" to='/account/5997eff53fa90651583b83ba'>Account</Link>
-                    <Link className="nav-item g-mx-20--lg" to='/signup'>Sign Up</Link>
+                    {auth.isUserAuthenticated && <Link className="nav-item g-mx-20--lg" to='/account/5997eff53fa90651583b83ba'>Account</Link>}
+                    {!auth.isUserAuthenticated && <Link className="nav-item g-mx-20--lg" to='/signup'>Sign Up</Link>}
                   </ul>
                 </div>
               </div>

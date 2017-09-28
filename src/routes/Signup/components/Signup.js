@@ -5,6 +5,8 @@ import { Link } from 'react-router';
 import FirstImage from '../assets/first.jpg';
 import SecondImage from '../assets/second.jpg';
 
+import auth from '../../auth/modules/auth';
+
 var firstImageCarouselStyle = {
   backgroundImage: "url(" + FirstImage + ")"
 };
@@ -46,7 +48,8 @@ class Signup extends React.Component {
   }
 
   submit() {
-    this.props.submit(this.state.user);
+    auth.deauthenticateUser();
+    //this.props.submit(this.state.user);
   }
 
   render () {

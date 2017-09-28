@@ -128,7 +128,7 @@ class Account extends React.Component {
                       <ul className="list-inline text-center g-flex-middle-item--bottom g-mb-20">                        
                         <li className="list-inline-item align-middle g-mx-7">
                           <a onClick={this.changeUserPicture} className="u-icon-v1 u-icon-size--md g-color-white" href="#">
-                            <i className="icon-settings u-line-icon-pro"></i>
+                            <i className="et-icon-upload"></i>
                           </a>
                           <input onChange={this.selectPicture} type="file" id="file" ref="fileUploader" style={{display: "none"}} />
                         </li>
