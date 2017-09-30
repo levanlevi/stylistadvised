@@ -7,6 +7,8 @@ import SecondImage from '../assets/second.jpg';
 
 import auth from '../../auth/modules/auth';
 
+const errorStyle = 'u-has-error-v1';
+
 var firstImageCarouselStyle = {
   backgroundImage: "url(" + FirstImage + ")"
 };
@@ -17,6 +19,7 @@ var secondImageCarouselStyle = {
 
 class Signup extends React.Component {
   static propTypes = {
+    state: PropTypes.object.isRequired, 
     submit: PropTypes.func.isRequired,
   }
 
@@ -37,6 +40,15 @@ class Signup extends React.Component {
 
   componentDidMount() {
     $.HSCore.components.HSCarousel.init('.js-carousel');
+    // Form Focus
+    $.HSCore.helpers.HSFocusState.init();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.state.success) {
+      auth.authenticateUser(nextProps.state.token);
+      nextProps.router.replace('/');
+    }
   }
 
   onChange(event) {
@@ -47,9 +59,8 @@ class Signup extends React.Component {
     this.setState({ user });
   }
 
-  submit() {
-    auth.deauthenticateUser();
-    //this.props.submit(this.state.user);
+  submit() {    
+    this.props.submit(this.state.user);
   }
 
   render () {
@@ -106,31 +117,76 @@ class Signup extends React.Component {
                 <form className="g-py-15">
                   <h2 className="h3 g-color-black mb-4">Signup</h2>
 
-                  <div className="mb-4">
-                    <div className="input-group rounded">
-                      <span className="input-group-addon g-width-45 g-brd-gray-light-v4 g-color-primary">
-                        <i className="icon-finance-067 u-line-icon-pro g-pos-rel g-top-2 g-px-5"></i>
-                      </span>
-                      <input onChange={this.onChange} name="name" className="form-control g-color-black g-brd-left-none g-bg-white g-bg-white--focus g-brd-gray-light-v4 rounded g-pl-0 g-pr-15 g-py-15" type="email" placeholder="User name"></input>
-                    </div>
+                  <div className="mb-4">                    
+                    {!this.props.state.errors.name &&
+                      <div className='form-group g-mb-20'>
+                        <div className="input-group g-brd-primary--focus">
+                          <div className="input-group-addon d-flex align-items-center g-color-gray-light-v1 rounded-0">
+                            <i className="icon-finance-067 u-line-icon-pro"></i>
+                          </div>
+                          <input onChange={this.onChange} value={this.state.user.name} name="name" className="form-control form-control-md rounded-0" type="text" placeholder="User name" />
+                        </div>
+                      </div>
+                    }
+                    {!this.props.state.success && this.props.state.errors.name &&
+                      <div className={'form-group g-mb-20 ' + errorStyle}>
+                        <div className="input-group g-brd-primary--focus">
+                          <div className="input-group-addon d-flex align-items-center g-color-gray-light-v1 rounded-0">
+                            <i className="icon-finance-067 u-line-icon-pro"></i>
+                          </div>
+                          <input onChange={this.onChange} name="name" className="form-control form-control-md rounded-0" type="text" placeholder="User name" />
+                        </div>
+                        <small className="form-control-feedback">Error: {this.props.state.errors.name}</small>
+                      </div>
+                    }
                   </div>
 
-                  <div className="mb-4">
-                    <div className="input-group rounded">
-                      <span className="input-group-addon g-width-45 g-brd-gray-light-v4 g-color-primary">
-                        <i className="icon-communication-062 u-line-icon-pro g-pos-rel g-top-2 g-px-5"></i>
-                      </span>
-                      <input onChange={this.onChange} name="email" className="form-control g-color-black g-brd-left-none g-bg-white g-bg-white--focus g-brd-gray-light-v4 rounded g-pl-0 g-pr-15 g-py-15" type="email" placeholder="Your email"></input>
-                    </div>
+                  <div className="mb-4">                    
+                    {!this.props.state.errors.email &&
+                      <div className='form-group g-mb-20'>
+                        <div className="input-group g-brd-primary--focus">
+                          <div className="input-group-addon d-flex align-items-center g-color-gray-light-v1 rounded-0">
+                            <i className="icon-communication-062 u-line-icon-pro"></i>
+                          </div>
+                          <input onChange={this.onChange} value={this.state.user.email} name="email" className="form-control form-control-md rounded-0" type="email" placeholder="Your email" />
+                        </div>
+                      </div>
+                    }
+                    {!this.props.state.success && this.props.state.errors.email &&
+                      <div className={'form-group g-mb-20 ' + errorStyle}>
+                        <div className="input-group g-brd-primary--focus">
+                          <div className="input-group-addon d-flex align-items-center g-color-gray-light-v1 rounded-0">
+                            <i className="icon-communication-062 u-line-icon-pro"></i>
+                          </div>
+                          <input onChange={this.onChange} name="email" className="form-control form-control-md rounded-0" type="email" placeholder="Your email" />
+                        </div>
+                        <small className="form-control-feedback">Error: {this.props.state.errors.email}</small>
+                      </div>
+                    }
                   </div>
 
-                  <div className="mb-4">
-                    <div className="input-group rounded">
-                      <span className="input-group-addon g-width-45 g-brd-gray-light-v4 g-color-primary">
-                        <i className="icon-media-094 u-line-icon-pro g-pos-rel g-top-2 g-px-5"></i>
-                      </span>
-                      <input onChange={this.onChange} name="password" className="form-control g-color-black g-brd-left-none g-bg-white g-bg-white--focus g-brd-gray-light-v4 rounded g-pl-0 g-pr-15 g-py-15" type="password" placeholder="Password"></input>
-                    </div>
+                  <div className="mb-4">                    
+                    {!this.props.state.errors.password && 
+                      <div className='form-group g-mb-20'>
+                        <div className="input-group g-brd-primary--focus">
+                          <div className="input-group-addon d-flex align-items-center g-color-gray-light-v1 rounded-0">
+                            <i className="icon-media-094 u-line-icon-pro"></i>
+                          </div>
+                          <input onChange={this.onChange} value={this.state.user.password} name="password" className="form-control form-control-md rounded-0" type="password" placeholder="Password" />
+                        </div>
+                      </div>
+                    }
+                    {!this.props.state.success && this.props.state.errors.password &&
+                      <div className={'form-group g-mb-20 ' + errorStyle}>
+                        <div className="input-group g-brd-primary--focus">
+                          <div className="input-group-addon d-flex align-items-center g-color-gray-light-v1 rounded-0">
+                            <i className="icon-media-094 u-line-icon-pro"></i>
+                          </div>
+                          <input onChange={this.onChange} name="password" className="form-control form-control-md rounded-0" type="password" placeholder="Password" />
+                        </div>
+                        <small className="form-control-feedback">Error: {this.props.state.errors.password}</small>
+                      </div>
+                    }
                   </div>
 
                   <div className="g-mb-50">

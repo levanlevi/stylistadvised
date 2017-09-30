@@ -65,10 +65,6 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   success: true,
-  message: 'Check the form for errors.',
-  errors: {
-    email: 'This email is already taken.'
-  }
 }
 
 export default function signinReducer (state = initialState, action) {
