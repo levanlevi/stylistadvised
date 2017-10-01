@@ -14,6 +14,8 @@ class HomeView extends React.Component {
 
     this.launchCustomer = this.launchCustomer.bind(this);
     this.launchStylist = this.launchStylist.bind(this);
+
+    this.logout = this.logout.bind(this);
   }
 
   componentDidMount() {
@@ -26,6 +28,10 @@ class HomeView extends React.Component {
 
   launchStylist() {
     this.props.router.push('/signin');
+  }
+
+  logout() {
+    auth.deauthenticateUser();
   }
 
   render () {
@@ -64,8 +70,10 @@ class HomeView extends React.Component {
                       <a href="#about">About</a>
                     </li>
 
-                    {auth.isUserAuthenticated && <Link className="nav-item g-mx-20--lg" to='/account/5997eff53fa90651583b83ba'>Account</Link>}
-                    {!auth.isUserAuthenticated && <Link className="nav-item g-mx-20--lg" to='/signup'>Sign Up</Link>}
+                    {auth.isUserAuthenticated() && <Link className="nav-item g-mx-20--lg" to='/account/5997eff53fa90651583b83ba'>Account</Link>}
+                    {auth.isUserAuthenticated() && <li onClick={this.logout} className="nav-item g-ml-20--lg g-mr-0--lg"><a href="/">Logout</a></li>}
+                    {!auth.isUserAuthenticated() && <Link className="nav-item g-mx-20--lg" to='/signin'>Login</Link>}
+                    {!auth.isUserAuthenticated() && <Link className="nav-item g-mx-20--lg" to='/signup'>Sign Up</Link>}                    
                   </ul>
                 </div>
               </div>
