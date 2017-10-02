@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 class auth {
   
   /**
@@ -34,7 +36,17 @@ class auth {
 
   static getToken() {
     return localStorage.getItem('token');
-  }  
+  }
+
+  /**
+   * Get a userId value.
+   *
+   * @returns {string}
+   */
+
+  static getUserId() {    
+    return jwt.decode(localStorage.getItem('token'));
+  }
 }
   
 export default auth;

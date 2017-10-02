@@ -44,7 +44,7 @@ class Signin extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.state.success) {
+    if (nextProps.state.success) {      
       auth.authenticateUser(nextProps.state.token);
       nextProps.router.replace('/');
     }
