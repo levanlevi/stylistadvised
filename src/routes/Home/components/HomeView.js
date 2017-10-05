@@ -19,7 +19,12 @@ class HomeView extends React.Component {
   }
 
   componentDidMount() {
-    //$.HSCore.components.HSCarousel.init('.js-carousel');
+    const script = document.createElement("script");
+    
+    script.src = "/js/unifyInit.js";
+    script.async = true;
+
+    document.body.appendChild(script);
   }
 
   launchCustomer() {

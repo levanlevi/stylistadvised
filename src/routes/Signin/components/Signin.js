@@ -18,6 +18,9 @@ var secondImageCarouselStyle = {
 };
 
 class Signin extends React.Component {
+  // static contextTypes = {
+  //   router: PropTypes.object.isRequired,
+  // };
   static propTypes = {
     signup: PropTypes.object,
     submit: PropTypes.func.isRequired,
@@ -43,10 +46,10 @@ class Signin extends React.Component {
     $.HSCore.helpers.HSFocusState.init();
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {    
     if (nextProps.state.success) {      
       auth.authenticateUser(nextProps.state.token);
-      nextProps.router.replace('/');
+      nextProps.router.push('/');
     }
   }
 
