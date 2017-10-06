@@ -5,7 +5,7 @@ var userController = function () {
   var post = function (req, res) {
     var user = new User(req.body);
 
-    if (!req.body.fname || !req.body.lname || !req.body.email || !req.body.password) {
+    if (!req.body.fname || !req.body.lname || !req.body.name || !req.body.email || !req.body.password) {
       res.status(400);
       res.send('required fields missing');
     }
@@ -50,6 +50,7 @@ var userController = function () {
   var putUser = function (req, res) {
     req.user.fname = req.body.fname;
     req.user.lname = req.body.lname;
+    req.user.name = req.body.name;
     req.user.picture = req.body.picture;
     req.user.email = req.body.email;
     req.user.roleType = req.body.roleType;

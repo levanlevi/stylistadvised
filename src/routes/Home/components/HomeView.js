@@ -19,9 +19,9 @@ class HomeView extends React.Component {
   }
 
   componentDidMount() {
-    const script = document.createElement("script");
+    const script = document.createElement('script');
     
-    script.src = "/js/unifyInit.js";
+    script.src = '/js/unifyInit.js';
     script.async = true;
 
     document.body.appendChild(script);
@@ -74,11 +74,23 @@ class HomeView extends React.Component {
                     <li className="nav-item g-ml-20--lg g-mr-0--lg">
                       <a href="#about">About</a>
                     </li>
+                    {auth.isUserAuthenticated() && 
+                      <li className="nav-item g-ml-20--lg g-mr-0--lg">
+                        <div className="btn-group">
+                          <button className="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {JSON.parse(auth.getUser()).name}
+                          </button>
+                          <div className="dropdown-menu">
+                            <a className="dropdown-item" href={'/account/' + auth.getUserId().sub}>Account</a>
+                            <div className="dropdown-divider"></div>
+                            <a onClick={this.logout} className="dropdown-item" href="#">Logout</a>
+                          </div>
+                        </div>
+                      </li>
+                    }
 
-                    {auth.isUserAuthenticated() && <Link className="nav-item g-mx-20--lg" to={'/account/' + auth.getUserId().sub}>Account</Link>}
-                    {auth.isUserAuthenticated() && <li onClick={this.logout} className="nav-item g-ml-20--lg g-mr-0--lg"><a href="/">Logout</a></li>}
                     {!auth.isUserAuthenticated() && <Link className="nav-item g-mx-20--lg" to='/signin'>Login</Link>}
-                    {!auth.isUserAuthenticated() && <Link className="nav-item g-mx-20--lg" to='/signup'>Sign Up</Link>}                    
+                    {!auth.isUserAuthenticated() && <Link className="nav-item g-mx-20--lg" to='/signup'>Sign Up</Link>}
                   </ul>
                 </div>
               </div>
@@ -329,4 +341,4 @@ class HomeView extends React.Component {
   }
 }
 
-export default HomeView
+export default HomeView;

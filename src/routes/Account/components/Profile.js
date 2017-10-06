@@ -5,6 +5,7 @@ class Profile extends React.Component {
   static propTypes = {
     firstName: PropTypes.string,
     lastName: PropTypes.string,
+    name: PropTypes.string,
     email: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     submit: PropTypes.func.isRequired,
@@ -17,6 +18,7 @@ class Profile extends React.Component {
       user: {
         firstName: this.props.firstName,
         lastName: this.props.lastName,
+        name: this.props.name,
         email: this.props.email,
       }
     };
@@ -45,6 +47,7 @@ class Profile extends React.Component {
     const user = this.state.user;
     user.firstName = this.props.firstName;
     user.lastName = this.props.lastName;
+    user.name = this.props.name;
     user.email = this.props.email;
 
     this.setState({ user });
@@ -90,12 +93,26 @@ class Profile extends React.Component {
           </div>
           {/* <!-- End Last Name --> */}
 
+          {/* <!-- Name --> */}
+          <div className="form-group row g-mb-25">
+            <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mb-10">Name</label>
+            <div className="col-sm-9">
+              <div className="input-group g-brd-primary--focus">
+                <input value={this.state.user.name} onChange={this.changeUser} name="name" className="form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" type="text" placeholder="Name" />
+                <div className="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
+                  <i className="icon-pencil"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* <!-- End Name --> */}
+
           {/* <!-- Primary Email Address --> */}
           <div className="form-group row g-mb-25">
             <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mb-10">Primary email address</label>
             <div className="col-sm-9">
               <div className="input-group g-brd-primary--focus">
-                <input value={this.state.user.email} onChange={this.changeUser} name="email" className="form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" type="text" placeholder="Primary email address" />
+                <input value={this.state.user.email} onChange={this.changeUser} name="email" className="form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" type="email" placeholder="Primary email address" />
                 <div className="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
                   <i className="icon-pencil"></i>
                 </div>

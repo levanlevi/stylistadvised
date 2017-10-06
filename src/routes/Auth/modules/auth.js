@@ -7,8 +7,9 @@ class auth {
    *
    * @param {string} token
    */
-  static authenticateUser(token) {
+  static authenticateUser(token, user) {
     localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
   /**
@@ -26,6 +27,7 @@ class auth {
    */
   static deauthenticateUser() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
   }
 
   /**
@@ -46,6 +48,16 @@ class auth {
 
   static getUserId() {    
     return jwt.decode(localStorage.getItem('token'));
+  }
+
+  /**
+   * Get a user value.
+   *
+   * @returns {string}
+   */
+
+  static getUser() {    
+    return localStorage.getItem('user');
   }
 }
   

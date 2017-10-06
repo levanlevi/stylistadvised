@@ -9,6 +9,8 @@ import Security from './Security';
 
 import DefaultUserPicture from '../assets/defaultUserPicture.jpg';
 
+import auth from '../../auth/modules/auth';
+
 class Account extends React.Component {
   static propTypes = {
     submit: PropTypes.func.isRequired,
@@ -41,6 +43,10 @@ class Account extends React.Component {
     this.refs.fileUploader.click();
   }
 
+  logout() {
+    auth.deauthenticateUser();
+  }
+
   selectPicture(event) {
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
@@ -62,6 +68,7 @@ class Account extends React.Component {
   submitProfile(user) {
     this.props.state.fname = user.firstName;
     this.props.state.lname = user.lastName;
+    this.props.state.name = user.name;
     this.props.state.email = user.email;
 
     this.props.submit(this.props.state);
@@ -103,6 +110,19 @@ class Account extends React.Component {
                 <div className="collapse navbar-collapse align-items-center flex-sm-row g-pt-10 g-pt-5--lg" id="navBar">
                   <ul className="navbar-nav text-uppercase g-font-weight-600 ml-auto">                    
                     <li className="nav-item g-mx-120--lg"></li>
+
+                    <li className="nav-item g-ml-20--lg g-mr-0--lg">
+                      <div className="btn-group">
+                        <button className="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          {JSON.parse(auth.getUser()).name}
+                        </button>
+                        <div className="dropdown-menu">
+                          <a className="dropdown-item" href={'/account/' + auth.getUserId().sub}>Account</a>
+                          <div className="dropdown-divider"></div>
+                          <a onClick={this.logout} className="dropdown-item" href="#">Logout</a>
+                        </div>
+                      </div>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -175,6 +195,7 @@ class Account extends React.Component {
                     <Profile
                       firstName={this.props.state.fname}
                       lastName={this.props.state.lname}
+                      name={this.props.state.name}
                       email={this.props.state.email}
                       onChange={this.changeUser}
                       submit={this.submitProfile}
