@@ -24,7 +24,7 @@ class Account extends React.Component {
         firstName: this.props.state.fname,
         lastName: this.props.state.lname,
         picture: this.props.state.picture ? this.props.state.picture : DefaultUserPicture,
-      }
+      }      
     };
 
     this.changeUser = this.changeUser.bind(this);
@@ -43,26 +43,28 @@ class Account extends React.Component {
     this.refs.fileUploader.click();
   }
 
-  logout() {
-    auth.deauthenticateUser();
-  }
-
   selectPicture(event) {
     if (event.target.files && event.target.files[0]) {
+      const user = this.state.user;
+
       var reader = new FileReader();
       var self = this;
 
       reader.onload = function (e) {
-        self.setState({
-          picture: e.target.result
+        self.setState({ 
+          user: { firstName: user.firstName, lastName: user.lastName, picture: e.target.result }
         }, function() {
-          self.props.state.picture = self.state.picture;
+          self.props.state.picture = self.state.user.picture;
           self.props.submit(self.props.state);
         });
       }
 
       reader.readAsDataURL(event.target.files[0]);
     }
+  }
+
+  logout() {
+    auth.deauthenticateUser();
   }
 
   submitProfile(user) {
@@ -117,9 +119,9 @@ class Account extends React.Component {
                           {JSON.parse(auth.getUser()).name}
                         </button>
                         <div className="dropdown-menu">
-                          <a className="dropdown-item" href={'/account/' + auth.getUserId().sub}>Account</a>
+                          <a className="dropdown-item" href={'/account/' + auth.getUserId()}>Account</a>
                           <div className="dropdown-divider"></div>
-                          <a onClick={this.logout} className="dropdown-item" href="#">Logout</a>
+                          <a onClick={this.logout} className="dropdown-item" href="/">Logout</a>
                         </div>
                       </div>
                     </li>

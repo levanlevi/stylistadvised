@@ -4,21 +4,27 @@
 export const ACCOUNT_USER_RECEIVED = 'ACCOUNT_USER_RECEIVED';
 export const ACCOUNT_USER_SUBMIT = 'ACCOUNT_USER_SUBMIT';
 
+import auth from '../../auth/modules/auth';
+
 const config = require('../../../../config');
 
 // ------------------------------------
 // Actions
 // ------------------------------------
+function isValidId(id) {
+  return id.match(/^[0-9a-fA-F]{24}$/);
+}
+
 export function getUser(userId) {
   return async (dispatch) => {
     try {
-      if (userId.match(/^[0-9a-fA-F]{24}$/)) {
+      if (isValidId(userId)) {
         const url = config.serverUrl + '/api/users/' + userId;
         const response = await fetch(
           url,
           {
             method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Authorization': `bearer ${auth.getToken()}`},
           }
         );
         const user = await response.json();
@@ -34,14 +40,14 @@ export function getUser(userId) {
 export function submit(user) {
   return async (dispatch) => {
     try {
-      if (user._id.match(/^[0-9a-fA-F]{24}$/)) {
+      if (isValidId(user._id)) {
         const url = config.serverUrl + '/api/users/' + user._id;
         await fetch(
           url,
           {
             method: 'PUT',
             body: JSON.stringify(user),
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Authorization': `bearer ${auth.getToken()}`, 'Content-type': 'application/json' },
           }
         );
 

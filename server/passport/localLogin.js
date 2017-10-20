@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const Users = require('mongoose').model('Users');
 const PassportLocalStrategy = require('passport-local').Strategy;
+
 const config = require('../../config');
 
 /**
@@ -19,7 +20,9 @@ module.exports = new PassportLocalStrategy({
 
   // find a user by email address
   return Users.findOne({ email: userData.email }, (err, user) => {
-    if (err) { return done(err); }
+    if (err) { 
+      return done(err); 
+    }
 
     if (!user) {
       const error = new Error('Incorrect email or password');
@@ -29,8 +32,10 @@ module.exports = new PassportLocalStrategy({
     }
 
     // check if a hashed user's password is equal to a value saved in the database
-    return user.comparePassword(userData.password, (passwordErr, isMatch) => {
-      if (err) { return done(err); }
+    return user.comparePassword(userData.password, (err, isMatch) => {
+      if (err) { 
+        return done(err);
+      }
 
       if (!isMatch) {
         const error = new Error('Incorrect email or password');

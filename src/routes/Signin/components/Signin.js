@@ -18,9 +18,6 @@ var secondImageCarouselStyle = {
 };
 
 class Signin extends React.Component {
-  // static contextTypes = {
-  //   router: PropTypes.object.isRequired,
-  // };
   static propTypes = {
     signup: PropTypes.object,
     submit: PropTypes.func.isRequired,
@@ -31,8 +28,8 @@ class Signin extends React.Component {
 
     this.state = {
       user: {
-        email: 'snowflake33@yandex.ru',
-        password: 'cde321',
+        email: 'flatorez@gmail.com', //'snowflake33@yandex.ru',
+        password: 'cde32123', //'cde321',
       }
     };
 

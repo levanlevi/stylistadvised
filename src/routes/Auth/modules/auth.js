@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const config = require('../../../../config');
 
 class auth {
   
@@ -46,8 +47,13 @@ class auth {
    * @returns {string}
    */
 
-  static getUserId() {    
-    return jwt.decode(localStorage.getItem('token'));
+  static getUserId() {
+    const token = localStorage.getItem('token');
+    return jwt.verify(token, config.jwtSecret, (err, decoded) => {      
+      const userId = decoded.sub;
+  
+      return userId;
+    });
   }
 
   /**

@@ -81,7 +81,7 @@ class HomeView extends React.Component {
                             {JSON.parse(auth.getUser()).name}
                           </button>
                           <div className="dropdown-menu">
-                            <a className="dropdown-item" href={'/account/' + auth.getUserId().sub}>Account</a>
+                            <a className="dropdown-item" href={'/account/' + auth.getUserId()}>Account</a>
                             <div className="dropdown-divider"></div>
                             <a onClick={this.logout} className="dropdown-item" href="#">Logout</a>
                           </div>

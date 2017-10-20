@@ -14,8 +14,18 @@ function validateEmail(email) {
   return regex.test(email);
 }
 
+function anyElementsEmpty(elements) {
+  for (let element in elements) {
+    if (!elements[element]) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 export function submit(user) {
-  if (!user.password || !user.email || !validateEmail(user.email)) {
+  if (anyElementsEmpty({ password: user.password, email: user.email }) || !validateEmail(user.email)) {
     let result = {
       success: false,
       message: 'Check the form for errors.',
