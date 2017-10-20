@@ -44,10 +44,9 @@ class Signup extends React.Component {
     $.HSCore.helpers.HSFocusState.init();
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {    
     if (nextProps.state.success) {
-      auth.authenticateUser(nextProps.state.token);
-      nextProps.router.replace('/');
+      nextProps.router.push('/');
     }
   }
 

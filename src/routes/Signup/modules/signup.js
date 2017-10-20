@@ -27,8 +27,14 @@ function isPasswordValid(password) {
   return 8 <= password.trim().length;
 }
 
-function isUserValid(user) {
-  return user.email && user.name && user.password && isEmailValid(user.email);
+function anyElementsEmpty(elements) {
+  for (let element in elements) {
+    if (!elements[element]) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 function getErrors(user) {
@@ -53,7 +59,7 @@ function getErrors(user) {
 }
 
 export function submit(user) {
-  if (!isUserValid(user)) {
+  if (anyElementsEmpty({ email: user.email, name: user.name, password: user.password }) || !isEmailValid(user.email)) {
     let result = {
       success: false,
       message: errorMessage,

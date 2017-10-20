@@ -19,4 +19,4 @@ export const createRoutes = (store) => ({
   ]
 })
 
-export default createRoutes
+export default createRoutes;
