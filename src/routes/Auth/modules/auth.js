@@ -9,8 +9,10 @@ class auth {
    * @param {string} token
    */
   static authenticateUser(token, user) {
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(user));
+    if (token && user) {
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+    }
   }
 
   /**

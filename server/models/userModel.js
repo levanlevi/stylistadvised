@@ -8,9 +8,9 @@ const userModel = new mongoose.Schema({
   name: { type: String },
   picture: { type: String },
   email: { type: String, unique: true, required: true },
-  emailConfirmed: { type: Boolean },
-  roleType: { type: Number },
-  password: { type: String, required: true }
+  emailConfirmed: { type: Boolean, default: false },
+  userType: { type: String, required: true },
+  password: { type: String, required: true },
 });
 
 /**

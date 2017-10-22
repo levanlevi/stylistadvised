@@ -19,7 +19,7 @@ var secondImageCarouselStyle = {
 
 class Signin extends React.Component {
   static propTypes = {
-    signup: PropTypes.object,
+    state: PropTypes.object.isRequired, 
     submit: PropTypes.func.isRequired,
   }
 
@@ -28,9 +28,9 @@ class Signin extends React.Component {
 
     this.state = {
       user: {
-        email: 'flatorez@gmail.com', //'snowflake33@yandex.ru',
-        password: 'cde32123', //'cde321',
-      }
+        email: 'snowflake33@yandex.ru', //'flatorez@gmail.com',
+        password: 'cde32123',
+      },
     };
 
     this.onChange = this.onChange.bind(this);

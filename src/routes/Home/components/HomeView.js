@@ -28,11 +28,11 @@ class HomeView extends React.Component {
   }
 
   launchCustomer() {
-    this.props.router.push('/search');
+    this.props.router.push('/signup/customer');
   }
 
   launchStylist() {
-    this.props.router.push('/signin');
+    this.props.router.push('/signup/stylist');
   }
 
   logout() {

@@ -162,7 +162,8 @@ class Account extends React.Component {
 
                   {/* <!-- User Info --> */}
                   <span className="g-pos-abs g-top-20 g-left-0">
-                    <a className="btn btn-sm u-btn-primary rounded-0" href="#">{this.state.user.firstName} {this.state.user.lastName}</a>
+                    {!this.state.user.firstName && <a className="btn btn-sm u-btn-primary rounded-0" href="#">{JSON.parse(auth.getUser()).name}</a>}
+                    {this.state.user.firstName && <a className="btn btn-sm u-btn-primary rounded-0" href="#">{this.state.user.firstName} {this.state.user.lastName}</a>}
                     <small className="d-block g-bg-black g-color-white g-pa-5">Project Manager</small>
                   </span>
                   {/* <!-- End User Info --> */}

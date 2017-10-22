@@ -10,6 +10,7 @@ const emptyPasswordError = 'Please provide your password.';
 const invalidEmailError = 'Please provide a correct email address.';
 const invalidPasswordError = 'Password must have at least 8 characters.';
 
+export const SIGNUP_USERTYPE_RECEIVED = 'SIGNUP_USERTYPE_RECEIVED';
 export const SIGNUP_SUBMIT = 'SIGNUP_SUBMIT';
 
 const config = require('../../../../config');
@@ -90,7 +91,20 @@ export function submit(user) {
   }
 }
 
+function isValidUserType(userType) {
+  return ('customer' === userType || 'stylist' === userType);
+}
+
+export function setUserType(userType) {
+  if (isValidUserType(userType)) {
+    return { type: SIGNUP_USERTYPE_RECEIVED, payload: userType }
+  }
+
+  return { type: SIGNUP_USERTYPE_RECEIVED, payload: null }
+}
+
 export const actions = {
+  setUserType,
   submit,
 }
 
@@ -98,6 +112,7 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
+  [SIGNUP_USERTYPE_RECEIVED]: (state, action) => { state.userType = action.payload; return state; },
   [SIGNUP_SUBMIT]: (state, action) => state = action.payload,
 }
 
@@ -105,8 +120,9 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
+  errors: {},
+  userType: null,
   success: true,
-  errors: {}
 }
 
 export default function signupReducer (state = initialState, action) {

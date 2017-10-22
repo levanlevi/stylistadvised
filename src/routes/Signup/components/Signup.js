@@ -31,7 +31,8 @@ class Signup extends React.Component {
         name: "",
         email: "",
         password: "",
-      }
+        userType: this.props.state.userType,
+      },      
     };
 
     this.onChange = this.onChange.bind(this);
