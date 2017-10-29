@@ -35,6 +35,7 @@ class Signup extends React.Component {
       },      
     };
 
+    this.userTypeOnChange = this.userTypeOnChange.bind(this);
     this.onChange = this.onChange.bind(this);
     this.submit = this.submit.bind(this);
   }
@@ -49,6 +50,13 @@ class Signup extends React.Component {
     if (nextProps.state.success) {
       nextProps.router.push('/');
     }
+  }
+
+  userTypeOnChange(event) {
+    const user = this.state.user;
+    user.userType = event.target.value;
+
+    this.setState({ user });
   }
 
   onChange(event) {
@@ -117,7 +125,23 @@ class Signup extends React.Component {
                 <form className="g-py-15">
                   <h2 className="h3 g-color-black mb-4">Signup</h2>
 
-                  <div className="mb-4">                    
+                  {/* <!-- User type --> */}
+                  <div className="md-4">
+                    <div className="form-group g-mb-20 justified-content">
+                      <label className="u-check">
+                        <input onChange={this.userTypeOnChange} value="customer" checked={'customer' === this.state.user.userType} className="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="radGroupBtn1_1" type="radio" />
+                        <span className="btn btn-md btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked rounded-0">Customer</span>
+                      </label>
+                      <label className="u-check">
+                        <input onChange={this.userTypeOnChange} value="stylist" checked={'stylist' === this.state.user.userType} className="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="radGroupBtn1_1" type="radio" />
+                        <span className="btn btn-md btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked g-brd-left-none--md rounded-0">Stylist</span>
+                      </label>
+                    </div>
+                  </div>
+                  {/* <!-- End User type --> */}
+
+                  {/* <!-- User name --> */}
+                  <div className="mb-4">
                     {!this.props.state.errors.name &&
                       <div className='form-group g-mb-20'>
                         <div className="input-group g-brd-primary--focus">
@@ -140,8 +164,10 @@ class Signup extends React.Component {
                       </div>
                     }
                   </div>
+                  {/* <!-- End User name --> */}
 
-                  <div className="mb-4">                    
+                  {/* <!-- User email --> */}
+                  <div className="mb-4">
                     {!this.props.state.errors.email &&
                       <div className='form-group g-mb-20'>
                         <div className="input-group g-brd-primary--focus">
@@ -164,8 +190,10 @@ class Signup extends React.Component {
                       </div>
                     }
                   </div>
+                  {/* <!-- End User email --> */}
 
-                  <div className="mb-4">                    
+                  {/* <!-- User password --> */}
+                  <div className="mb-4">
                     {!this.props.state.errors.password && 
                       <div className='form-group g-mb-20'>
                         <div className="input-group g-brd-primary--focus">
@@ -188,6 +216,7 @@ class Signup extends React.Component {
                       </div>
                     }
                   </div>
+                  {/* <!-- End User password --> */}
 
                   <div className="g-mb-50">
                     <button onClick={this.submit} className="btn btn-md btn-block u-btn-primary rounded text-uppercase g-py-13" type="button">Signup</button>

@@ -17,4 +17,4 @@ export const injectReducer = (store, { key, reducer }) => {
   store.replaceReducer(makeRootReducer(store.asyncReducers));
 }
 
-export default makeRootReducer
+export default makeRootReducer;

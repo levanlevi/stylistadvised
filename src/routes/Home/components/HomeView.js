@@ -44,7 +44,7 @@ class HomeView extends React.Component {
       <div>
         <header id="js-header" className="u-header u-header--static">
           <div className="u-header__section u-header__section--light g-bg-white g-transition-0_3 g-py-10">
-            <nav className="js-mega-menu navbar navbar-toggleable-md">
+            <nav className="js-mega-menu navbar navbar-expand-lg">
               <div className="container">
                 <button className="navbar-toggler navbar-toggler-right btn g-line-height-1 g-brd-none g-pa-0 g-pos-abs g-right-0" type="button"
                         aria-label="Toggle navigation"
@@ -90,7 +90,7 @@ class HomeView extends React.Component {
                     }
 
                     {!auth.isUserAuthenticated() && <Link className="nav-item g-mx-20--lg" to='/signin'>Login</Link>}
-                    {!auth.isUserAuthenticated() && <Link className="nav-item g-mx-20--lg" to='/signup'>Sign Up</Link>}
+                    {!auth.isUserAuthenticated() && <Link className="nav-item g-mx-20--lg" to='/signup/customer'>Sign Up</Link>}
                   </ul>
                 </div>
               </div>

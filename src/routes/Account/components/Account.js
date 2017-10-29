@@ -84,12 +84,9 @@ class Account extends React.Component {
   render () {
     return (
       <div>
-        <header id="js-header" className="u-header u-header--sticky-top u-header--toggle-section u-header--change-appearance"
-                data-header-fix-moment="300">
-          <div className="u-header__section u-header__section--dark g-bg-black g-transition-0_3 g-py-10"
-              data-header-fix-moment-exclude="g-py-10"
-              data-header-fix-moment-classes="g-py-0">
-            <nav className="navbar navbar-toggleable-md">
+        <header id="js-header" className="u-header u-header--static">
+          <div className="u-header__section u-header__section--dark g-bg-black g-transition-0_3 g-py-10">
+            <nav className="js-mega-menu navbar navbar-expand-lg">
               <div className="container">
                 <button className="navbar-toggler navbar-toggler-right btn g-line-height-1 g-brd-none g-pa-0 g-pos-abs g-right-0" type="button"
                         aria-label="Toggle navigation"
