@@ -12,4 +12,4 @@ PageLayout.propTypes = {
   children: PropTypes.node,
 }
 
-export default PageLayout
+export default PageLayout;
