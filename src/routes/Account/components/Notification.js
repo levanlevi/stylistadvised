@@ -34,7 +34,7 @@ class Notification extends React.Component {
             <label className="d-flex align-items-center justify-content-between">
               <span>Email notification</span>
               <div className="u-check">
-                <input className="hidden-xs-up g-pos-abs g-top-0 g-right-0" name="emailNotification" type="checkbox" defaultChecked />
+                <input className="g-hidden-xs-up g-pos-abs g-top-0 g-right-0" name="emailNotification" type="checkbox" defaultChecked />
                 <div className="u-check-icon-radio-v7">
                   <i className="d-inline-block"></i>
                 </div>
@@ -50,7 +50,7 @@ class Notification extends React.Component {
             <label className="d-flex align-items-center justify-content-between">
               <span>Send me email notification when a user comments on my blog</span>
               <div className="u-check">
-                <input className="hidden-xs-up g-pos-abs g-top-0 g-right-0" name="commentNotification" type="checkbox" />
+                <input className="g-hidden-xs-up g-pos-abs g-top-0 g-right-0" name="commentNotification" type="checkbox" />
                 <div className="u-check-icon-radio-v7">
                   <i className="d-inline-block"></i>
                 </div>
@@ -66,7 +66,7 @@ class Notification extends React.Component {
             <label className="d-flex align-items-center justify-content-between">
               <span>Send me email notification for the latest update</span>
               <div className="u-check">
-                <input className="hidden-xs-up g-pos-abs g-top-0 g-right-0" name="updateNotification" type="checkbox" defaultChecked />
+                <input className="g-hidden-xs-up g-pos-abs g-top-0 g-right-0" name="updateNotification" type="checkbox" defaultChecked />
                 <div className="u-check-icon-radio-v7">
                   <i className="d-inline-block"></i>
                 </div>
@@ -82,7 +82,7 @@ class Notification extends React.Component {
             <label className="d-flex align-items-center justify-content-between">
               <span>Send me email notification when a user sends me message</span>
               <div className="u-check">
-                <input className="hidden-xs-up g-pos-abs g-top-0 g-right-0" name="messageNotification" type="checkbox" defaultChecked />
+                <input className="g-hidden-xs-up g-pos-abs g-top-0 g-right-0" name="messageNotification" type="checkbox" defaultChecked />
                 <div className="u-check-icon-radio-v7">
                   <i className="d-inline-block"></i>
                 </div>
@@ -98,7 +98,7 @@ class Notification extends React.Component {
             <label className="d-flex align-items-center justify-content-between">
               <span>Receive our monthly newsletter</span>
               <div className="u-check">
-                <input className="hidden-xs-up g-pos-abs g-top-0 g-right-0" name="newsletterNotification" type="checkbox" />
+                <input className="g-hidden-xs-up g-pos-abs g-top-0 g-right-0" name="newsletterNotification" type="checkbox" />
                 <div className="u-check-icon-radio-v7">
                   <i className="d-inline-block"></i>
                 </div>
@@ -119,4 +119,4 @@ class Notification extends React.Component {
   }
 }
 
-export default Notification
+export default Notification;

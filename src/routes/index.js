@@ -1,4 +1,4 @@
-import CoreLayout from '../layouts/PageLayout/PageLayout';
+import PageLayout from '../layouts/PageLayout/PageLayout';
 
 import Home from './Home';
 
@@ -10,7 +10,7 @@ import SignupRoute from './Signup';
 
 export const createRoutes = (store) => ([{
   path        : '/',
-  component   : CoreLayout,
+  component   : PageLayout,
   indexRoute  : Home,
   childRoutes : [
     AccountRoute(store),

@@ -40,7 +40,7 @@ class Payment extends React.Component {
             <div className="col-md-12">
               <label className="u-check w-100 g-mb-25">
                 <strong className="d-block g-color-gray-dark-v2 g-font-weight-700 g-mb-10">Paypal</strong>
-                <input className="hidden-xs-up g-pos-abs g-top-10 g-right-10" type="radio" name="profilePayments" />
+                <input className="g-hidden-xs-up g-pos-abs g-top-10 g-right-10" type="radio" name="profilePayments" />
 
                 <div className="g-brd-primary--checked g-bg-primary-opacity-0_2--checked g-brd-around g-brd-gray-light-v2 g-rounded-5">
                   <div className="media g-pa-12">
@@ -116,7 +116,7 @@ class Payment extends React.Component {
           <div className="form-group">
             <label className="d-block g-color-gray-dark-v2 g-font-weight-700 1text-sm-right g-mb-10">Billing address</label>
             <label className="u-check g-pl-25 mb-0">
-              <input className="hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" />
+              <input className="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" type="checkbox" />
               <div className="u-check-icon-checkbox-v4 g-absolute-centered--y g-left-0">
                 <i className="fa" data-check-icon=""></i>
               </div>

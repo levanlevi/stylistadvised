@@ -68,6 +68,10 @@
         });
 
         if (type == 'fixed' || type == 'absolute') {
+          // setTimeout(function () {
+          //   $this.hide();
+          // }, 400);
+
           $this.css(position);
         }
 
@@ -81,8 +85,12 @@
 
         if (!$this.data('offset-top') && !$this.hasClass('u-animation-was-fired')) {
           if ($this.offset().top <= $(window).height()) {
-            $this.addClass('u-animation-was-fired ' + showEffect).css({
-              'opacity': ''
+            $this.show();
+
+            setTimeout(function() {
+              $this.addClass('u-animation-was-fired ' + showEffect).css({
+                'opacity': ''
+              });
             });
           }
         }
@@ -90,21 +98,33 @@
         $(window).on('scroll', function () {
           if ($this.data('offset-top')) {
             if ($(window).scrollTop() >= offsetTop && !$this.hasClass('u-animation-was-fired')) {
-              $this.addClass('u-animation-was-fired ' + showEffect).css({
-                'opacity': ''
+              $this.show();
+
+              setTimeout(function() {
+                $this.addClass('u-animation-was-fired ' + showEffect).css({
+                  'opacity': ''
+                });
               });
             } else if ($(window).scrollTop() <= offsetTop && $this.hasClass('u-animation-was-fired')) {
               $this.removeClass('u-animation-was-fired ' + showEffect).css({
                 'opacity': 0
               });
+
+              setTimeout(function() {
+                $this.hide();
+              }, 400);
             }
           } else {
             var thisOffsetTop = $this.offset().top;
 
             if (!$this.hasClass('u-animation-was-fired')) {
               if ($(window).scrollTop() >= thisOffsetTop - $(window).height()) {
-                $this.addClass('u-animation-was-fired ' + showEffect).css({
-                  'opacity': ''
+                $this.show();
+
+                setTimeout(function() {
+                  $this.addClass('u-animation-was-fired ' + showEffect).css({
+                    'opacity': ''
+                  });
                 });
               }
             }
