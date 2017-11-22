@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-import Notification from './Notification';
-import Payment from './Payment';
-import Profile from './Profile';
-import Security from './Security';
+import Notifications from './SettingsNotifications';
+import Payments from './SettingsPayments';
+import Profile from './SettingsProfile';
+import Security from './SettingsSecurity';
 
 import DefaultUserPicture from '../assets/defaultUserPicture.jpg';
 
@@ -24,7 +24,7 @@ class Account extends React.Component {
         firstName: this.props.state.fname,
         lastName: this.props.state.lname,
         picture: this.props.state.picture ? this.props.state.picture : DefaultUserPicture,
-      }      
+      }
     };
 
     this.changeUser = this.changeUser.bind(this);
@@ -214,7 +214,7 @@ class Account extends React.Component {
 
                   {/* <!-- Payment Options --> */}
                   <div className="tab-pane fade" id="nav-1-1-default-hor-left-underline--3" role="tabpanel">
-                    <Payment
+                    <Payments
                       paymentState={this.props.state}
                     />
                   </div>
@@ -222,7 +222,7 @@ class Account extends React.Component {
 
                   {/* <!-- Notification Settings --> */}
                   <div className="tab-pane fade" id="nav-1-1-default-hor-left-underline--4" role="tabpanel">
-                    <Notification
+                    <Notifications
                       notificationState={this.props.state}
                     />
                   </div>

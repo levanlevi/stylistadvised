@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class Profile extends React.Component {
+class SettingsProfile extends React.Component {
   static propTypes = {
     firstName: PropTypes.string,
     lastName: PropTypes.string,
@@ -133,4 +133,4 @@ class Profile extends React.Component {
   }
 }
 
-export default Profile;
+export default SettingsProfile;

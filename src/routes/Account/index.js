@@ -10,10 +10,6 @@ export default (store) => ({
 
       injectReducer(store, { key: 'account', reducer });
 
-      // store.dispatch(actions.getUser(nextState.params.id));
-
-      // cb(null, Account);
-
       store
         .dispatch(actions.getUser(nextState.params.id)) // set global spinner
         .then(() => cb(null, Account)) // success, data loaded, render component

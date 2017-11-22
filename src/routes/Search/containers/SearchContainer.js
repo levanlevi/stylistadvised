@@ -1,14 +1,11 @@
 import { connect } from 'react-redux';
 
 import Search from '../components/Search';
-import { submit } from '../modules/search';
 
-const mapDispatchToProps = {
-  submit,
-}
+const mapDispatchToProps = {}
 
 const mapStateToProps = (state) => ({
-  state: state.account
+  users: state.search,
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Search)
+export default connect(mapStateToProps, mapDispatchToProps)(Search);

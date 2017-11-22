@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class Security extends React.Component {
+class SettingsSecurity extends React.Component {
   static propTypes = {
     password: PropTypes.string,
     submit: PropTypes.func.isRequired,
@@ -106,4 +106,4 @@ class Security extends React.Component {
   }
 }
 
-export default Security
+export default SettingsSecurity;

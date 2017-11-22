@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class Payment extends React.Component {
+class SettingsPayments extends React.Component {
   static propTypes = {
     paymentState: PropTypes.object,
   }
@@ -137,4 +137,4 @@ class Payment extends React.Component {
   }
 }
 
-export default Payment
+export default SettingsPayments;

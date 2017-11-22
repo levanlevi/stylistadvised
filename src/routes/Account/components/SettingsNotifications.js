@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class Notification extends React.Component {
+class SettingsNotifications extends React.Component {
   static propTypes = {
     notificationState: PropTypes.object,
   }
@@ -119,4 +119,4 @@ class Notification extends React.Component {
   }
 }
 
-export default Notification;
+export default SettingsNotifications;

@@ -5,11 +5,15 @@ export default (store) => ({
   getComponent (nextState, cb) {
     require.ensure([], (require) => {
       const Search = require('./containers/SearchContainer').default;
+      const actions = require('./modules/search').actions;
       const reducer = require('./modules/search').default;
 
       injectReducer(store, { key: 'search', reducer });
 
-      cb(null, Search);
+      store
+        .dispatch(actions.getUsers())
+        .then(() => cb(null, Search))
+        .catch(cb);
     }, 'search');
   }
 })
