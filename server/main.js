@@ -16,8 +16,8 @@ require('./models').connect(config.dbUri);
 const app = express();
 app.use(compress());
 // tell the app to parse HTTP body messages
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
+app.use(bodyParser.json({limit: '5mb'}));
 // pass the passport middleware
 app.use(passport.initialize());
 

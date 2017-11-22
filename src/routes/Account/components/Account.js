@@ -2,14 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
+import auth from '../../auth/modules/auth';
+import Header from '../../Parts/Header';
+
 import Notifications from './SettingsNotifications';
 import Payments from './SettingsPayments';
 import Profile from './SettingsProfile';
 import Security from './SettingsSecurity';
 
 import DefaultUserPicture from '../assets/defaultUserPicture.jpg';
-
-import auth from '../../auth/modules/auth';
 
 class Account extends React.Component {
   static propTypes = {
@@ -84,50 +85,7 @@ class Account extends React.Component {
   render () {
     return (
       <div>
-        <header id="js-header" className="u-header u-header--static">
-          <div className="u-header__section u-header__section--dark g-bg-black g-transition-0_3 g-py-10">
-            <nav className="js-mega-menu navbar navbar-expand-lg">
-              <div className="container">
-                <button className="navbar-toggler navbar-toggler-right btn g-line-height-1 g-brd-none g-pa-0 g-pos-abs g-right-0" type="button"
-                        aria-label="Toggle navigation"
-                        aria-expanded="false"
-                        aria-controls="navBar"
-                        data-toggle="collapse"
-                        data-target="#navBar"
-                >
-                  <span className="hamburger hamburger--slider">
-                    <span className="hamburger-box">
-                      <span className="hamburger-inner"></span>
-                    </span>
-                  </span>
-                </button>
-
-                <a href="/" className="navbar-brand">
-                  Stylist advised me <span className="sr-only">(current)</span>
-                </a>
-
-                <div className="collapse navbar-collapse align-items-center flex-sm-row g-pt-10 g-pt-5--lg" id="navBar">
-                  <ul className="navbar-nav text-uppercase g-font-weight-600 ml-auto">                    
-                    <li className="nav-item g-mx-120--lg"></li>
-
-                    <li className="nav-item g-ml-20--lg g-mr-0--lg">
-                      <div className="btn-group">
-                        <button className="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          {JSON.parse(auth.getUser()).name}
-                        </button>
-                        <div className="dropdown-menu">
-                          <a className="dropdown-item" href={'/account/' + auth.getUserId()}>Account</a>
-                          <div className="dropdown-divider"></div>
-                          <a onClick={this.logout} className="dropdown-item" href="/">Logout</a>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </nav>
-          </div>
-        </header>
+        <Header isTransparent={false}></Header>
 
         <section className="g-my-100 g-mb-100">
           <div className="container">
