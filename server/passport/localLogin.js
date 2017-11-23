@@ -11,11 +11,11 @@ module.exports = new PassportLocalStrategy({
   usernameField: 'email',
   passwordField: 'password',
   session: false,
-  passReqToCallback: true
+  passReqToCallback: true,
 }, (req, email, password, done) => {
   const userData = {
     email: email.trim(),
-    password: password.trim()
+    password: password.trim(),
   };
 
   // find a user by email address
@@ -45,14 +45,13 @@ module.exports = new PassportLocalStrategy({
       }
 
       const payload = {
-        sub: user._id
+        sub: user._id,
       };
 
       // create a token string
       const token = jwt.sign(payload, config.jwtSecret);
       const data = {
         name: user.name,
-        picture: user.picture,
       };
 
       return done(null, token, data);

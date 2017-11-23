@@ -3,12 +3,17 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 import auth from '../../auth/modules/auth';
+import Display from '../../Parts/Display';
 import Header from '../../Parts/Header';
 
 import FirstImage from '../assets/first.jpg';
 import SecondImage from '../assets/second.jpg';
 
 const errorStyle = 'u-has-error-v1';
+const formGroupFirstStyle = 'form-group g-pos-rel mb-0';
+const formGroupSecondStyle = 'form-group g-pos-rel ' + errorStyle + ' mb-0';
+const inputGroupFirstStyle = 'input-group g-brd-primary--focus g-pt-10 pb-4';
+const inputGroupSecondStyle = 'input-group g-brd-primary--focus g-pt-10 pb-0';
 
 var firstImageCarouselStyle = {
   backgroundImage: "url(" + FirstImage + ")"
@@ -28,10 +33,25 @@ class Signup extends React.Component {
     super(props);
 
     this.state = {
+      formGroupStyle: {
+        name: formGroupFirstStyle,
+        email: formGroupFirstStyle,
+        password: formGroupFirstStyle,
+      },
+      inputGroupStyle: {
+        name: inputGroupFirstStyle,
+        email: inputGroupFirstStyle,
+        password: inputGroupFirstStyle,
+      },
+      errors: {
+        name: null,
+        email: null,
+        password: null,
+      },
       user: {
-        name: "",
-        email: "",
-        password: "",
+        name: '',
+        email: '',
+        password: '',
         userType: this.props.state.userType,
       },      
     };
@@ -47,9 +67,28 @@ class Signup extends React.Component {
     $.HSCore.helpers.HSFocusState.init();
   }
 
-  componentWillReceiveProps(nextProps) {    
-    if (nextProps.state.success) {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.state.success) {      
       nextProps.router.push('/');
+    } else {
+      const errors = nextProps.state.errors;      
+      errors.name = nextProps.state.errors.name;
+      errors.email = nextProps.state.errors.email;
+      errors.password = nextProps.state.errors.password;
+
+      const formGroupStyle = this.state.formGroupStyle;
+      formGroupStyle.name = nextProps.state.errors.name ? formGroupSecondStyle : formGroupFirstStyle;
+      formGroupStyle.email = nextProps.state.errors.email ? formGroupSecondStyle : formGroupFirstStyle;
+      formGroupStyle.password = nextProps.state.errors.password ? formGroupSecondStyle : formGroupFirstStyle;
+
+      const inputGroupStyle = this.state.inputGroupStyle;
+      inputGroupStyle.name = nextProps.state.errors.name ? inputGroupSecondStyle : inputGroupFirstStyle;
+      inputGroupStyle.email = nextProps.state.errors.email ? inputGroupSecondStyle : inputGroupFirstStyle;
+      inputGroupStyle.password = nextProps.state.errors.password ? inputGroupSecondStyle : inputGroupFirstStyle;
+
+      this.setState({ errors });
+      this.setState({ formGroupStyle });
+      this.setState({ inputGroupStyle });
     }
   }
 
@@ -66,6 +105,21 @@ class Signup extends React.Component {
     user[field] = event.target.value;
 
     this.setState({ user });
+
+    const errors = this.state.errors;
+    errors[field] = null;
+
+    this.setState({ errors });
+
+    const formGroupStyle = this.state.formGroupStyle;
+    formGroupStyle[field] = formGroupFirstStyle;
+
+    this.setState({ formGroupStyle });
+
+    const inputGroupStyle = this.state.inputGroupStyle;
+    inputGroupStyle[field] = inputGroupFirstStyle;
+
+    this.setState({ inputGroupStyle });
   }
 
   submit() {    
@@ -89,7 +143,55 @@ class Signup extends React.Component {
             <div className="col-lg-6">
               <div className="g-pa-40 g-mx-70--xl">
                 <form className="g-py-15">
-                  <h2 className="h3 g-color-black mb-4">Signup</h2>
+                  <h2 className="h3 g-color-black mb-2">Signup</h2>                  
+
+                  {/* <!-- User name --> */}
+                  <div className="mb-0">
+                    <div className={this.state.formGroupStyle.name}>
+                      <div className={this.state.inputGroupStyle.name}>
+                        <div className="input-group-addon d-flex align-items-center g-color-gray-light-v1 rounded-0">
+                          <i className="icon-finance-067 u-line-icon-pro"></i>
+                        </div>
+                        <input onChange={this.onChange} name="name" className="form-control form-control-md rounded-0" type="text" placeholder="User name" />
+                      </div>
+                      <Display if={!!this.state.errors.name}>
+                        <small className="form-control-feedback">{this.state.errors.name}</small>
+                      </Display>
+                    </div>
+                  </div>                  
+                  {/* <!-- End User name --> */}
+
+                  {/* <!-- User email --> */}
+                  <div className="mb-0">
+                    <div className={this.state.formGroupStyle.email}>
+                      <div className={this.state.inputGroupStyle.email}>
+                        <div className="input-group-addon d-flex align-items-center g-color-gray-light-v1 rounded-0">
+                          <i className="icon-communication-062 u-line-icon-pro"></i>
+                        </div>
+                        <input onChange={this.onChange} name="email" className="form-control form-control-md rounded-0" type="email" placeholder="Email" />
+                      </div>
+                      <Display if={!!this.state.errors.email}>
+                        <small className="form-control-feedback">{this.state.errors.email}</small>
+                      </Display>
+                    </div>
+                  </div>
+                  {/* <!-- End User email --> */}
+
+                  {/* <!-- User password --> */}
+                  <div className="mb-2">
+                    <div className={this.state.formGroupStyle.password}>
+                      <div className={this.state.inputGroupStyle.password}>
+                        <div className="input-group-addon d-flex align-items-center g-color-gray-light-v1 rounded-0">
+                          <i className="icon-media-094 u-line-icon-pro"></i>
+                        </div>
+                        <input onChange={this.onChange} name="password" className="form-control form-control-md rounded-0" type="password" placeholder="Password" />
+                      </div>
+                      <Display if={!!this.state.errors.password}>
+                        <small className="form-control-feedback">{this.state.errors.password}</small>
+                      </Display>
+                    </div>
+                  </div>
+                  {/* <!-- End User password --> */}
 
                   {/* <!-- User type --> */}
                   <div className="md-4">
@@ -105,84 +207,6 @@ class Signup extends React.Component {
                     </div>
                   </div>
                   {/* <!-- End User type --> */}
-
-                  {/* <!-- User name --> */}
-                  <div className="mb-4">
-                    {!this.props.state.errors.name &&
-                      <div className='form-group g-mb-20'>
-                        <div className="input-group g-brd-primary--focus">
-                          <div className="input-group-addon d-flex align-items-center g-color-gray-light-v1 rounded-0">
-                            <i className="icon-finance-067 u-line-icon-pro"></i>
-                          </div>
-                          <input onChange={this.onChange} value={this.state.user.name} name="name" className="form-control form-control-md rounded-0" type="text" placeholder="User name" />
-                        </div>
-                      </div>
-                    }
-                    {!this.props.state.success && this.props.state.errors.name &&
-                      <div className={'form-group g-mb-20 ' + errorStyle}>
-                        <div className="input-group g-brd-primary--focus">
-                          <div className="input-group-addon d-flex align-items-center g-color-gray-light-v1 rounded-0">
-                            <i className="icon-finance-067 u-line-icon-pro"></i>
-                          </div>
-                          <input onChange={this.onChange} name="name" className="form-control form-control-md rounded-0" type="text" placeholder="User name" />
-                        </div>
-                        <small className="form-control-feedback">Error: {this.props.state.errors.name}</small>
-                      </div>
-                    }
-                  </div>
-                  {/* <!-- End User name --> */}
-
-                  {/* <!-- User email --> */}
-                  <div className="mb-4">
-                    {!this.props.state.errors.email &&
-                      <div className='form-group g-mb-20'>
-                        <div className="input-group g-brd-primary--focus">
-                          <div className="input-group-addon d-flex align-items-center g-color-gray-light-v1 rounded-0">
-                            <i className="icon-communication-062 u-line-icon-pro"></i>
-                          </div>
-                          <input onChange={this.onChange} value={this.state.user.email} name="email" className="form-control form-control-md rounded-0" type="email" placeholder="Your email" />
-                        </div>
-                      </div>
-                    }
-                    {!this.props.state.success && this.props.state.errors.email &&
-                      <div className={'form-group g-mb-20 ' + errorStyle}>
-                        <div className="input-group g-brd-primary--focus">
-                          <div className="input-group-addon d-flex align-items-center g-color-gray-light-v1 rounded-0">
-                            <i className="icon-communication-062 u-line-icon-pro"></i>
-                          </div>
-                          <input onChange={this.onChange} name="email" className="form-control form-control-md rounded-0" type="email" placeholder="Your email" />
-                        </div>
-                        <small className="form-control-feedback">Error: {this.props.state.errors.email}</small>
-                      </div>
-                    }
-                  </div>
-                  {/* <!-- End User email --> */}
-
-                  {/* <!-- User password --> */}
-                  <div className="mb-4">
-                    {!this.props.state.errors.password && 
-                      <div className='form-group g-mb-20'>
-                        <div className="input-group g-brd-primary--focus">
-                          <div className="input-group-addon d-flex align-items-center g-color-gray-light-v1 rounded-0">
-                            <i className="icon-media-094 u-line-icon-pro"></i>
-                          </div>
-                          <input onChange={this.onChange} value={this.state.user.password} name="password" className="form-control form-control-md rounded-0" type="password" placeholder="Password" />
-                        </div>
-                      </div>
-                    }
-                    {!this.props.state.success && this.props.state.errors.password &&
-                      <div className={'form-group g-mb-20 ' + errorStyle}>
-                        <div className="input-group g-brd-primary--focus">
-                          <div className="input-group-addon d-flex align-items-center g-color-gray-light-v1 rounded-0">
-                            <i className="icon-media-094 u-line-icon-pro"></i>
-                          </div>
-                          <input onChange={this.onChange} name="password" className="form-control form-control-md rounded-0" type="password" placeholder="Password" />
-                        </div>
-                        <small className="form-control-feedback">Error: {this.props.state.errors.password}</small>
-                      </div>
-                    }
-                  </div>
-                  {/* <!-- End User password --> */}
 
                   <div className="g-mb-50">
                     <button onClick={this.submit} className="btn btn-md btn-block u-btn-primary rounded text-uppercase g-py-13" type="button">Signup</button>

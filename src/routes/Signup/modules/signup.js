@@ -120,9 +120,13 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
-  errors: {},
-  userType: null,
   success: true,
+  errors: {
+    name: null,
+    email: null,
+    password: null,
+  },
+  userType: null,
 }
 
 export default function signupReducer (state = initialState, action) {

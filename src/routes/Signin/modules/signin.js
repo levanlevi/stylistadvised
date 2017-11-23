@@ -1,6 +1,14 @@
 // ------------------------------------
 // Constants
 // ------------------------------------
+const errorMessage = 'Check the form for errors.';
+
+const emptyEmailError = 'Please provide your email address.';
+const emptyPasswordError = 'Please provide your password.';
+
+const invalidEmailError = 'Please provide a correct email address.';
+const invalidPasswordError = 'Password must have at least 8 characters.';
+
 export const SIGNIN_SUBMIT = 'SIGNIN_SUBMIT';
 
 const config = require('../../../../config');
@@ -25,13 +33,26 @@ function anyElementsEmpty(elements) {
 }
 
 export function submit(user) {
-  if (anyElementsEmpty({ email: user.email, password: user.password }) || !isEmailValid(user.email)) {
+  if (anyElementsEmpty({ email: user.email, password: user.password })) {
     let result = {
       success: false,
-      message: 'Check the form for errors.',
+      message: errorMessage,
       errors: {
-        email: 'Please provide your email address.',
-        password: 'Please provide your password.'
+        email: user.email ? null : emptyEmailError,
+        password: user.password ? null : emptyPasswordError,
+      }
+    }
+
+    return { type: SIGNIN_SUBMIT, payload: result };
+  }
+
+  if (!isEmailValid(user.email)) {
+    let result = {
+      success: false,
+      message: errorMessage,
+      errors: {
+        email: invalidEmailError,
+        password: null,
       }
     }
 
@@ -75,6 +96,10 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   success: true,
+  errors: {
+    email: null,
+    password: null,
+  },
 }
 
 export default function signinReducer (state = initialState, action) {
