@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 class SettingsSecurity extends React.Component {
   static propTypes = {
-    password: PropTypes.string,
+    user: PropTypes.object.isRequired,
     submit: PropTypes.func.isRequired,
   }
 
@@ -16,9 +16,7 @@ class SettingsSecurity extends React.Component {
         new: "",
         verify: "",
       },      
-      user: {
-        password: this.props.password,
-      }
+      user: this.props.user,
     };
 
     this.changePassword = this.changePassword.bind(this);
@@ -42,7 +40,7 @@ class SettingsSecurity extends React.Component {
   submit() {
     if (this.state.user.password === this.state.password.current && this.state.password.new === this.state.password.verify) {
       this.state.user.password = this.state.password.new;
-      this.props.submit(this.state.user);
+      this.props.submit();
     }
   }
 
@@ -55,7 +53,7 @@ class SettingsSecurity extends React.Component {
         <form>
           {/* <!-- Current Password --> */}
           <div className="form-group row g-mb-25">
-            <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mb-10">Current password</label>
+            <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mt-10 g-mb-10">Current password</label>
             <div className="col-sm-9">
               <div className="input-group g-brd-primary--focus">
                 <input onChange={this.changePassword} name="current" className="form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" type="password" placeholder="Current password" />
@@ -69,7 +67,7 @@ class SettingsSecurity extends React.Component {
 
           {/* <!-- New Password --> */}
           <div className="form-group row g-mb-25">
-            <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mb-10">New password</label>
+            <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mt-10 g-mb-10">New password</label>
             <div className="col-sm-9">
               <div className="input-group g-brd-primary--focus">
                 <input onChange={this.changePassword} name="new" className="form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" type="password" placeholder="New password" />
@@ -83,7 +81,7 @@ class SettingsSecurity extends React.Component {
 
           {/* <!-- Verify Password --> */}
           <div className="form-group row g-mb-25">
-            <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mb-10">Verify password</label>
+            <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mt-10 g-mb-10">Verify password</label>
             <div className="col-sm-9">
               <div className="input-group g-brd-primary--focus">
                 <input onChange={this.changePassword} name="verify" className="form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" type="password" placeholder="Verify password" />

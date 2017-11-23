@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 import auth from '../../auth/modules/auth';
+import Display from '../../Parts/Display';
 import Header from '../../Parts/Header';
 
-import Notifications from './SettingsNotifications';
-import Payments from './SettingsPayments';
-import Profile from './SettingsProfile';
-import Security from './SettingsSecurity';
+import Contacts from './Contacts';
+import Settings from './Settings';
 
 import DefaultUserPicture from '../assets/defaultUserPicture.jpg';
 
 class Account extends React.Component {
   static propTypes = {
+    user: PropTypes.object.isRequired,
     submit: PropTypes.func.isRequired,
   }
 
@@ -22,23 +22,21 @@ class Account extends React.Component {
 
     this.state = {
       user: {
-        firstName: this.props.state.fname,
-        lastName: this.props.state.lname,
-        picture: this.props.state.picture ? this.props.state.picture : DefaultUserPicture,
+        _id: this.props.user._id,
+        fname: this.props.user.fname,
+        lname: this.props.user.lname,
+        name: this.props.user.name,
+        email: this.props.user.email,
+        password: this.props.user.password,
+        picture: this.props.user.picture ? this.props.user.picture : DefaultUserPicture,
+        userType: this.props.user.userType,
       }
     };
-
-    this.changeUser = this.changeUser.bind(this);
+    
     this.changeUserPicture = this.changeUserPicture.bind(this);
     this.selectPicture = this.selectPicture.bind(this);
-
-    this.submitProfile = this.submitProfile.bind(this);
-    this.submitSecurity = this.submitSecurity.bind(this);
-  }
-
-  changeUser(user) {
-    this.setState({ user: { firstName: user.firstName, lastName: user.lastName, picture: this.state.user.picture } });
-  }
+    this.updateUser = this.updateUser.bind(this);
+  }  
 
   changeUserPicture() {
     this.refs.fileUploader.click();
@@ -53,10 +51,10 @@ class Account extends React.Component {
 
       reader.onload = function (e) {
         self.setState({ 
-          user: { firstName: user.firstName, lastName: user.lastName, picture: e.target.result }
+          user: { fname: user.fname, lname: user.lname, picture: e.target.result }
         }, function() {
-          self.props.state.picture = self.state.user.picture;
-          self.props.submit(self.props.state);
+          self.props.user.picture = self.state.user.picture;
+          self.props.submit(self.props.user);
         });
       }
 
@@ -64,22 +62,12 @@ class Account extends React.Component {
     }
   }
 
-  logout() {
-    auth.deauthenticateUser();
-  }
+  updateUser(newUser) {
+    const user = this.state.user;
+    user.fname = newUser.fname;
+    user.lname = newUser.lname;
 
-  submitProfile(user) {
-    this.props.state.fname = user.firstName;
-    this.props.state.lname = user.lastName;
-    this.props.state.name = user.name;
-    this.props.state.email = user.email;
-
-    this.props.submit(this.props.state);
-  }
-
-  submitSecurity(user) {
-    this.props.state.password = user.password;
-    this.props.submit(this.props.state);
+    this.setState({ user });
   }
 
   render () {
@@ -87,11 +75,13 @@ class Account extends React.Component {
       <div>
         <Header isTransparent={false}></Header>
 
-        <section className="g-my-100 g-mb-100">
+        <section className="g-my-20 g-mb-100">
           <div className="container">
             <div className="row">
+
               {/* <!-- Profile Sidebar --> */}
               <div className="col-lg-3 g-mb-50 g-mb-0--lg">
+
                 {/* <!-- User Image --> */}
                 <div className="u-block-hover g-pos-rel">
                   <figure>
@@ -113,82 +103,52 @@ class Account extends React.Component {
                       {/* <!-- End Figure Social Icons --> */}
                     </div>
                   </figcaption>
-                  {/* <!-- End Figure Caption --> */}
+                  {/* <!-- End Figure Caption --> */}                  
 
                   {/* <!-- User Info --> */}
                   <span className="g-pos-abs g-top-20 g-left-0">
-                    {!this.state.user.firstName && <a className="btn btn-sm u-btn-primary rounded-0" href="#">{JSON.parse(auth.getUser()).name}</a>}
-                    {this.state.user.firstName && <a className="btn btn-sm u-btn-primary rounded-0" href="#">{this.state.user.firstName} {this.state.user.lastName}</a>}
-                    <small className="d-block g-bg-black g-color-white g-pa-5">Project Manager</small>
+                    {!this.state.user.fname && <a className="btn btn-sm u-btn-primary rounded-0" href="#">{JSON.parse(auth.getUser()).name}</a>}
+                    {this.state.user.fname && <a className="btn btn-sm u-btn-primary rounded-0" href="#">{this.state.user.fname} {this.state.user.lname}</a>}
+                    <small className="d-block g-bg-black g-color-white g-pa-5">{this.state.user.userType}</small>
                   </span>
                   {/* <!-- End User Info --> */}
                 </div>
                 {/* <!-- User Image --> */}
+
+                {/* <!-- Sidebar Navigation --> */}
+                <div className="list-group list-group-border-0 g-mb-40">
+                    
+                  {/* <!-- Users Contacts --> */}
+                  <a href="page-profile-users-1.html" className="list-group-item list-group-item-action justify-content-between">
+                    <span><i className="icon-notebook g-pos-rel g-top-1 g-mr-8"></i> Users Contacts</span>
+                  </a>
+                  {/* <!-- End Users Contacts --> */}
+
+                  {/* <!-- Settings --> */}
+                  <a href="page-profile-settings-1.html" className="list-group-item list-group-item-action justify-content-between">
+                    <span><i className="icon-settings g-pos-rel g-top-1 g-mr-8"></i> Settings</span>
+                  </a>
+                  {/* <!-- End Settings --> */}
+                </div>
+                {/* <!-- End Sidebar Navigation --> */}
               </div>
               {/* <!-- End Profile Sidebar --> */}
 
-              {/* <!-- Profle Content --> */}
+              {/* <!-- Content --> */}
               <div className="col-lg-9">
-                {/* <!-- Nav tabs --> */}
-                <ul className="nav nav-justified u-nav-v1-1 u-nav-primary g-brd-bottom--md g-brd-bottom-2 g-brd-primary g-mb-20" role="tablist" data-target="nav-1-1-default-hor-left-underline" data-tabs-mobile-type="slide-up-down" data-btn-classes="btn btn-md btn-block rounded-0 u-btn-outline-primary g-mb-20">
-                  <li className="nav-item">
-                    <a className="nav-link g-py-10 active" data-toggle="tab" href="#nav-1-1-default-hor-left-underline--1" role="tab">Edit Profile</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link g-py-10" data-toggle="tab" href="#nav-1-1-default-hor-left-underline--2" role="tab">Security Settings</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link g-py-10" data-toggle="tab" href="#nav-1-1-default-hor-left-underline--3" role="tab">Payment Options</a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link g-py-10" data-toggle="tab" href="#nav-1-1-default-hor-left-underline--4" role="tab">Notification Settings</a>
-                  </li>
-                </ul>
-                {/* <!-- End Nav tabs --> */}
+                {/* <!-- User Contacts --> */}
+                <Display if={false}>
+                  <Contacts />
+                </Display>
+                {/* <!-- End User Contacts --> */}
 
-                {/* <!-- Tab panes --> */}
-                <div id="nav-1-1-default-hor-left-underline" className="tab-content">
-                  {/* <!-- Edit Profile --> */}
-                  <div className="tab-pane fade show active" id="nav-1-1-default-hor-left-underline--1" role="tabpanel">
-                    <Profile
-                      firstName={this.props.state.fname}
-                      lastName={this.props.state.lname}
-                      name={this.props.state.name}
-                      email={this.props.state.email}
-                      onChange={this.changeUser}
-                      submit={this.submitProfile}
-                    />
-                  </div>
-                  {/* <!-- End Edit Profile --> */}
-                    
-                  {/* <!-- Security Settings --> */}
-                  <div className="tab-pane fade" id="nav-1-1-default-hor-left-underline--2" role="tabpanel">
-                    <Security 
-                      password={this.props.state.password}
-                      submit={this.submitSecurity}
-                    />
-                  </div>
-                  {/* <!-- End Security Settings --> */}
-
-                  {/* <!-- Payment Options --> */}
-                  <div className="tab-pane fade" id="nav-1-1-default-hor-left-underline--3" role="tabpanel">
-                    <Payments
-                      paymentState={this.props.state}
-                    />
-                  </div>
-                  {/* <!-- End Payment Options --> */}
-
-                  {/* <!-- Notification Settings --> */}
-                  <div className="tab-pane fade" id="nav-1-1-default-hor-left-underline--4" role="tabpanel">
-                    <Notifications
-                      notificationState={this.props.state}
-                    />
-                  </div>
-                  {/* <!-- End Notification Settings --> */}
-                </div>
-                {/* <!-- End Tab panes --> */}
+                {/* <!-- User Settings --> */}
+                <Display if={true}>
+                  <Settings user={this.state.user} submit={this.props.submit} updateUser={this.updateUser} />
+                </Display>
+                {/* <!-- End User Settings --> */}
               </div>
-              {/* <!-- End Profle Content --> */}
+              {/* <!-- End Content --> */}
             </div>
           </div>
         </section>

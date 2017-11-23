@@ -75,7 +75,14 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {}
+const initialState = {
+  fname: '',
+  lname: '',
+  name: '',
+  email: '',
+  password: '',
+  userType: '',
+}
 
 export default function signinReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type];

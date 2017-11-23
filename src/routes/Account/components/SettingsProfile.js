@@ -3,24 +3,17 @@ import PropTypes from 'prop-types';
 
 class SettingsProfile extends React.Component {
   static propTypes = {
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    name: PropTypes.string,
-    email: PropTypes.string,
-    onChange: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
     submit: PropTypes.func.isRequired,
+    updateUser: PropTypes.func.isRequired,
   }
 
   constructor(props) {
     super(props);
 
     this.state = {
-      user: {
-        firstName: this.props.firstName,
-        lastName: this.props.lastName,
-        name: this.props.name,
-        email: this.props.email,
-      }
+      user: this.props.user,
+      savedUser: jQuery.extend(true, {}, this.props.user),
     };
 
     this.changeUser = this.changeUser.bind(this);
@@ -36,41 +29,41 @@ class SettingsProfile extends React.Component {
 
   changeUser(event) {
     const field = event.target.name;
-    const user = this.state.user;
+    const user = this.props.user;
     user[field] = event.target.value;
 
     this.setState({ user });
-    this.props.onChange(user);
+    this.props.updateUser(user);
   }
 
   cancel() {
-    const user = this.state.user;
-    user.firstName = this.props.firstName;
-    user.lastName = this.props.lastName;
-    user.name = this.props.name;
-    user.email = this.props.email;
+    const user = this.props.user;
+    user.fname = this.state.savedUser.fname;
+    user.lname = this.state.savedUser.lname;
+    user.name = this.state.savedUser.name;
+    user.email = this.state.savedUser.email;
 
     this.setState({ user });
-    this.props.onChange(user);
+    this.props.updateUser(user);
   }
 
   submit() {
-    this.props.submit(this.state.user);
+    this.props.submit();
   }
 
   render () {
     return (
       <div>
-        <h2 className="h4 g-font-weight-300">Manage your First Name, Last Name and Email Addresses</h2>
+        <h2 className="h4 g-font-weight-300">Manage your First Name, Last Name and Email Address</h2>
         <p className="g-mb-25">Below are name, email addresse, contacts and more on file for your account.</p>
 
         <form>
           {/* <!-- First Name --> */}
           <div className="form-group row g-mb-25">
-            <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mb-10">First Name</label>
+            <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mt-10 g-mb-10">First Name</label>
             <div className="col-sm-9">
               <div className="input-group g-brd-primary--focus">
-                <input value={this.state.user.firstName} onChange={this.changeUser} name="firstName" className="form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" type="text" placeholder="First Name" />
+                <input value={this.state.user.fname} onChange={this.changeUser} name="fname" className="form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" type="text" placeholder="First Name" />
                 <div className="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
                   <i className="icon-pencil"></i>
                 </div>
@@ -81,10 +74,10 @@ class SettingsProfile extends React.Component {
 
           {/* <!-- Last Name --> */}
           <div className="form-group row g-mb-25">
-            <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mb-10">Last Name</label>
+            <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mt-10 g-mb-10">Last Name</label>
             <div className="col-sm-9">
               <div className="input-group g-brd-primary--focus">
-                <input value={this.state.user.lastName} onChange={this.changeUser} name="lastName" className="form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" type="text" placeholder="Last Name" />
+                <input value={this.state.user.lname} onChange={this.changeUser} name="lname" className="form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" type="text" placeholder="Last Name" />
                 <div className="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
                   <i className="icon-pencil"></i>
                 </div>
@@ -95,7 +88,7 @@ class SettingsProfile extends React.Component {
 
           {/* <!-- Name --> */}
           <div className="form-group row g-mb-25">
-            <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mb-10">Name</label>
+            <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mt-10 g-mb-10">Name</label>
             <div className="col-sm-9">
               <div className="input-group g-brd-primary--focus">
                 <input value={this.state.user.name} onChange={this.changeUser} name="name" className="form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" type="text" placeholder="Name" />
@@ -109,7 +102,7 @@ class SettingsProfile extends React.Component {
 
           {/* <!-- Primary Email Address --> */}
           <div className="form-group row g-mb-25">
-            <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mb-10">Primary email address</label>
+            <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mt-10 g-mb-10">Primary email address</label>
             <div className="col-sm-9">
               <div className="input-group g-brd-primary--focus">
                 <input value={this.state.user.email} onChange={this.changeUser} name="email" className="form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" type="email" placeholder="Primary email address" />

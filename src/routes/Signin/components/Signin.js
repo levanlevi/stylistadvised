@@ -46,7 +46,7 @@ class Signin extends React.Component {
         password: null,
       },
       user: {
-        email: 'snowflake33@yandex.ru', //'flatorez@gmail.com',
+        email: 'flatorez@gmail.com', //'snowflake33@yandex.ru',
         password: 'cde32123',
       },
     };
