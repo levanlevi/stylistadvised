@@ -11,6 +11,9 @@ import Settings from './Settings';
 
 import DefaultUserPicture from '../assets/defaultUserPicture.jpg';
 
+const listGroupItemStyle = 'list-group-item list-group-item-action justify-content-between';
+const listGroupItemActiveStyle = 'list-group-item list-group-item-action justify-content-between active';
+
 class Account extends React.Component {
   static propTypes = {
     user: PropTypes.object.isRequired,
@@ -21,6 +24,14 @@ class Account extends React.Component {
     super(props);
 
     this.state = {
+      navigation: {
+        contacts: true,
+        settings: false,
+      },
+      navigationStyle: {
+        contacts: listGroupItemActiveStyle,
+        settings: listGroupItemStyle,
+      },
       user: {
         _id: this.props.user._id,
         fname: this.props.user.fname,
@@ -35,6 +46,8 @@ class Account extends React.Component {
     
     this.changeUserPicture = this.changeUserPicture.bind(this);
     this.selectPicture = this.selectPicture.bind(this);
+    this.showUserContacts = this.showUserContacts.bind(this);
+    this.showUserSettings = this.showUserSettings.bind(this);
     this.updateUser = this.updateUser.bind(this);
   }  
 
@@ -60,6 +73,34 @@ class Account extends React.Component {
 
       reader.readAsDataURL(event.target.files[0]);
     }
+  }
+
+  showUserContacts() {
+    const navigation = this.state.navigation;
+    navigation.contacts = true;
+    navigation.settings = false;
+
+    this.setState({ navigation });
+
+    const navigationStyle = this.state.navigationStyle;
+    navigationStyle.contacts = listGroupItemActiveStyle;
+    navigationStyle.settings = listGroupItemStyle;
+
+    this.setState({ navigationStyle });
+  }
+
+  showUserSettings() {
+    const navigation = this.state.navigation;
+    navigation.contacts = false;
+    navigation.settings = true;
+
+    this.setState({ navigation });
+
+    const navigationStyle = this.state.navigationStyle;
+    navigationStyle.contacts = listGroupItemStyle;
+    navigationStyle.settings = listGroupItemActiveStyle;
+
+    this.setState({ navigationStyle });
   }
 
   updateUser(newUser) {
@@ -119,13 +160,13 @@ class Account extends React.Component {
                 <div className="list-group list-group-border-0 g-mb-40">
                     
                   {/* <!-- Users Contacts --> */}
-                  <a href="page-profile-users-1.html" className="list-group-item list-group-item-action justify-content-between">
+                  <a onClick={this.showUserContacts} href="#" className={this.state.navigationStyle.contacts}>
                     <span><i className="icon-notebook g-pos-rel g-top-1 g-mr-8"></i> Users Contacts</span>
                   </a>
                   {/* <!-- End Users Contacts --> */}
 
                   {/* <!-- Settings --> */}
-                  <a href="page-profile-settings-1.html" className="list-group-item list-group-item-action justify-content-between">
+                  <a onClick={this.showUserSettings} href="#" className={this.state.navigationStyle.settings}>
                     <span><i className="icon-settings g-pos-rel g-top-1 g-mr-8"></i> Settings</span>
                   </a>
                   {/* <!-- End Settings --> */}
@@ -137,13 +178,13 @@ class Account extends React.Component {
               {/* <!-- Content --> */}
               <div className="col-lg-9">
                 {/* <!-- User Contacts --> */}
-                <Display if={false}>
+                <Display if={this.state.navigation.contacts}>
                   <Contacts />
                 </Display>
                 {/* <!-- End User Contacts --> */}
 
                 {/* <!-- User Settings --> */}
-                <Display if={true}>
+                <Display if={this.state.navigation.settings}>
                   <Settings user={this.state.user} submit={this.props.submit} updateUser={this.updateUser} />
                 </Display>
                 {/* <!-- End User Settings --> */}
