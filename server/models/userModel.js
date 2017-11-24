@@ -9,6 +9,8 @@ const userModel = new mongoose.Schema({
   picture: { type: String },
   email: { type: String, unique: true, required: true },
   emailConfirmed: { type: Boolean, default: false },
+  location: { type: String },
+  aboutMe: { type: String },
   userType: { type: String, required: true },
   password: { type: String, required: true },
 });

@@ -80,6 +80,8 @@ const initialState = {
   lname: '',
   name: '',
   email: '',
+  location: '',
+  aboutMe: '',
   password: '',
   userType: '',
 }

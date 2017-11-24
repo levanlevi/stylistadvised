@@ -19,7 +19,7 @@ var userController = function () {
   var get = function (req, res) {
     var query = req.query;
 
-    Users.find(query, '_id fname lname name email userType picture', function (err, users) {
+    Users.find(query, '_id fname lname name email userType picture location aboutMe', function (err, users) {
       if (err)
         res.status(500).send(err);
       else {

@@ -42,6 +42,8 @@ class SettingsProfile extends React.Component {
     user.lname = this.state.savedUser.lname;
     user.name = this.state.savedUser.name;
     user.email = this.state.savedUser.email;
+    user.location = this.state.savedUser.location;
+    user.aboutMe = this.state.savedUser.aboutMe;
 
     this.setState({ user });
     this.props.updateUser(user);
@@ -113,6 +115,34 @@ class SettingsProfile extends React.Component {
             </div>
           </div>
           {/* <!-- End Primary Email Address --> */}
+
+          {/* <!-- Location --> */}
+          <div className="form-group row g-mb-25">
+            <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mt-10 g-mb-10">Location</label>
+            <div className="col-sm-9">
+              <div className="input-group g-brd-primary--focus">
+                <input value={this.state.user.location} onChange={this.changeUser} name="location" className="form-control form-control-md border-right-0 rounded-0 g-py-13 pr-0" type="text" placeholder="Location" />
+                <div className="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
+                  <i className="icon-pencil"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* <!-- End Location --> */}
+
+          {/* <!-- About Me --> */}
+          <div className="form-group row g-mb-25">
+            <label className="col-sm-3 col-form-label g-color-gray-dark-v2 g-font-weight-700 text-sm-right g-mt-5 g-mb-10">About Me</label>
+            <div className="col-sm-9">
+              <div className="input-group g-brd-primary--focus">
+                <textarea value={this.state.user.aboutMe} onChange={this.changeUser} name="aboutMe" className="form-control form-control-md border-right-0 g-resize-none rounded-0 pr-0" rows="4" placeholder="About Me"></textarea>
+                <div className="input-group-addon d-flex align-items-center g-bg-white g-color-gray-light-v1 rounded-0">
+                  <i className="icon-pencil"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* <!-- End About Me --> */}
 
           <hr className="g-brd-gray-light-v4 g-my-25" />
 
