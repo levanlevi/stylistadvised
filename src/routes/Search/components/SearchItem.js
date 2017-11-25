@@ -64,7 +64,13 @@ class SearchItem extends React.Component {
           {/* <!-- Search Info --> */}
           <ul className="list-inline g-mb-10 g-mb-0--lg">
             <li className="list-inline-item g-mr-30">
-              <img className="g-height-25 g-width-25 rounded-circle g-mr-5" src={this.state.user.picture} alt="Image Description" /> <a className="u-link-v5 g-color-main g-color-primary--hover" href="#!">{this.state.user.name}</a>
+              <span className="d-inline-block g-pos-rel g-mr-20 g-mb-20">
+                <span className="u-badge-v2--sm g-mt-7 g-mr-7"></span>
+                {/* g-bg-yellow g-bg-red */}
+                <img className="media-object g-rounded-50x u-image-icon-size-md" src={this.state.user.picture} alt="Image Description" />
+              </span>
+              {/* <img className="g-height-25 g-width-25 rounded-circle g-mr-5" src={this.state.user.picture} alt="Image Description" />  */}
+              <a className="u-link-v5 g-color-main g-color-primary--hover" href="#!">{this.state.user.name}</a>
             </li>
             <li className="list-inline-item g-mr-30">
               <i className="icon-calendar g-pos-rel g-top-1 g-color-gray-dark-v5 g-mr-5"></i> 2 weeks ago

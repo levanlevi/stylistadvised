@@ -19,6 +19,7 @@ class Header extends React.Component {
     this.state = {
       user: {
         accountLink: auth.isUserAuthenticated() ? '/account/' + auth.getUserId() : null,
+        messagesLink: auth.isUserAuthenticated() ? '/messages/' + auth.getUserId() : null,
         name: auth.isUserAuthenticated() ? JSON.parse(auth.getUser()).name : null,        
         picture: (auth.isUserAuthenticated() && JSON.parse(auth.getUser()).picture) ? JSON.parse(auth.getUser()).picture : DefaultUserPicture,
       }
@@ -96,6 +97,9 @@ class Header extends React.Component {
                           aria-labelledby="account-dropdown-invoker">
                         <li>
                           <a className="d-block g-color-secondary-dark-v1 g-color-primary--hover g-text-underline--none--hover g-py-5 g-px-20" href={this.state.user.accountLink}>My Account</a>
+                        </li>
+                        <li>
+                          <a className="d-block g-color-secondary-dark-v1 g-color-primary--hover g-text-underline--none--hover g-py-5 g-px-20" href={this.state.user.messagesLink}>Messages</a>
                         </li>
                         <li>
                           <a onClick={this.signout} className="d-block g-color-secondary-dark-v1 g-color-primary--hover g-text-underline--none--hover g-py-5 g-px-20" href="/">Signout</a>

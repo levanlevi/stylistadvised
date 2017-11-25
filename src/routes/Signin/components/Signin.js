@@ -164,7 +164,7 @@ class Signin extends React.Component {
 
                   <div className="row justify-content-between mb-2">
                     <div className="col align-self-center text-right">
-                      <a className="g-color-gray-dark-v4 g-color-primary--hover" href="#">Forgot password?</a>
+                      <a className="g-color-gray-dark-v4 g-color-primary--hover" href="/password-recovery">Forgot password?</a>
                     </div>
                   </div>
 
