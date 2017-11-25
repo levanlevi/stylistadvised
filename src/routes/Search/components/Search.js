@@ -7,8 +7,6 @@ import Header from '../../Parts/Header';
 
 import Item from './SearchItem';
 
-import DefaultUserPicture from '../assets/defaultUserPicture.jpg';
-
 class Search extends React.Component {
   static propTypes = {
     users: PropTypes.array.isRequired,
@@ -24,14 +22,7 @@ class Search extends React.Component {
   render () {
     const listItems = this.props.users.map((user, index) =>
       <div key={index}>
-        <Item
-          firstName={user.fname}
-          lastName={user.lname}
-          name={user.name}
-          email={user.email}
-          picture={user.picture}
-        />
-        <hr className="g-brd-gray-light-v4 g-my-40" />
+        <Item user={user} />
       </div>
     );
 

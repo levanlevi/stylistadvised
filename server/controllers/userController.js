@@ -53,7 +53,9 @@ var userController = function () {
     req.user.name = req.body.name;
     req.user.picture = req.body.picture;
     req.user.email = req.body.email;
-    req.user.roleType = req.body.roleType;
+    req.user.location = req.body.location;
+    req.user.aboutMe = req.body.aboutMe;
+    req.user.userType = req.body.userType;
     req.user.password = req.body.password;
     req.user.save();
     res.json(req.user);
