@@ -31,7 +31,9 @@ passport.use('local-login', localLoginStrategy);
 const authCheckMiddleware = require('./middleware/authChecker');
 app.use('/api', authCheckMiddleware);
 
-var authRouter = require('./routes/authRouter')();
+var authRouter = require('./routes/authRoutes')();
+var channelRouter = require('./routes/channelRoutes')();
+var messageRouter = require('./routes/messageRoutes')();
 var userRouter = require('./routes/userRoutes')();
 
 // ------------------------------------
@@ -61,6 +63,8 @@ if (project.env === 'development') {
   app.use(express.static(path.resolve(project.basePath, 'public')))
 
   app.use('/auth', authRouter);
+  app.use('/api/channels', channelRouter);
+  app.use('/api/messages', messageRouter);
   app.use('/api/users', userRouter);
 
   // This rewrites all routes requests to the root /index.html file

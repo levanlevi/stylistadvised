@@ -127,63 +127,45 @@ class Messages extends React.Component {
 
     return (
       <div>
-        <Header isTransparent={false}></Header>        
-
-        {/* <!-- Shortcode Sidebar Navigation --> */}
-        <div id="sideNav" className="u-header u-header--side u-sidebar-navigation" aria-labelledby="sideNav-toggler" data-header-behavior="push" data-header-position="left" data-header-breakpoint="lg" data-header-classes="g-transition-0_5" data-header-body-classes="g-transition-0_5"
-        data-header-overlay-classes="g-bg-black-opacity-0_8 g-transition-0_5">
-          {/* <!-- Header Toggle Button --> */}
-          <button className="btn u-sidebar-navigation__toggler" id="sideNav-toggler" aria-haspopup="true" aria-expanded="false" aria-controls="sideNav" aria-label="Toggle Header" data-target="#sideNav">
-            <i className="icon-list"></i>
-          </button>
-          {/* <!-- End Header Toggle Button --> */}
-          <div className="u-header__sections-container">
-            <div className="u-sidebar-navigation-inner">
-
-              <h3 className="h5 g-px-20 g-mb-20">Unify Shortcodes</h3>
-
-              <div className="form-group g-px-20 g-mb-20">
-                <input id="u-sidebar-navigation__search-autocomplete" className="form-control form-control-md u-sidebar-navigation__search-input g-py-13" type="text" placeholder="Search over 1610 shortcodes" data-url="../../assets/include/ajax/autocomplete-data-shortcode-search.json" />
-              </div>
-
-              <ul className="js-shortcode-filter list-inline d-flex justify-content-between u-hs-filter">
-                <li className="list-inline-item active g-mr-10 g-mb-10">
-                  <a href="#!" data-shortcode-filter="all">All</a>
-                </li>
-                <li className="list-inline-item g-mr-10 g-mb-10">
-                  <a href="#!" data-shortcode-filter="bases">Bases</a>
-                </li>
-                <li className="list-inline-item">
-                  <a href="#!" data-shortcode-filter="blocks">Blocks</a>
-                </li>
-              </ul>
-
-              <ul className="js-shortcode-filter-result nav flex-column u-sidebar-navigation-list">
-                <li className="js-shortcode-filter__item nav-item bases">
-                  <a href="../../unify-main/shortcodes/shortcode-base-accordions.html" className="nav-link ">Accordions</a>
-                </li>
-                <li className="js-shortcode-filter__item nav-item bases">
-                  <a href="../../unify-main/shortcodes/shortcode-base-alerts.html" className="nav-link ">Alerts</a>
-                </li>
-                <li className="js-shortcode-filter__item nav-item bases">
-                  <a href="../../unify-main/shortcodes/shortcode-base-badges.html" className="nav-link ">Badges</a>
-                </li>
-              </ul>
-
-              <button className="btn u-sidebar-navigation__closer" id="sideNav-toggler-closer" aria-haspopup="true" aria-expanded="false" aria-controls="sideNav" aria-label="Toggle Header" data-target="#sideNav">
-                <i className="hs-icon hs-icon-close"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-        {/* <!-- End Shortcode Sidebar Navigation --> */}
+        <Header isTransparent={false}></Header>
 
         <section className="g-my-20 g-mb-100">
           <div className="container">
             <div className="row">
 
-              {/* <!-- Profle Content --> */}
-              <div className="col-lg">
+              {/* <!-- Sidebar --> */}
+              <div className="col-lg-3 g-mb-50 g-mb-0--lg">
+                
+                {/* <!-- Sidebar Navigation --> */}
+                <div className="list-group list-group-border-0 g-mb-40">                  
+
+                  {/* <!-- Comments --> */}
+                  <a href="page-profile-comments-1.html" className="list-group-item justify-content-between active">
+                    <span><i className="icon-bubbles g-pos-rel g-top-1 g-mr-8"></i> Comments</span>
+                    <span className="u-label g-font-size-11 g-bg-primary g-rounded-20 g-px-8">24</span>
+                  </a>
+                  {/* <!-- End Comments --> */}
+
+                  {/* <!-- Comments --> */}
+                  <a href="page-profile-comments-1.html" className="list-group-item justify-content-between">
+                    <span><i className="icon-bubbles g-pos-rel g-top-1 g-mr-8"></i> Comments</span>
+                  </a>
+                  {/* <!-- End Comments --> */}
+
+                  {/* <!-- Comments --> */}
+                  <a href="page-profile-comments-1.html" className="list-group-item justify-content-between">
+                    <span><i className="icon-bubbles g-pos-rel g-top-1 g-mr-8"></i> Comments</span>
+                  </a>
+                  {/* <!-- End Comments --> */}
+
+                </div>
+                {/* <!-- End Sidebar Navigation --> */}
+                
+              </div>
+              {/* <!-- End Sidebar --> */}
+              
+              {/* <!-- Content --> */}
+              <div className="col-lg-9">
 
                 {/* <!-- Panel Header --> */}
                 <div className="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15">
@@ -219,9 +201,11 @@ class Messages extends React.Component {
                 {/* <!-- End Panel Header --> */}
 
                 <div className="js-scrollbar g-height-350 g-brd-around g-brd-gray-light-v4 rounded g-pa-20 g-mb-30">
+
                   {/* <!-- Comments --> */}
                   {listItems}
                   {/* <!-- End Comments --> */}
+
                 </div>
 
                 {/* <!-- New Message --> */}
@@ -237,7 +221,7 @@ class Messages extends React.Component {
                 {/* <!-- End New Message --> */}
                 
               </div>
-              {/* <!-- End Profle Content --> */}
+              {/* <!-- End Content --> */}
             </div>
           </div>
         </section>

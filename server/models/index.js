@@ -11,5 +11,7 @@ module.exports.connect = (uri) => {
   });
 
   // load models
+  require('./channelModel');
+  require('./messageModel');
   require('./userModel');
 };

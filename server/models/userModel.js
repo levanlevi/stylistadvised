@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 
 // define the User model schema
-const userModel = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   fname: { type: String },
   lname: { type: String },
   name: { type: String },
@@ -21,14 +21,14 @@ const userModel = new mongoose.Schema({
  * @param {string} password
  * @returns {object} callback
  */
-userModel.methods.comparePassword = function comparePassword(password, callback) {
+userSchema.methods.comparePassword = function comparePassword(password, callback) {
   bcrypt.compare(password, this.password, callback);
 };
 
 /**
  * The pre-save hook method.
  */
-userModel.pre('save', function saveHook(next) {
+userSchema.pre('save', function saveHook(next) {
   const user = this;
 
   // proceed further only if the password is modified or the user is new
@@ -54,4 +54,4 @@ userModel.pre('save', function saveHook(next) {
   });
 });
 
-module.exports = mongoose.model('Users', userModel);
+module.exports = mongoose.model('Users', userSchema);
