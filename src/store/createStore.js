@@ -48,4 +48,4 @@ const createStore = (initialState = {}) => {
   return store;
 }
 
-export default createStore
+export default createStore;

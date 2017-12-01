@@ -107,6 +107,9 @@ $(document).on('ready', function () {
     }
   });
 
+  // initialization of HSScrollBar component
+  $.HSCore.components.HSScrollBar.init( $('.js-scrollbar') );
+
   // initialization of tabs
   $.HSCore.components.HSTabs.init('[role="tablist"]');
 

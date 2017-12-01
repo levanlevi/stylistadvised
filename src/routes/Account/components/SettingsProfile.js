@@ -13,7 +13,7 @@ class SettingsProfile extends React.Component {
 
     this.state = {
       user: this.props.user,
-      savedUser: jQuery.extend(true, {}, this.props.user),
+      savedUser: { ...this.props.user },
     };
 
     this.changeUser = this.changeUser.bind(this);

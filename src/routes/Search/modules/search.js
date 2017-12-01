@@ -1,7 +1,8 @@
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const SEARCH_USERS_RECEIVED = 'SEARCH_USERS_RECEIVED';
+export const SEARCH_GET_USERS_START = 'SEARCH_GET_USERS_START';
+export const SEARCH_GET_USERS_END = 'SEARCH_GET_USERS_END';
 
 import auth from '../../auth/modules/auth';
 
@@ -12,6 +13,9 @@ const config = require('../../../../config');
 // ------------------------------------
 function getUsers() {
   return async (dispatch) => {
+    
+    dispatch({ type: SEARCH_GET_USERS_START, payload: { users: [], }});
+
     try {
       const url = config.serverUrl + '/api/users/';
       const response = await fetch(
@@ -23,7 +27,7 @@ function getUsers() {
       );
       const users = await response.json();
 
-      dispatch({ type: SEARCH_USERS_RECEIVED, payload: users });
+      dispatch({ type: SEARCH_GET_USERS_END, payload: { users: users, }});
     } catch (error) {
       //dispatch(addToast('danger', 'An error occurred while updating the place.'));
     }
@@ -38,13 +42,16 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SEARCH_USERS_RECEIVED]: (state, action) => state = action.payload,
+  [SEARCH_GET_USERS_START]: (state, action) => state = action.payload,
+  [SEARCH_GET_USERS_END]: (state, action) => state = action.payload,
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = [];
+const initialState = {
+  users: [],
+};
 
 export default function reducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type];
