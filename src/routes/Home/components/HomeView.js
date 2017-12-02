@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+import auth from '../../auth/modules/auth';
 import Header from '../../Parts/Header';
+
+import DefaultUserPicture from '../../../assets/defaultUserPicture.jpg';
 
 import transparentImage from '../assets/transparent.png';
 import rightImage from '../assets/first.jpg';
 import leftImage from '../assets/second.jpg';
-
-import auth from '../../auth/modules/auth';
 
 class HomeView extends React.Component {
   
@@ -298,6 +299,71 @@ class HomeView extends React.Component {
             </div>
           </div>
         </section>
+
+        {/* <!-- Footer --> */}
+        <footer>
+          <div className="g-bg-dark-light-v1">
+            <div className="container g-pt-30">
+              <div className="row align-items-center">
+                <div className="col-md-4 text-center text-md-left g-mb-30">
+                  {/* <!-- Logo --> */}
+                  <a className="g-text-underline--none--hover mr-4" href="home-page-1.html">
+                    <img className="g-width-50" src={DefaultUserPicture} alt="Logo" />
+                  </a>
+                  {/* <!-- End Logo --> */}
+                  <p className="d-inline-block align-middle g-font-size-13 mb-0">&#169; 2017 Stylist advised me.<br />All Rights Reserved.</p>
+                </div>
+
+                <div className="col-md-3 g-mb-30">
+                  {/* <!-- Social Icons --> */}
+                  <ul className="list-inline text-center mb-0">
+                    <li className="list-inline-item">
+                      <a className="u-icon-v3 u-icon-size--sm g-color-gray-light-v1 g-color-primary--hover g-bg-transparent g-bg-main--hover rounded" href="#"><i className="fa fa-facebook"></i></a>
+                    </li>
+                    <li className="list-inline-item">
+                      <a className="u-icon-v3 u-icon-size--sm g-color-gray-light-v1 g-color-primary--hover g-bg-transparent g-bg-main--hover rounded" href="#"><i className="fa fa-twitter"></i></a>
+                    </li>
+                    <li className="list-inline-item">
+                      <a className="u-icon-v3 u-icon-size--sm g-color-gray-light-v1 g-color-primary--hover g-bg-transparent g-bg-main--hover rounded" href="#"><i className="fa fa-pinterest"></i></a>
+                    </li>
+                    <li className="list-inline-item">
+                      <a className="u-icon-v3 u-icon-size--sm g-color-gray-light-v1 g-color-primary--hover g-bg-transparent g-bg-main--hover rounded" href="#"><i className="fa fa-instagram"></i></a>
+                    </li>
+                    <li className="list-inline-item">
+                      <a className="u-icon-v3 u-icon-size--sm g-color-gray-light-v1 g-color-primary--hover g-bg-transparent g-bg-main--hover rounded" href="#"><i className="fa fa-youtube"></i></a>
+                    </li>
+                  </ul>
+                  {/* <!-- End Social Icons --> */}
+                </div>
+
+                <div className="col-md-5 g-mb-30 text-right">
+                  <div className="d-inline-block g-mx-15">
+                    <h4 className="g-color-text g-font-size-11 text-left text-uppercase">Email</h4>
+                    <a href="#">StylistAdvisedMe@gmail.com</a>
+                  </div>
+                  <div className="d-inline-block g-mx-15">
+                    <h4 className="g-color-text g-font-size-11 text-left text-uppercase">Phone</h4>
+                    <a href="#">(0161) 347 8854</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+        {/* <!-- End Footer --> */}
+
+        {/* <!-- Go to Top --> */}
+        <a
+          className="js-go-to u-go-to-v1 g-width-40 g-height-40 g-color-primary g-bg-main-opacity-0_5 g-bg-main--hover g-bg-main--focus g-font-size-12 rounded" 
+          href="#" 
+          data-type="fixed" 
+          data-position='{ "bottom": 15, "right": 15 }' 
+          data-offset-top="400" 
+          data-compensation="#js-header" 
+          data-show-effect="zoomIn">
+            <i className="hs-icon hs-icon-arrow-top"></i>
+          </a>
+        {/* <!-- End Go to Top --> */}
       </div>
     )
   }
