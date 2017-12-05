@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import moment from 'moment';
 import uuid from 'node-uuid';
 
+const _ = require('underscore');
 const io = require('socket.io-client');
 const config = require('../../../../config');
 
@@ -28,7 +29,7 @@ class Messages extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log(this);
+
     this.state = {
       channels: [
         { name: '1', id: '1', private: true, between: [ { _id: '1', name: 'flatorez' }, { _id: '2', name: 'snowFlake' } ], },
@@ -45,6 +46,7 @@ class Messages extends React.Component {
         { id: '7', channelId: '2', text: 'How are you?', user: { _id: '1', name: 'flatorez' }, time: 'Dec 1, 2017 6:17 PM' },
         { id: '8', channelId: '2', text: 'I am fine, thanks!', user: { _id: '3', name: 'velhover' }, time: 'Dec 1, 2017 6:18 PM' },
       ],
+      files: [],
       newMessage: '',
       activeChannel: 1,
       user: {
@@ -111,6 +113,7 @@ class Messages extends React.Component {
       time: moment.utc().format('lll')
     };
     // socket.emit('new message', newMessage);
+    console.log("Files: %s", this.state.files.length);
     console.log(newMessage);
     console.log('New message: %s, was sent!', this.state.newMessage);
   }
@@ -126,7 +129,8 @@ class Messages extends React.Component {
   }
 
   onSelectFile = (event) => {
-    if (event.target.files && event.target.files[0]) {
+    if (event.target.files && event.target.files[0]) {      
+      this.setState({ files: [ ...this.state.files, event.target.files[0] ] });
 
       // const user = this.state.user;
 
@@ -143,6 +147,17 @@ class Messages extends React.Component {
       // }
 
       // reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+
+  onFileDelete = (fileToDelete) => {
+    const files = this.state.files.slice();    
+    const file = _.findWhere(files, { name: fileToDelete.name });
+
+    if (file) {
+      files.splice(files.indexOf(file), 1);
+
+      this.setState({ files: files });
     }
   }
 
@@ -178,13 +193,27 @@ class Messages extends React.Component {
           <div className="d-flex align-items-start g-mb-15 g-mb-10--sm">
             <div className="d-block">
               <h5 className="h6">{message.user.name}</h5>
-              <span className="d-block g-color-gray-dark-v5 g-font-size-11">{message.user.time}</span>
+              <span className="d-block g-color-gray-dark-v5 g-font-size-11">{message.time}</span>
             </div>
           </div>
 
           <p>{message.text}</p>
         </div>
       </div>
+    );
+
+    const files = this.state.files.map((file, index) =>
+      <tr key={index}>
+        <td className="align-middle text-nowrap text-center" width="10%">
+          <img className="g-brd-around g-brd-gray-light-v4 g-pa-2 g-width-50 g-height-50 rounded-circle" src={DefaultUserPicture} data-toggle="tooltip" data-placement="top" data-original-title="Pixeel Ltd" alt="Image Description" />
+        </td>
+        <td className="align-middle" width="80%">{file.name}</td>                              
+        <td className="align-middle text-nowrap text-center" width="10%">                                
+          <a onClick={() => this.onFileDelete(file)} className="g-color-gray-dark-v5 g-text-underline--none--hover g-pa-5" data-toggle="tooltip" data-placement="top" data-original-title="Delete">
+            <i className="icon-trash g-font-size-18 g-mr-7"></i>
+          </a>
+        </td>
+      </tr>
     );
 
     return (
@@ -248,11 +277,21 @@ class Messages extends React.Component {
                 {/* <!-- New Message --> */}
                 <div>
                   <div className="g-mb-30">
+                    <div className="row g-mx-0">
+                      <div className="table-responsive">
+                        <table className="table table-bordered u-table--v2">                          
+                          <tbody>
+                            {files}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
                     <div className="input-group g-brd-primary--focus">
                       <textarea onChange={this.changeMessage} className="form-control form-control-md border-right-0 g-resize-none rounded-0 pr-0" rows="4" placeholder="Your message..."></textarea>
                       <div className="input-group-addon d-flex justify-content-start g-color-gray-light-v1 g-bg-white rounded-0 g-py-12">
                         <label className="u-file-attach-v2 g-color-gray-dark-v5 mb-0">
-                          <input onChange={this.selectFile} id="fileAttachment" name="file-attachment" type="file" />
+                          <input onChange={this.onSelectFile} id="fileAttachment" name="file-attachment" type="file" />
                           <i className="icon-cloud-upload g-font-size-16 g-pos-rel g-top-2 g-mr-5"></i>
                           <span className="js-value">Attach file</span>
                         </label>
