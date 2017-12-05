@@ -1,7 +1,7 @@
 import { injectReducer } from '../../store/reducers';
 
 export default (store) => ({
-  path: 'messages/:id',
+  path: 'messages/:id(/:channel)',
   getComponent (nextState, cb) {
     require.ensure([], (require) => {
       const Messages = require('./containers/MessagesContainer').default;

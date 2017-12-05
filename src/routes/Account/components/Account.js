@@ -46,18 +46,13 @@ class Account extends React.Component {
       }
     };
     
-    this.changeUserPicture = this.changeUserPicture.bind(this);
-    this.selectPicture = this.selectPicture.bind(this);
+    this.onSelectPicture = this.onSelectPicture.bind(this);
     this.showUserContacts = this.showUserContacts.bind(this);
     this.showUserSettings = this.showUserSettings.bind(this);
     this.updateUser = this.updateUser.bind(this);
   }  
 
-  changeUserPicture() {
-    this.refs.fileUploader.click();
-  }
-
-  selectPicture(event) {
+  onSelectPicture(event) {
     if (event.target.files && event.target.files[0]) {
       const user = this.state.user;
 
@@ -65,9 +60,10 @@ class Account extends React.Component {
       var self = this;
 
       reader.onload = function (e) {
-        self.setState({ 
-          user: { fname: user.fname, lname: user.lname, picture: e.target.result }
-        }, function() {
+        const user = self.state.user;
+        user.picture = e.target.result;
+
+        self.setState({ user }, function() {
           self.props.user.picture = self.state.user.picture;
           self.props.submit(self.props.user);
         });
@@ -137,10 +133,10 @@ class Account extends React.Component {
                       {/* <!-- Figure Social Icons --> */}
                       <ul className="list-inline text-center g-flex-middle-item--bottom g-mb-20">                        
                         <li className="list-inline-item align-middle g-mx-7">
-                          <a onClick={this.changeUserPicture} className="u-icon-v1 u-icon-size--md g-color-white" href="#">
-                            <i className="et-icon-upload"></i>
-                          </a>
-                          <input onChange={this.selectPicture} type="file" id="file" ref="fileUploader" style={{display: "none"}} />
+                          <label className="u-file-attach-v2 g-color-gray-dark-v5 mb-0">
+                            <input onChange={this.onSelectPicture} id="fileAttachment" name="file-attachment" type="file" />
+                            <i className="icon-cloud-upload g-font-size-16 g-pos-rel g-top-2 g-mr-5"></i>                            
+                          </label>
                         </li>
                       </ul>
                       {/* <!-- End Figure Social Icons --> */}
