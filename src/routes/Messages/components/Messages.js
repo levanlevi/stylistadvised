@@ -71,6 +71,8 @@ class Messages extends React.Component {
     // initialization of forms
     $.HSCore.components.HSFileAttachment.init('.js-file-attachment');
     $.HSCore.helpers.HSFocusState.init();
+    // Form Focus
+    $.HSCore.helpers.HSFocusState.init();
   }
 
   emit(eventName, payload) {
