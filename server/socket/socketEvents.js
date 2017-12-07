@@ -24,7 +24,8 @@ var socketEvents = function(io) {
       var newMember = {
         id: this.id,
         name: payload.name,
-        type: 'audience'
+        type: 'audience',
+        socketId: this.id,
       };
   
       this.emit('joined', newMember);
@@ -32,7 +33,27 @@ var socketEvents = function(io) {
       io.sockets.emit('audience', audience);
       console.log("Audience Joined: %s", payload.name);
     });
-  
+
+    socket.on('new message', function(msg) {
+      socket.broadcast.to(msg.channelId).emit('new bc message', msg);
+    });
+
+    socket.on('typing', function (data) {
+      socket.broadcast.to(data.channel).emit('typing bc', data.user);
+    });
+
+    socket.on('stop typing', function (data) {
+      socket.broadcast.to(data.channel).emit('stop typing bc', data.user);
+    });
+
+    socket.on('new private channel', function(data) {
+      socket.broadcast.to(data.socketId).emit('receive private channel', data.channel);
+    });
+
+    socket.on('join channel', function(channel) {
+      socket.join(channel.name)
+    });
+
     connections.push(socket);
     console.log("Connected: %s sockets connected.", connections.length);
   });

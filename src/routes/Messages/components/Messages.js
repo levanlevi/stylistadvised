@@ -21,6 +21,14 @@ const evenMediaStyle = 'media g-brd-top g-brd-gray-light-v4 g-pt-30 g-ml-40 g-mb
 const aActiveStyle = 'active d-block u-link-v5 g-brd-left g-brd-3 g-brd-transparent g-brd-primary--hover g-brd-primary--active g-color-main g-color-primary--hover g-color-primary--active g-bg-secondary g-font-weight-600 g-px-20 g-pl-25--hover g-pl-25--active g-py-12';
 const aStyle = 'd-block u-link-v5 g-brd-left g-brd-3 g-brd-transparent g-brd-primary--hover g-brd-primary--active g-color-main g-color-primary--hover g-color-primary--active g-bg-secondary g-font-weight-600 g-px-20 g-pl-25--hover g-pl-25--active g-py-12';
 
+const awaySpanStyle = 'u-badge-v2--xs g-bg-yellow g-brd-around g-brd-white g-mt-7 g-mr-7';
+const onlineSpanStyle = 'u-badge-v2--xs g-bg-green g-brd-around g-brd-white g-mt-7 g-mr-7';
+const offlineSpanStyle = 'u-badge-v2--xs g-bg-red g-brd-around g-brd-white g-mt-7 g-mr-7';
+
+const away = 'away';
+const online = 'online';
+const offline = 'offline';
+
 class Messages extends React.Component {
   static propTypes = {
     channels: PropTypes.array,
@@ -31,15 +39,16 @@ class Messages extends React.Component {
     super(props);
 
     this.state = {
+      audience: [],
       channels: [
-        { name: '1', id: '1', private: true, between: [ { _id: '1', name: 'flatorez' }, { _id: '2', name: 'snowFlake' } ], },
-        { name: '2', id: '2', private: true, between: [ { _id: '1', name: 'flatorez' }, { _id: '3', name: 'velhover' } ], },
+        { name: '1', id: '1', private: true, between: [ { _id: '1', name: 'flatorez' }, { _id: '2', name: 'SnowFlake' } ], status: offline, lastMessage: { id: '4', channelId: '1', text: 'I am fine, thanks!', user: { _id: '2', name: 'SnowFlake' }, time: 'Dec 1, 2017 6:18 PM' }, },
+        { name: '2', id: '2', private: true, between: [ { _id: '1', name: 'flatorez' }, { _id: '3', name: 'velhover' } ], status: offline, lastMessage: { id: '8', channelId: '2', text: 'I am fine, thanks!', user: { _id: '3', name: 'velhover' }, time: 'Dec 1, 2017 6:18 PM' }, },
       ],
       messages: [
         { id: '1', channelId: '1', text: 'Hi!', user: { _id: '1', name: 'flatorez' }, time: 'Dec 1, 2017 6:16 PM' },
-        { id: '2', channelId: '1', text: 'Good evening!', user: { _id: '2', name: 'snowFlake' }, time: 'Dec 1, 2017 6:17 PM' },
+        { id: '2', channelId: '1', text: 'Good evening!', user: { _id: '2', name: 'SnowFlake' }, time: 'Dec 1, 2017 6:17 PM' },
         { id: '3', channelId: '1', text: 'How are you?', user: { _id: '1', name: 'flatorez' }, time: 'Dec 1, 2017 6:17 PM' },
-        { id: '4', channelId: '1', text: 'I am fine, thanks!', user: { _id: '2', name: 'snowFlake' }, time: 'Dec 1, 2017 6:18 PM' },
+        { id: '4', channelId: '1', text: 'I am fine, thanks!', user: { _id: '2', name: 'SnowFlake' }, time: 'Dec 1, 2017 6:18 PM' },
 
         { id: '5', channelId: '2', text: 'Good evening!', user: { _id: '1', name: 'flatorez' }, time: 'Dec 1, 2017 6:16 PM' },
         { id: '6', channelId: '2', text: 'Hello!', user: { _id: '3', name: 'velhover' }, time: 'Dec 1, 2017 6:17 PM' },
@@ -48,7 +57,7 @@ class Messages extends React.Component {
       ],
       files: [],
       newMessage: '',
-      activeChannel: 1,
+      activeChannel: {},
       user: {
         name: auth.isUserAuthenticated() ? JSON.parse(auth.getUser()).name : null,        
         picture: (auth.isUserAuthenticated() && JSON.parse(auth.getUser()).picture) ? JSON.parse(auth.getUser()).picture : DefaultUserPicture,
@@ -62,7 +71,10 @@ class Messages extends React.Component {
     this.socket.on('disconnect', this.disconnect);
 
     this.socket.on('joined', this.joined);
-    this.socket.on('audience', this.updateAudience);    
+    this.socket.on('audience', this.updateAudience);
+
+    this.socket.on('new bc message', this.receiveRawMessage);
+    this.socket.on('receive private channel', this.receiveRawChannel);
   }
 
   componentDidMount() {
@@ -72,14 +84,24 @@ class Messages extends React.Component {
     $.HSCore.components.HSFileAttachment.init('.js-file-attachment');
     $.HSCore.helpers.HSFocusState.init();
     // Form Focus
-    $.HSCore.helpers.HSFocusState.init();
+    $.HSCore.helpers.HSFocusState.init();    
   }
 
   emit(eventName, payload) {
     this.socket.emit(eventName, payload);
   }
 
-  connect() {    
+  receiveRawMessage = (msg) => {
+    console.log(msg);
+  }
+
+  receiveRawChannel = (channel) => {
+    this.setState({ activeChannel: channel });
+
+    this.emit('join channel', channel);
+  }
+
+  connect = () => {    
     var member = (sessionStorage.member) ? JSON.parse(sessionStorage.member) : null;
     
     if (member) {
@@ -89,39 +111,75 @@ class Messages extends React.Component {
     }
   }
 
-  disconnect() {
+  disconnect = () => {
     console.log('disconnected');
   }
 
-  joined(member) {
-    sessionStorage.member = JSON.stringify(member);
-    console.log(member);
+  joined = (member) => {
+    sessionStorage.member = JSON.stringify(member);    
   }
 
-  updateAudience(newAudience) {
-    console.log(newAudience);
+  changeActiveChannel = (channel) => {
+    this.emit('leave channel', activeChannel);
+    this.emit('join channel', channel);
+  }
+
+  updateAudience = (audience) => {
+    let channels = this.state.channels.slice();
+    channels.map(channel => {
+      let otherUser = _.first(_.filter(channel.between, user => { return user.name !== this.state.user.name; }));
+      let user = _.findWhere(audience, { name: otherUser.name });
+
+      channel.status = user ? online : away;
+    })
+
+    this.setState({ audience: audience });
+    this.setState({ channels: channels });
   }
 
   changeMessage = (event) => {
-    this.setState({ newMessage:  event.target.value});
+    this.setState({ newMessage: event.target.value});
+  }
+
+  test = () => {
+    let currentUser = { _id: '1', name: 'flatorez' };
+    let targetUser = { _id: '3', name: 'velhover' };
+
+    let otherUser = _.first(_.filter(this.state.audience, user => { return user.name !== this.state.user.name; }));
+
+    const newChannel = {
+      name: `${currentUser.name}+${targetUser.name}`,
+      id: Date.now(),
+      private: true,
+      between: [{ _id: '1', name: 'flatorez' }, { _id: '3', name: 'velhover' }]
+    };
+
+    this.emit('new private channel', { socketId : otherUser.socketId, channel: newChannel, });
+    
+    this.setState({ activeChannel: newChannel });
+
+    this.emit('join channel', newChannel);
   }
 
   sendMessage = () => {
     const newMessage = {
       id: `${Date.now()}${uuid.v4()}`,
-      channelId: this.state.activeChannel,
+      channelId: this.state.activeChannel.name,
       text: this.state.newMessage,
       user: this.state.user,
       time: moment.utc().format('lll')
     };
-    // socket.emit('new message', newMessage);
-    console.log("Files: %s", this.state.files.length);
-    console.log(newMessage);
-    console.log('New message: %s, was sent!', this.state.newMessage);
+
+    this.emit('new message', newMessage);
+    // this.emit('stop typing', { user: user.username, channel: activeChannel });
+
+    // console.log("Files: %s", this.state.files.length);
+    // console.log(newMessage);
+    // console.log('New message: %s, was sent!', this.state.newMessage);
   }
 
   onSelectChannel = (event) => {
-    console.log(event);
+    this.test();
 
     // const field = event.target.name;
     // const user = this.state.user;
@@ -163,6 +221,22 @@ class Messages extends React.Component {
     }
   }
 
+  getChannelStatus(channel) {
+    if (away === channel.status) {
+      return awaySpanStyle;
+    } else if (online === channel.status) {
+      return onlineSpanStyle;
+    } else {
+      return offlineSpanStyle;
+    }
+  }
+
+  getChannelUser(channel) {
+    let otherUser = _.first(_.filter(channel.between, user => { return user.name !== this.state.user.name; }));
+
+    return otherUser;
+  }
+
   render () {
     const channelId = this.props.routeParams.channel;
     const rootLink = channelId ? '' : this.props.routeParams.id + '/';
@@ -175,12 +249,12 @@ class Messages extends React.Component {
             href={`${rootLink}${channel.id}`}>
             <div className="media">
               <div className="g-pos-rel g-mr-5">
-                <span className="u-badge-v2--xs g-bg-green g-brd-around g-brd-white g-mt-7 g-mr-7"></span>
+                <span className={this.getChannelStatus(channel)}></span>
                 <img className="g-width-50 g-height-50 rounded-circle" src={DefaultUserPicture} alt="Image Description" />
               </div>
               <div className="media-body">
-                <p className="m-0"><strong>James Coolman</strong> saved your pin</p>
-                <span className="g-font-size-12 g-color-gray">5 minutes ago</span>
+                <p className="m-0"><strong>{this.getChannelUser(channel).name}</strong> {channel.lastMessage.text}</p>
+                <span className="g-font-size-12 g-color-gray">{channel.lastMessage.time}</span>
               </div>
             </div>
           </a>
