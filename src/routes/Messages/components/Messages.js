@@ -13,6 +13,10 @@ import auth from '../../auth/modules/auth';
 import Display from '../../Parts/Display';
 import Header from '../../Parts/Header';
 
+import ChannelItem from './ChannelItem';
+import FileItem from './FileItem';
+import MessageItem from './MessageItem';
+
 import DefaultUserPicture from '../../../assets/defaultUserPicture.jpg';
 
 const oddMediaStyle = 'media g-brd-top g-brd-gray-light-v4 g-pt-30 g-mb-30';
@@ -39,30 +43,34 @@ class Messages extends React.Component {
     super(props);
 
     this.state = {
+      activeChannel: null,
       audience: [],
       channels: [
-        { name: '1', id: '1', private: true, between: [ { _id: '1', name: 'flatorez' }, { _id: '2', name: 'SnowFlake' } ], status: offline, lastMessage: { id: '4', channelId: '1', text: 'I am fine, thanks!', user: { _id: '2', name: 'SnowFlake' }, time: 'Dec 1, 2017 6:18 PM' }, },
-        { name: '2', id: '2', private: true, between: [ { _id: '1', name: 'flatorez' }, { _id: '3', name: 'velhover' } ], status: offline, lastMessage: { id: '8', channelId: '2', text: 'I am fine, thanks!', user: { _id: '3', name: 'velhover' }, time: 'Dec 1, 2017 6:18 PM' }, },
+        { name: '1', id: '59eca251f0626a17ad08ddd2+59eca2d1f0626a17ad08ddd3', private: true, between: [ { _id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, { _id: '59eca2d1f0626a17ad08ddd3', name: 'SnowFlake' } ], status: offline, isActiveChannel: false, lastMessage: { id: '4', channelId: '1', text: 'I am fine, thanks!', user: { _id: '2', name: 'SnowFlake' }, time: 'Dec 1, 2017 6:18 PM' }, },
+        { name: '2', id: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', private: true, between: [ { _id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, { _id: '5a2928767ce45202194fba23', name: 'velhover' } ], status: offline, isActiveChannel: false, lastMessage: { id: '8', channelId: '2', text: 'I am fine, thanks!', user: { _id: '3', name: 'velhover' }, time: 'Dec 1, 2017 6:18 PM' }, },
       ],
       messages: [
-        { id: '1', channelId: '1', text: 'Hi!', user: { _id: '1', name: 'flatorez' }, time: 'Dec 1, 2017 6:16 PM' },
-        { id: '2', channelId: '1', text: 'Good evening!', user: { _id: '2', name: 'SnowFlake' }, time: 'Dec 1, 2017 6:17 PM' },
-        { id: '3', channelId: '1', text: 'How are you?', user: { _id: '1', name: 'flatorez' }, time: 'Dec 1, 2017 6:17 PM' },
-        { id: '4', channelId: '1', text: 'I am fine, thanks!', user: { _id: '2', name: 'SnowFlake' }, time: 'Dec 1, 2017 6:18 PM' },
+        { id: '1', channelId: '59eca251f0626a17ad08ddd2+59eca2d1f0626a17ad08ddd3', text: 'Hi!', user: { _id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, time: 'Dec 1, 2017 6:16 PM' },
+        { id: '2', channelId: '59eca251f0626a17ad08ddd2+59eca2d1f0626a17ad08ddd3', text: 'Good evening!', user: { _id: '59eca2d1f0626a17ad08ddd3', name: 'SnowFlake' }, time: 'Dec 1, 2017 6:17 PM' },
+        { id: '3', channelId: '59eca251f0626a17ad08ddd2+59eca2d1f0626a17ad08ddd3', text: 'How are you?', user: { _id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, time: 'Dec 1, 2017 6:17 PM' },
+        { id: '4', channelId: '59eca251f0626a17ad08ddd2+59eca2d1f0626a17ad08ddd3', text: 'I am fine, thanks!', user: { _id: '59eca2d1f0626a17ad08ddd3', name: 'SnowFlake' }, time: 'Dec 1, 2017 6:18 PM' },
 
-        { id: '5', channelId: '2', text: 'Good evening!', user: { _id: '1', name: 'flatorez' }, time: 'Dec 1, 2017 6:16 PM' },
-        { id: '6', channelId: '2', text: 'Hello!', user: { _id: '3', name: 'velhover' }, time: 'Dec 1, 2017 6:17 PM' },
-        { id: '7', channelId: '2', text: 'How are you?', user: { _id: '1', name: 'flatorez' }, time: 'Dec 1, 2017 6:17 PM' },
-        { id: '8', channelId: '2', text: 'I am fine, thanks!', user: { _id: '3', name: 'velhover' }, time: 'Dec 1, 2017 6:18 PM' },
+        { id: '5', channelId: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', text: 'Good evening!', user: { _id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, time: 'Dec 1, 2017 6:16 PM' },
+        { id: '6', channelId: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', text: 'Hello!', user: { _id: '5a2928767ce45202194fba23', name: 'velhover' }, time: 'Dec 1, 2017 6:17 PM' },
+        { id: '7', channelId: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', text: 'Nice to see you!', user: { _id: '5a2928767ce45202194fba23', name: 'velhover' }, time: 'Dec 1, 2017 6:17 PM' },
+        { id: '8', channelId: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', text: 'How are you?', user: { _id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, time: 'Dec 1, 2017 6:17 PM' },
+        { id: '9', channelId: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', text: 'I am fine, thanks!', user: { _id: '5a2928767ce45202194fba23', name: 'velhover' }, time: 'Dec 1, 2017 6:18 PM' },
       ],
       files: [],
       newMessage: '',
-      activeChannel: {},
       user: {
-        name: auth.isUserAuthenticated() ? JSON.parse(auth.getUser()).name : null,        
+        id: auth.isUserAuthenticated() ? auth.getUserId() : null,
+        name: auth.isUserAuthenticated() ? JSON.parse(auth.getUser()).name : null,
         picture: (auth.isUserAuthenticated() && JSON.parse(auth.getUser()).picture) ? JSON.parse(auth.getUser()).picture : DefaultUserPicture,
       },
     };
+
+    this.updateAudience = this.updateAudience.bind(this);
   }
 
   componentWillMount() {
@@ -82,17 +90,19 @@ class Messages extends React.Component {
     $.HSCore.components.HSScrollBar.init( $('.js-scrollbar') );
     // initialization of forms
     $.HSCore.components.HSFileAttachment.init('.js-file-attachment');
-    $.HSCore.helpers.HSFocusState.init();
     // Form Focus
-    $.HSCore.helpers.HSFocusState.init();    
+    $.HSCore.helpers.HSFocusState.init();
   }
 
   emit(eventName, payload) {
     this.socket.emit(eventName, payload);
   }
 
-  receiveRawMessage = (msg) => {
-    console.log(msg);
+  receiveRawMessage = (message) => {
+    const messages = this.state.messages.slice();
+    messages.push(message);
+
+    this.setState({ messages: messages });
   }
 
   receiveRawChannel = (channel) => {
@@ -107,7 +117,7 @@ class Messages extends React.Component {
     if (member) {
       this.emit('join', member);
     } else {
-      this.emit('join', { name: this.state.user.name });
+      this.emit('join', { id: this.state.user.id, name: this.state.user.name });
     }
   }
 
@@ -124,11 +134,11 @@ class Messages extends React.Component {
     this.emit('join channel', channel);
   }
 
-  updateAudience = (audience) => {
+  updateAudience(audience) {console.log(audience);
     let channels = this.state.channels.slice();
     channels.map(channel => {
-      let otherUser = _.first(_.filter(channel.between, user => { return user.name !== this.state.user.name; }));
-      let user = _.findWhere(audience, { name: otherUser.name });
+      let otherUser = _.first(_.filter(channel.between, user => { return this.state.user.id !== user._id; }));
+      let user = _.findWhere(audience, { id: otherUser._id });
 
       channel.status = user ? online : away;
     })
@@ -138,20 +148,24 @@ class Messages extends React.Component {
   }
 
   changeMessage = (event) => {
-    this.setState({ newMessage: event.target.value});
+    this.setState({ newMessage: event.target.value });
   }
 
-  test = () => {
-    let currentUser = { _id: '1', name: 'flatorez' };
-    let targetUser = { _id: '3', name: 'velhover' };
+  initNewPrivateChannel = (channelId) => {
+    let otherUser = _.first(_.filter(this.state.audience, user => { return this.state.user.id !== user.id; }));
+    if (!otherUser) {
+      return;
+    }
 
-    let otherUser = _.first(_.filter(this.state.audience, user => { return user.name !== this.state.user.name; }));
+    let selectedChannel = _.first(_.filter(this.state.channels, channel => { return channelId === channel.id; }));
+    let currentUser = _.first(_.filter(selectedChannel.between, user => { return this.state.user.id === user._id; }));
+    let targetUser = _.first(_.filter(selectedChannel.between, user => { return this.state.user.id !== user._id; }));
 
     const newChannel = {
-      name: `${currentUser.name}+${targetUser.name}`,
-      id: Date.now(),
+      id: `${currentUser._id}+${targetUser._id}`,
+      name: `${currentUser.name}+${targetUser.name}`,      
       private: true,
-      between: [{ _id: '1', name: 'flatorez' }, { _id: '3', name: 'velhover' }]
+      between: [ currentUser, targetUser ]
     };
 
     this.emit('new private channel', { socketId : otherUser.socketId, channel: newChannel, });
@@ -164,10 +178,10 @@ class Messages extends React.Component {
   sendMessage = () => {
     const newMessage = {
       id: `${Date.now()}${uuid.v4()}`,
-      channelId: this.state.activeChannel.name,
+      channelId: this.state.activeChannel.id,
       text: this.state.newMessage,
+      time: moment.utc().format('lll'),
       user: this.state.user,
-      time: moment.utc().format('lll')
     };
 
     this.emit('new message', newMessage);
@@ -176,16 +190,21 @@ class Messages extends React.Component {
     // console.log("Files: %s", this.state.files.length);
     // console.log(newMessage);
     // console.log('New message: %s, was sent!', this.state.newMessage);
+
+    this.receiveRawMessage(newMessage);
+
+    this.setState( { newMessage: '' });
   }
 
-  onSelectChannel = (event) => {
-    this.test();
+  onSelectChannel = (channelId) => {
+    this.initNewPrivateChannel(channelId);
 
-    // const field = event.target.name;
-    // const user = this.state.user;
-    // user[field] = event.target.value;
+    let channels = this.state.channels.slice();
+    channels.map(channel => {      
+      channel.isActiveChannel = channelId === channel.id;
+    });
 
-    // this.setState({ user });
+    this.setState({ channels: channels });
   }
 
   onSelectFile = (event) => {
@@ -210,9 +229,9 @@ class Messages extends React.Component {
     }
   }
 
-  onFileDelete = (fileToDelete) => {
-    const files = this.state.files.slice();    
-    const file = _.findWhere(files, { name: fileToDelete.name });
+  onFileDelete = (fileName) => {
+    const files = this.state.files.slice();
+    const file = _.findWhere(files, { name: fileName });
 
     if (file) {
       files.splice(files.indexOf(file), 1);
@@ -238,58 +257,34 @@ class Messages extends React.Component {
   }
 
   render () {
-    const channelId = this.props.routeParams.channel;
-    const rootLink = channelId ? '' : this.props.routeParams.id + '/';
-
     const channels = this.state.channels.map((channel, index) =>
-      <div key={index}>
-        <li className="my-1">
-          <a            
-            className={(channelId && channel.id === channelId) ? aActiveStyle : aStyle} 
-            href={`${rootLink}${channel.id}`}>
-            <div className="media">
-              <div className="g-pos-rel g-mr-5">
-                <span className={this.getChannelStatus(channel)}></span>
-                <img className="g-width-50 g-height-50 rounded-circle" src={DefaultUserPicture} alt="Image Description" />
-              </div>
-              <div className="media-body">
-                <p className="m-0"><strong>{this.getChannelUser(channel).name}</strong> {channel.lastMessage.text}</p>
-                <span className="g-font-size-12 g-color-gray">{channel.lastMessage.time}</span>
-              </div>
-            </div>
-          </a>
-        </li>
-      </div>
+      <ChannelItem
+        key={index}
+        id={channel.id}
+        isActiveChannel={channel.isActiveChannel}
+        status={channel.status}
+        message={channel.lastMessage}
+        userName={this.getChannelUser(channel).name}
+        onSelectChannel={this.onSelectChannel}>
+      </ChannelItem>
     );
 
-    const messages = this.state.messages.filter(f => channelId === f.channelId).map((message, index) =>
-      <div key={index} className={0 === index%2 ? oddMediaStyle : evenMediaStyle}>
-        <img className="d-flex g-width-60 g-height-60 rounded-circle g-mt-3 g-mr-15" src={DefaultUserPicture} alt="Image Description" />
-        <div className="media-body">
-          <div className="d-flex align-items-start g-mb-15 g-mb-10--sm">
-            <div className="d-block">
-              <h5 className="h6">{message.user.name}</h5>
-              <span className="d-block g-color-gray-dark-v5 g-font-size-11">{message.time}</span>
-            </div>
-          </div>
-
-          <p>{message.text}</p>
-        </div>
-      </div>
+    const messages = this.state.messages.filter(f => this.state.activeChannel && this.state.activeChannel.id === f.channelId).map((message, index) =>
+      <MessageItem 
+        key={index}
+        isOddMessage={this.state.user.id === message.user._id}
+        text={message.text}
+        time={message.time}
+        userName={message.user.name}>
+      </MessageItem>
     );
 
     const files = this.state.files.map((file, index) =>
-      <tr key={index}>
-        <td className="align-middle text-nowrap text-center" width="10%">
-          <img className="g-brd-around g-brd-gray-light-v4 g-pa-2 g-width-50 g-height-50 rounded-circle" src={DefaultUserPicture} data-toggle="tooltip" data-placement="top" data-original-title="Pixeel Ltd" alt="Image Description" />
-        </td>
-        <td className="align-middle" width="80%">{file.name}</td>                              
-        <td className="align-middle text-nowrap text-center" width="10%">                                
-          <a onClick={() => this.onFileDelete(file)} className="g-color-gray-dark-v5 g-text-underline--none--hover g-pa-5" data-toggle="tooltip" data-placement="top" data-original-title="Delete">
-            <i className="icon-trash g-font-size-18 g-mr-7"></i>
-          </a>
-        </td>
-      </tr>
+      <FileItem 
+        key={index}
+        name={file.name}
+        onFileDelete={this.onFileDelete}>
+      </FileItem>
     );
 
     return (
@@ -301,13 +296,13 @@ class Messages extends React.Component {
             <div className="row">
 
               {/* <!-- Sidebar --> */}
-              <div className="col-lg-3 g-mb-50 g-mb-0--lg">                
+              <div className="col-lg-3 g-mb-50 g-mb-0--lg">
                 <ul className="list-unstyled g-hidden-md-down mb-5">
-                  {channels}                  
-                </ul>                
+                  {channels}
+                </ul>
               </div>
               {/* <!-- End Sidebar --> */}
-              
+
               {/* <!-- Content --> */}
               <div className="col-lg-9">
 
@@ -346,7 +341,9 @@ class Messages extends React.Component {
 
                 {/* <!-- Messages --> */}
                 <div className="js-scrollbar g-height-350 g-brd-around g-brd-gray-light-v4 rounded g-pa-20 g-mb-30">
-                  {messages}
+                  <div>
+                    {messages}
+                  </div>
                 </div>
                 {/* <!-- End Messages --> */}
 
@@ -364,7 +361,7 @@ class Messages extends React.Component {
                     </div>
 
                     <div className="input-group g-brd-primary--focus">
-                      <textarea onChange={this.changeMessage} className="form-control form-control-md border-right-0 g-resize-none rounded-0 pr-0" rows="4" placeholder="Your message..."></textarea>
+                      <textarea onChange={this.changeMessage} value={this.state.newMessage} className="form-control form-control-md border-right-0 g-resize-none rounded-0 pr-0" rows="4" placeholder="Your message..."></textarea>
                       <div className="input-group-addon d-flex justify-content-start g-color-gray-light-v1 g-bg-white rounded-0 g-py-12">
                         <label className="u-file-attach-v2 g-color-gray-dark-v5 mb-0">
                           <input onChange={this.onSelectFile} id="fileAttachment" name="file-attachment" type="file" />
@@ -380,7 +377,7 @@ class Messages extends React.Component {
                   </div>
                 </div>
                 {/* <!-- End New Message --> */}
-                
+
               </div>
               {/* <!-- End Content --> */}
             </div>

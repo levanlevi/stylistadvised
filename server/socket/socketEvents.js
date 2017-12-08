@@ -22,7 +22,7 @@ var socketEvents = function(io) {
   
     socket.on('join', function(payload) {
       var newMember = {
-        id: this.id,
+        id: payload.id,
         name: payload.name,
         type: 'audience',
         socketId: this.id,
@@ -34,8 +34,8 @@ var socketEvents = function(io) {
       console.log("Audience Joined: %s", payload.name);
     });
 
-    socket.on('new message', function(msg) {
-      socket.broadcast.to(msg.channelId).emit('new bc message', msg);
+    socket.on('new message', function(message) {
+      socket.broadcast.to(message.channelId).emit('new bc message', message);
     });
 
     socket.on('typing', function (data) {
@@ -51,7 +51,7 @@ var socketEvents = function(io) {
     });
 
     socket.on('join channel', function(channel) {
-      socket.join(channel.name)
+      socket.join(channel.id);
     });
 
     connections.push(socket);
