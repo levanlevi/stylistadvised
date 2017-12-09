@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import DefaultUserPicture from '../../../assets/defaultUserPicture.jpg';
@@ -14,7 +14,7 @@ const away = 'away';
 const online = 'online';
 const offline = 'offline';
 
-class ChannelItem extends React.Component {
+export default class ChannelItem extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     isActiveChannel: PropTypes.bool.isRequired,
@@ -64,5 +64,3 @@ class ChannelItem extends React.Component {
     )
   }
 }
-
-export default ChannelItem;

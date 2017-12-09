@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
@@ -33,7 +33,7 @@ const away = 'away';
 const online = 'online';
 const offline = 'offline';
 
-class Messages extends React.Component {
+export default class Messages extends Component {
   static propTypes = {
     channels: PropTypes.array,
     messages: PropTypes.array.isRequired,
@@ -46,20 +46,20 @@ class Messages extends React.Component {
       activeChannel: null,
       audience: [],
       channels: [
-        { name: '1', id: '59eca251f0626a17ad08ddd2+59eca2d1f0626a17ad08ddd3', private: true, between: [ { _id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, { _id: '59eca2d1f0626a17ad08ddd3', name: 'SnowFlake' } ], status: offline, isActiveChannel: false, lastMessage: { id: '4', channelId: '1', text: 'I am fine, thanks!', user: { _id: '2', name: 'SnowFlake' }, time: 'Dec 1, 2017 6:18 PM' }, },
-        { name: '2', id: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', private: true, between: [ { _id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, { _id: '5a2928767ce45202194fba23', name: 'velhover' } ], status: offline, isActiveChannel: false, lastMessage: { id: '8', channelId: '2', text: 'I am fine, thanks!', user: { _id: '3', name: 'velhover' }, time: 'Dec 1, 2017 6:18 PM' }, },
+        { name: 'flatorez+SnowFlake', id: '59eca251f0626a17ad08ddd2+59eca2d1f0626a17ad08ddd3', private: true, between: [ { id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, { id: '59eca2d1f0626a17ad08ddd3', name: 'SnowFlake' } ], status: offline, isActiveChannel: false, lastMessage: { id: '4', channelId: '1', text: 'I am fine, thanks!', user: { id: '59eca2d1f0626a17ad08ddd3', name: 'SnowFlake' }, time: 'Dec 1, 2017 6:18 PM' }, },
+        { name: 'flatorez+velhover', id: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', private: true, between: [ { id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, { id: '5a2928767ce45202194fba23', name: 'velhover' } ], status: offline, isActiveChannel: false, lastMessage: { id: '8', channelId: '2', text: 'I am fine, thanks!', user: { id: '5a2928767ce45202194fba23', name: 'velhover' }, time: 'Dec 1, 2017 6:18 PM' }, },
       ],
       messages: [
-        { id: '1', channelId: '59eca251f0626a17ad08ddd2+59eca2d1f0626a17ad08ddd3', text: 'Hi!', user: { _id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, time: 'Dec 1, 2017 6:16 PM' },
-        { id: '2', channelId: '59eca251f0626a17ad08ddd2+59eca2d1f0626a17ad08ddd3', text: 'Good evening!', user: { _id: '59eca2d1f0626a17ad08ddd3', name: 'SnowFlake' }, time: 'Dec 1, 2017 6:17 PM' },
-        { id: '3', channelId: '59eca251f0626a17ad08ddd2+59eca2d1f0626a17ad08ddd3', text: 'How are you?', user: { _id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, time: 'Dec 1, 2017 6:17 PM' },
-        { id: '4', channelId: '59eca251f0626a17ad08ddd2+59eca2d1f0626a17ad08ddd3', text: 'I am fine, thanks!', user: { _id: '59eca2d1f0626a17ad08ddd3', name: 'SnowFlake' }, time: 'Dec 1, 2017 6:18 PM' },
+        { id: '1', channelId: '59eca251f0626a17ad08ddd2+59eca2d1f0626a17ad08ddd3', text: 'Hi!', user: { id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, time: 'Dec 1, 2017 6:16 PM' },
+        { id: '2', channelId: '59eca251f0626a17ad08ddd2+59eca2d1f0626a17ad08ddd3', text: 'Good evening!', user: { id: '59eca2d1f0626a17ad08ddd3', name: 'SnowFlake' }, time: 'Dec 1, 2017 6:17 PM' },
+        { id: '3', channelId: '59eca251f0626a17ad08ddd2+59eca2d1f0626a17ad08ddd3', text: 'How are you?', user: { id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, time: 'Dec 1, 2017 6:17 PM' },
+        { id: '4', channelId: '59eca251f0626a17ad08ddd2+59eca2d1f0626a17ad08ddd3', text: 'I am fine, thanks!', user: { id: '59eca2d1f0626a17ad08ddd3', name: 'SnowFlake' }, time: 'Dec 1, 2017 6:18 PM' },
 
-        { id: '5', channelId: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', text: 'Good evening!', user: { _id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, time: 'Dec 1, 2017 6:16 PM' },
-        { id: '6', channelId: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', text: 'Hello!', user: { _id: '5a2928767ce45202194fba23', name: 'velhover' }, time: 'Dec 1, 2017 6:17 PM' },
-        { id: '7', channelId: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', text: 'Nice to see you!', user: { _id: '5a2928767ce45202194fba23', name: 'velhover' }, time: 'Dec 1, 2017 6:17 PM' },
-        { id: '8', channelId: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', text: 'How are you?', user: { _id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, time: 'Dec 1, 2017 6:17 PM' },
-        { id: '9', channelId: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', text: 'I am fine, thanks!', user: { _id: '5a2928767ce45202194fba23', name: 'velhover' }, time: 'Dec 1, 2017 6:18 PM' },
+        { id: '5', channelId: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', text: 'Good evening!', user: { id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, time: 'Dec 1, 2017 6:16 PM' },
+        { id: '6', channelId: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', text: 'Hello!', user: { id: '5a2928767ce45202194fba23', name: 'velhover' }, time: 'Dec 1, 2017 6:17 PM' },
+        { id: '7', channelId: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', text: 'Nice to see you!', user: { id: '5a2928767ce45202194fba23', name: 'velhover' }, time: 'Dec 1, 2017 6:17 PM' },
+        { id: '8', channelId: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', text: 'How are you?', user: { id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, time: 'Dec 1, 2017 6:17 PM' },
+        { id: '9', channelId: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', text: 'I am fine, thanks!', user: { id: '5a2928767ce45202194fba23', name: 'velhover' }, time: 'Dec 1, 2017 6:18 PM' },
       ],
       files: [],
       newMessage: '',
@@ -106,7 +106,7 @@ class Messages extends React.Component {
   }
 
   receiveRawChannel = (channel) => {
-    this.setState({ activeChannel: channel });
+    this.onSelectChannel(channel.id);
 
     this.emit('join channel', channel);
   }
@@ -134,11 +134,11 @@ class Messages extends React.Component {
     this.emit('join channel', channel);
   }
 
-  updateAudience(audience) {console.log(audience);
+  updateAudience(audience) {
     let channels = this.state.channels.slice();
     channels.map(channel => {
-      let otherUser = _.first(_.filter(channel.between, user => { return this.state.user.id !== user._id; }));
-      let user = _.findWhere(audience, { id: otherUser._id });
+      let otherUser = _.first(_.filter(channel.between, user => { return this.state.user.id !== user.id; }));
+      let user = _.findWhere(audience, { id: otherUser.id });
 
       channel.status = user ? online : away;
     })
@@ -151,31 +151,38 @@ class Messages extends React.Component {
     this.setState({ newMessage: event.target.value });
   }
 
-  initNewPrivateChannel = (channelId) => {
-    let otherUser = _.first(_.filter(this.state.audience, user => { return this.state.user.id !== user.id; }));
+  initPrivateChannel = (channelId) => {
+    let selectedChannel = _.first(_.filter(this.state.channels, channel => { return channelId === channel.id; }));
+    let currentUser = _.first(_.filter(selectedChannel.between, user => { return this.state.user.id === user.id; }));
+    let targetUser = _.first(_.filter(selectedChannel.between, user => { return this.state.user.id !== user.id; }));
+
+    let otherUser = _.first(_.filter(this.state.audience, user => { return targetUser.id === user.id; }));
     if (!otherUser) {
       return;
     }
 
-    let selectedChannel = _.first(_.filter(this.state.channels, channel => { return channelId === channel.id; }));
-    let currentUser = _.first(_.filter(selectedChannel.between, user => { return this.state.user.id === user._id; }));
-    let targetUser = _.first(_.filter(selectedChannel.between, user => { return this.state.user.id !== user._id; }));
+    let channel = _.findWhere(this.state.channels, { id: channelId });
+    if (!channel) {
+      channel = {
+        id: `${currentUser.id}+${targetUser.id}`,
+        name: `${currentUser.name}+${targetUser.name}`,      
+        private: true,
+        between: [ currentUser, targetUser ]
+      };
+    }
 
-    const newChannel = {
-      id: `${currentUser._id}+${targetUser._id}`,
-      name: `${currentUser.name}+${targetUser.name}`,      
-      private: true,
-      between: [ currentUser, targetUser ]
-    };
-
-    this.emit('new private channel', { socketId : otherUser.socketId, channel: newChannel, });
+    this.emit('new private channel', { socketId : otherUser.socketId, channel: channel, });
     
-    this.setState({ activeChannel: newChannel });
+    this.setState({ activeChannel: channel });
 
-    this.emit('join channel', newChannel);
+    this.emit('join channel', channel);
   }
 
   sendMessage = () => {
+    if (!this.state.activeChannel) {
+      return;
+    }
+
     const newMessage = {
       id: `${Date.now()}${uuid.v4()}`,
       channelId: this.state.activeChannel.id,
@@ -197,7 +204,7 @@ class Messages extends React.Component {
   }
 
   onSelectChannel = (channelId) => {
-    this.initNewPrivateChannel(channelId);
+    this.initPrivateChannel(channelId);
 
     let channels = this.state.channels.slice();
     channels.map(channel => {      
@@ -210,22 +217,6 @@ class Messages extends React.Component {
   onSelectFile = (event) => {
     if (event.target.files && event.target.files[0]) {      
       this.setState({ files: [ ...this.state.files, event.target.files[0] ] });
-
-      // const user = this.state.user;
-
-      // var reader = new FileReader();
-      // var self = this;
-
-      // reader.onload = function (e) {
-      //   self.setState({ 
-      //     user: { fname: user.fname, lname: user.lname, picture: e.target.result }
-      //   }, function() {
-      //     self.props.user.picture = self.state.user.picture;
-      //     self.props.submit(self.props.user);
-      //   });
-      // }
-
-      // reader.readAsDataURL(event.target.files[0]);
     }
   }
 
@@ -250,10 +241,10 @@ class Messages extends React.Component {
     }
   }
 
-  getChannelUser(channel) {
-    let otherUser = _.first(_.filter(channel.between, user => { return user.name !== this.state.user.name; }));
+  getTargetUserName = (channel) => {
+    let user = _.first(_.filter(channel.between, user => { return this.state.user.id !== user.id; }));
 
-    return otherUser;
+    return user ? user.name : '';
   }
 
   render () {
@@ -264,7 +255,7 @@ class Messages extends React.Component {
         isActiveChannel={channel.isActiveChannel}
         status={channel.status}
         message={channel.lastMessage}
-        userName={this.getChannelUser(channel).name}
+        userName={this.getTargetUserName(channel)}
         onSelectChannel={this.onSelectChannel}>
       </ChannelItem>
     );
@@ -272,7 +263,7 @@ class Messages extends React.Component {
     const messages = this.state.messages.filter(f => this.state.activeChannel && this.state.activeChannel.id === f.channelId).map((message, index) =>
       <MessageItem 
         key={index}
-        isOddMessage={this.state.user.id === message.user._id}
+        isOddMessage={this.state.user.id !== message.user.id}
         text={message.text}
         time={message.time}
         userName={message.user.name}>
@@ -387,5 +378,3 @@ class Messages extends React.Component {
     )
   }
 }
-
-export default Messages;

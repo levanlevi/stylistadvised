@@ -7,7 +7,7 @@ var socketEvents = function(io) {
 
   io.on('connection', function(socket) {
     socket.once('disconnect', function() {
-      var member = _.findWhere(audience, { id: this.id });
+      var member = _.findWhere(audience, { socketId: this.id });
       
       if (member) {
         audience.splice(audience.indexOf(member), 1);
