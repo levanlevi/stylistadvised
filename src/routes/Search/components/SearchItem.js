@@ -6,11 +6,15 @@ import DefaultUserPicture from '../assets/defaultUserPicture.jpg';
 
 import auth from '../../auth/modules/auth';
 
-const badgeAwayStyle = 'u-badge-v2--sm g-mt-15 g-mr-15 g-bg-yellow';
-const badgeOfflineStyle = 'u-badge-v2--sm g-mt-15 g-mr-15 g-bg-red';
-const badgeOnlineStyle = 'u-badge-v2--sm g-mt-15 g-mr-15';
+const awayBadgeStyle = 'u-badge-v2--sm g-mt-5 g-mr-5 g-bg-yellow';
+const offlineBadgeStyle = 'u-badge-v2--sm g-mt-5 g-mr-5 g-bg-red';
+const onlineBadgeStyle = 'u-badge-v2--sm g-mt-5 g-mr-5';
 
-class SearchItem extends React.Component {
+const away = 'away';
+const online = 'online';
+const offline = 'offline';
+
+export default class SearchItem extends React.Component {
   static propTypes = {
     user: PropTypes.object.isRequired,
   }
@@ -31,6 +35,16 @@ class SearchItem extends React.Component {
     };
   }
 
+  getStatusStyle = () => {
+    if (away === this.props.user.status) {
+      return awayBadgeStyle;
+    } else if (online === this.props.user.status) {
+      return onlineBadgeStyle;
+    } else {
+      return offlineBadgeStyle;
+    }
+  }
+
   render () {
     return (
       <div className="g-mb-30">
@@ -41,8 +55,7 @@ class SearchItem extends React.Component {
               {/* <!-- Figure Image --> */}
               <div className="g-brd-around g-brd-3 g-brd-gray-light-v3 rounded-circle">
                 <span className="d-inline-block g-pos-rel">
-                  <span className="u-badge-v2--sm g-mt-5 g-mr-5"></span>
-                  {/* g-bg-yellow g-bg-red */}
+                  <span className={this.getStatusStyle()}></span>
                   <img className="rounded-circle g-width-50 g-height-50" src={this.state.user.picture} alt="Image Description" />
                 </span>
               </div>
@@ -67,5 +80,3 @@ class SearchItem extends React.Component {
     )
   }
 }
-
-export default SearchItem;

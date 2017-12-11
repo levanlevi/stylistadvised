@@ -2,19 +2,39 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
+const _ = require('underscore');
+const io = require('socket.io-client');
+const config = require('../../../../config');
+
 import auth from '../../auth/modules/auth';
 import Display from '../../Parts/Display';
 import Header from '../../Parts/Header';
+import Pagination from '../../Parts/Pagination';
 
 import Item from './SearchItem';
 
-class Search extends React.Component {
+const away = 'away';
+const online = 'online';
+const offline = 'offline';
+
+export default class Search extends React.Component {
   static propTypes = {
     users: PropTypes.array.isRequired,
   }
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      audience: [],
+      users: this.props.users,
+    }
+  }
+
+  componentWillMount() {
+    this.socket = io(config.serverUrl);
+
+    this.socket.on('audience', this.updateAudience);
   }
 
   componentDidMount() {
@@ -24,12 +44,26 @@ class Search extends React.Component {
     });
   }
 
+  updateAudience = (audience) => {
+    let users = this.state.users.slice();
+    users.map(user => {
+      let onlineUser = _.findWhere(audience, { id: user._id });
+
+      user.status = onlineUser ? online : away;
+    })
+
+    this.setState({ audience: audience });
+    this.setState({ users: users });
+  }
+
   render () {
-    const listItems = this.props.users.map((user, index) =>
+    const listItems = this.state.users.map((user, index) =>
       <div key={index}>
         <Item user={user} />
       </div>
     );
+
+    const page = this.props.routeParams.page;
 
     return (
       <div>
@@ -45,44 +79,11 @@ class Search extends React.Component {
               {listItems}
       
               {/* <!-- Pagination --> */}
-              <nav className="g-mb-50" aria-label="Page Navigation">
-                <ul className="list-inline">
-                  <li className="list-inline-item">
-                    <a className="u-pagination-v1__item u-pagination-v1-5 rounded g-pa-4-13" href="#!" aria-label="Previous">
-                      <span aria-hidden="true">
-                        <i className="fa fa-angle-left"></i>
-                      </span>
-                      <span className="sr-only">Previous</span>
-                    </a>
-                  </li>
-                  <li className="list-inline-item g-hidden-sm-down">
-                    <a className="u-pagination-v1__item u-pagination-v1-5 u-pagination-v1-5--active rounded g-pa-4-11" href="#!">1</a>
-                  </li>
-                  <li className="list-inline-item g-hidden-sm-down">
-                    <a className="u-pagination-v1__item u-pagination-v1-5 rounded g-pa-4-11" href="#!">2</a>
-                  </li>
-                  <li className="list-inline-item g-hidden-sm-down">
-                    <a className="u-pagination-v1__item u-pagination-v1-5 rounded g-pa-4-11" href="#!">3</a>
-                  </li>
-                  <li className="list-inline-item g-hidden-sm-down">
-                    <span className="g-pa-4-11">...</span>
-                  </li>
-                  <li className="list-inline-item g-hidden-sm-down">
-                    <a className="u-pagination-v1__item u-pagination-v1-5 rounded g-pa-4-11" href="#!">80</a>
-                  </li>
-                  <li className="list-inline-item">
-                    <a className="u-pagination-v1__item u-pagination-v1-5 rounded g-pa-4-13" href="#!" aria-label="Next">
-                      <span aria-hidden="true">
-                        <i className="fa fa-angle-right"></i>
-                      </span>
-                      <span className="sr-only">Next</span>
-                    </a>
-                  </li>
-                  <li className="list-inline-item float-right">
-                    <span className="u-pagination-v1__item-info g-pa-4-11">Page 1 of 80</span>
-                  </li>
-                </ul>
-              </nav>
+              <Pagination
+                countOfItems={79}
+                currentPage={9}
+                itemsOnPage={5}>                
+              </Pagination>
               {/* <!-- End Pagination --> */}
       
             </div>
@@ -92,5 +93,3 @@ class Search extends React.Component {
     )
   }
 }
-
-export default Search;

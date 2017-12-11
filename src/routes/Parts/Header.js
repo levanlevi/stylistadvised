@@ -8,7 +8,7 @@ import Display from './Display';
 
 import DefaultUserPicture from './assets/defaultUserPicture.jpg';
 
-class Header extends React.Component {
+export default class Header extends React.Component {
   static propTypes = {
     isTransparent: PropTypes.bool.isRequired,
   }
@@ -163,5 +163,3 @@ class Header extends React.Component {
     )
 	}
 }
-
-export default Header;
