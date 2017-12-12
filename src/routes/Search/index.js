@@ -11,7 +11,7 @@ export default (store) => ({
       injectReducer(store, { key: 'search', reducer });
 
       store
-        .dispatch(actions.getUsers())
+        .dispatch(actions.getUsers(nextState.params.page))
         .then(() => cb(null, Search))
         .catch(cb);
     }, 'search');

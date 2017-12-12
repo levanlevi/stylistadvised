@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import DefaultUserPicture from '../../../assets/defaultUserPicture.jpg';
@@ -6,7 +6,7 @@ import DefaultUserPicture from '../../../assets/defaultUserPicture.jpg';
 const oddMediaStyle = 'media g-brd-top g-brd-gray-light-v4 g-pt-30 g-mb-30';
 const evenMediaStyle = 'media g-brd-top g-brd-gray-light-v4 g-pt-30 g-ml-40 g-mb-30';
 
-class MessageItem extends React.Component {
+export default class MessageItem extends Component {
   static propTypes = {
     isOddMessage: PropTypes.bool.isRequired,
     text: PropTypes.string.isRequired,
@@ -35,5 +35,3 @@ class MessageItem extends React.Component {
     )
   }
 }
-
-export default MessageItem;

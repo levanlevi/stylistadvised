@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
@@ -14,7 +14,7 @@ const away = 'away';
 const online = 'online';
 const offline = 'offline';
 
-export default class SearchItem extends React.Component {
+export default class SearchItem extends Component {
   static propTypes = {
     user: PropTypes.object.isRequired,
   }

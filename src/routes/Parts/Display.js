@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class Display extends React.Component {
+export default class Display extends Component {
   static propTypes = {
     if: PropTypes.bool.isRequired,
   }
@@ -10,5 +10,3 @@ class Display extends React.Component {
 		return (this.props.if) ? <div>{this.props.children}</div> : null;
 	}
 }
-
-export default Display;

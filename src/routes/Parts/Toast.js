@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 const dangerAlertStyle = 'alert alert-dismissible fade show g-bg-red g-color-white rounded-0';
@@ -10,7 +10,7 @@ const successIconStyle = 'icon-check g-font-size-25';
 const warningAlertStyle = 'alert alert-dismissible fade show g-bg-yellow rounded-0';
 const warningIconStyle = 'icon-info g-font-size-25';
 
-class Toast extends React.Component {
+export default class Toast extends Component {
   static propTypes = {
     type: PropTypes.string,
     title: PropTypes.string,
@@ -53,5 +53,3 @@ class Toast extends React.Component {
     )
 	}
 }
-
-export default Toast;

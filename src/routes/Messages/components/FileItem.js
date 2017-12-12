@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import DefaultUserPicture from '../../../assets/defaultUserPicture.jpg';
 
-class FileItem extends React.Component {
+export default class FileItem extends Component {
   static propTypes = {   
     name: PropTypes.string.isRequired,
     
@@ -33,5 +33,3 @@ class FileItem extends React.Component {
     )
   }
 }
-
-export default FileItem;

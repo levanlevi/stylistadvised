@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
@@ -8,7 +8,7 @@ import Display from './Display';
 
 import DefaultUserPicture from './assets/defaultUserPicture.jpg';
 
-export default class Header extends React.Component {
+export default class Header extends Component {
   static propTypes = {
     isTransparent: PropTypes.bool.isRequired,
   }

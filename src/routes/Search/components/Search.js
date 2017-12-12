@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
@@ -17,8 +17,10 @@ const away = 'away';
 const online = 'online';
 const offline = 'offline';
 
-export default class Search extends React.Component {
-  static propTypes = {
+export default class Search extends Component {
+  static propTypes = {    
+    count: PropTypes.number.isRequired,
+    itemsOnPage: PropTypes.number.isRequired,
     users: PropTypes.array.isRequired,
   }
 
@@ -63,7 +65,8 @@ export default class Search extends React.Component {
       </div>
     );
 
-    const page = this.props.routeParams.page;
+    const pathName = this.props.location.pathname;
+    const page = this.props.routeParams.page;console.log(this.props);
 
     return (
       <div>
@@ -80,9 +83,10 @@ export default class Search extends React.Component {
       
               {/* <!-- Pagination --> */}
               <Pagination
-                countOfItems={79}
-                currentPage={9}
-                itemsOnPage={5}>                
+                countOfItems={this.props.count}
+                currentPage={page ? +page : 1}
+                itemsOnPage={this.props.itemsOnPage}
+                pathName={page ? '' : pathName.slice(1) + '/'}>
               </Pagination>
               {/* <!-- End Pagination --> */}
       

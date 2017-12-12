@@ -8,26 +8,42 @@ import auth from '../../auth/modules/auth';
 
 const config = require('../../../../config');
 
+const defaultResponse = {
+  count: 79,
+  users: [
+    { _id: '59eca251f0626a17ad08ddd2', name: 'flatorez', fname: 'Ilya', lname: 'Gurfinkel', aboutMe: '' },
+    { _id: '59eca2d1f0626a17ad08ddd3', name: 'SnowFlake', fname: 'Snow', lname: 'Flake', aboutMe: '' },
+    { _id: '5a2928767ce45202194fba23', name: 'velhover', fname: '', lname: 'Velhover', aboutMe: '' },
+    { _id: '5a2928767ce45202194fba24', name: 'dimentberg', fname: '', lname: 'Dimentberg', aboutMe: '' },
+    { _id: '5a2928767ce45202194fba25', name: 'insteadoffork', fname: '', lname: '', aboutMe: '' },
+  ],
+}
+
 // ------------------------------------
 // Actions
 // ------------------------------------
-function getUsers() {
+function getUsers(page) {
   return async (dispatch) => {
-    
-    dispatch({ type: SEARCH_GET_USERS_START, payload: { users: [], }});
+
+    dispatch({ type: SEARCH_GET_USERS_START, payload: { count: 0, itemsOnPage: 0, users: [], }});
 
     try {
-      const url = config.serverUrl + '/api/users/';
-      const response = await fetch(
-        url,
-        {
-          method: 'GET',
-          headers: { 'Authorization': `bearer ${auth.getToken()}`},
-        }
-      );
-      const users = await response.json();
+      const itemsOnPage = config.itemsOnSearchPage;
 
-      dispatch({ type: SEARCH_GET_USERS_END, payload: { users: users, }});
+      // const url = config.serverUrl + '/api/users/';
+      // const response = await fetch(
+      //   url,
+      //   {
+      //     method: 'GET',
+      //     headers: { 'Authorization': `bearer ${auth.getToken()}`},
+      //   }
+      // );
+      // const users = await response.json();
+
+      const count = defaultResponse.count;
+      const users = defaultResponse.users;
+
+      dispatch({ type: SEARCH_GET_USERS_END, payload: { count: count, itemsOnPage: itemsOnPage, users: users, }});
     } catch (error) {
       //dispatch(addToast('danger', 'An error occurred while updating the place.'));
     }
@@ -50,6 +66,8 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
+  count: 0,
+  itemsOnPage: 0,
   users: [],
 };
 

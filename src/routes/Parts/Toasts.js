@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class Toasts extends React.Component {
+export default class Toasts extends Component {
   static propTypes = {
     toasts: PropTypes.array.isRequired,
   }
@@ -28,5 +28,3 @@ class Toasts extends React.Component {
     )
 	}
 }
-
-export default Toasts;
