@@ -20,22 +20,59 @@ export default class Pagination extends Component {
 
     const countOfPages = Math.ceil(this.props.countOfItems / this.props.itemsOnPage);
 
-    const firstPage = 1 === this.props.currentPage ? this.props.currentPage : this.props.currentPage - 1;
-    const secondPage = 1 === this.props.currentPage ? this.props.currentPage + 1 : this.props.currentPage;
-    const thirdPage = 1 === this.props.currentPage ? this.props.currentPage + 2 : this.props.currentPage + 1;
+    let showLastPage = true;
+    let showSecondPage = true;
+    let showSeparator = true;
+    let showThirdPage = true;
+    
+    let firstPage = 1 === this.props.currentPage ? this.props.currentPage : this.props.currentPage - 1;
+    let firstPageStyle = 1 === this.props.currentPage ? aActiveStyle : aStyle;
+
+    let secondPage = 1 === this.props.currentPage ? this.props.currentPage + 1 : this.props.currentPage;
+    let secondPageStyle = 1 === this.props.currentPage ? aStyle : aActiveStyle;
+
+    let thirdPage = 1 === this.props.currentPage ? this.props.currentPage + 2 : this.props.currentPage + 1;
+    let thirdPageStyle = aStyle;
+
+    const lastPageStyle = countOfPages === this.props.currentPage ? aActiveStyle : aStyle;
+
+    if (4 < countOfPages) {
+      if (countOfPages === this.props.currentPage) {
+        firstPage = this.props.currentPage - 4;
+        secondPage = this.props.currentPage - 3;
+        secondPageStyle = aStyle;
+        thirdPage = this.props.currentPage - 2;
+      }
+    } else {
+      showSeparator = false;
+
+      showLastPage = 4 === countOfPages;
+      showSecondPage = 1 < countOfPages;
+      showThirdPage = 2 < countOfPages;
+
+      secondPageStyle = 2 === this.props.currentPage ? aActiveStyle : aStyle;
+      thirdPageStyle = 3 === this.props.currentPage ? aActiveStyle : aStyle;
+    }
+    
 
     this.state = {
+      showLastPage: showLastPage,
+      showSecondPage: showSecondPage,
+      showSeparator: showSeparator,
+      showThirdPage: showThirdPage,
       previousPageLink: 1 < this.props.currentPage ? this.props.currentPage - 1 : this.props.currentPage,
       previousPageStyle: 1 < this.props.currentPage ? aEnabledStyle : aDisabledStyle,
       firstPageLink: this.props.pathName + firstPage,
-      firstPageStyle: 1 === this.props.currentPage ? aActiveStyle : aStyle,
+      firstPageStyle: firstPageStyle,
       firstPageText: firstPage,
       secondPageLink: this.props.pathName + secondPage,
-      secondPageStyle: 1 === this.props.currentPage ? aStyle : aActiveStyle,
+      secondPageStyle: secondPageStyle,
       secondPageText: secondPage,
       thirdPageLink: this.props.pathName + thirdPage,
+      thirdPageStyle: thirdPageStyle,
       thirdPageText: thirdPage,
       lastPageLink: this.props.pathName + countOfPages,
+      lastPageStyle: lastPageStyle,
       lastPageText: countOfPages,
       nextPageLink: countOfPages > this.props.currentPage ? this.props.pathName + (this.props.currentPage + 1) : this.props.pathName + this.props.currentPage,
       nextPageStyle: countOfPages > this.props.currentPage ? aEnabledStyle : aDisabledStyle,
@@ -58,18 +95,26 @@ export default class Pagination extends Component {
           <li className="list-inline-item g-hidden-sm-down">
             <a className={this.state.firstPageStyle} href={this.state.firstPageLink}>{this.state.firstPageText}</a>
           </li>
-          <li className="list-inline-item g-hidden-sm-down">
-            <a className={this.state.secondPageStyle} href={this.state.secondPageLink}>{this.state.secondPageText}</a>
-          </li>
-          <li className="list-inline-item g-hidden-sm-down">
-            <a className="u-pagination-v1__item u-pagination-v1-5 rounded g-pa-4-11" href={this.state.thirdPageLink}>{this.state.thirdPageText}</a>
-          </li>
-          <li className="list-inline-item g-hidden-sm-down">
-            <span className="g-pa-4-11">...</span>
-          </li>
-          <li className="list-inline-item g-hidden-sm-down">
-            <a className="u-pagination-v1__item u-pagination-v1-5 rounded g-pa-4-11" href={this.state.lastPageLink}>{this.state.lastPageText}</a>
-          </li>
+          {this.state.showSecondPage && 
+            <li className="list-inline-item g-hidden-sm-down">
+              <a className={this.state.secondPageStyle} href={this.state.secondPageLink}>{this.state.secondPageText}</a>
+            </li>
+          }
+          {this.state.showThirdPage &&
+            <li className="list-inline-item g-hidden-sm-down">
+              <a className={this.state.thirdPageStyle} href={this.state.thirdPageLink}>{this.state.thirdPageText}</a>
+            </li>
+          }
+          {this.state.showSeparator &&
+            <li className="list-inline-item g-hidden-sm-down">
+              <span className="g-pa-4-11">...</span>
+            </li>
+          }
+          {this.state.showLastPage &&
+            <li className="list-inline-item g-hidden-sm-down">
+              <a className={this.state.lastPageStyle} href={this.state.lastPageLink}>{this.state.lastPageText}</a>
+            </li>
+          }
           <li className="list-inline-item">
             <a className={this.state.nextPageStyle} href={this.state.nextPageLink} aria-label="Next">
               <span aria-hidden="true">

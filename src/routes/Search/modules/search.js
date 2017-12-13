@@ -9,7 +9,7 @@ import auth from '../../auth/modules/auth';
 const config = require('../../../../config');
 
 const defaultResponse = {
-  count: 79,
+  count: 19,
   users: [
     { _id: '59eca251f0626a17ad08ddd2', name: 'flatorez', fname: 'Ilya', lname: 'Gurfinkel', aboutMe: '' },
     { _id: '59eca2d1f0626a17ad08ddd3', name: 'SnowFlake', fname: 'Snow', lname: 'Flake', aboutMe: '' },
