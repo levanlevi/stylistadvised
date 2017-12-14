@@ -65,8 +65,9 @@ export default class Search extends Component {
       </div>
     );
 
+    const countOfPages = Math.ceil(this.props.count / this.props.itemsOnPage);
     const pathName = this.props.location.pathname;
-    const page = this.props.routeParams.page;console.log(this.props);
+    const page = this.props.routeParams.page;
 
     return (
       <div>
@@ -84,7 +85,7 @@ export default class Search extends Component {
               {/* <!-- Pagination --> */}
               <Pagination
                 countOfItems={this.props.count}
-                currentPage={page ? +page : 1}
+                currentPage={(page && 0 < +page && countOfPages >= +page) ? +page : 1}
                 itemsOnPage={this.props.itemsOnPage}
                 pathName={page ? '' : pathName.slice(1) + '/'}>
               </Pagination>

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class SettingsProfile extends React.Component {
+export default class SettingsProfile extends Component {
   static propTypes = {
     user: PropTypes.object.isRequired,
     submit: PropTypes.func.isRequired,
@@ -155,5 +155,3 @@ class SettingsProfile extends React.Component {
     )
   }
 }
-
-export default SettingsProfile;
