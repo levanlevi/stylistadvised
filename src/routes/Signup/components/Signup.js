@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
@@ -23,7 +23,7 @@ var secondImageCarouselStyle = {
   backgroundImage: "url(" + SecondImage + ")"
 };
 
-class Signup extends React.Component {
+export default class Signup extends Component {
   static propTypes = {
     state: PropTypes.object.isRequired, 
     submit: PropTypes.func.isRequired,
@@ -68,7 +68,7 @@ class Signup extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.state.success) {      
+    if (nextProps.state.success) {
       nextProps.router.push('/');
     } else {
       const errors = nextProps.state.errors;      
@@ -122,7 +122,7 @@ class Signup extends React.Component {
     this.setState({ inputGroupStyle });
   }
 
-  submit() {    
+  submit() {
     this.props.submit(this.state.user);
   }
 
@@ -143,7 +143,7 @@ class Signup extends React.Component {
             <div className="col-lg-6">
               <div className="g-pa-40 g-mx-70--xl">
                 <form className="g-py-15">
-                  <h2 className="h3 g-color-black mb-2">Signup</h2>                  
+                  <h2 className="h3 g-color-black mb-2">Signup</h2>
 
                   {/* <!-- User name --> */}
                   <div className="mb-0">
@@ -217,10 +217,8 @@ class Signup extends React.Component {
               </div>
             </div>
           </div>
-        </section>    
+        </section>
       </div>
     )
   }
 }
-
-export default Signup;

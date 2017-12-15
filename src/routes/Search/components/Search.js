@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 
 const _ = require('underscore');
 const io = require('socket.io-client');
 const config = require('../../../../config');
 
 import auth from '../../auth/modules/auth';
-import Display from '../../Parts/Display';
 import Header from '../../Parts/Header';
 import Pagination from '../../Parts/Pagination';
 
@@ -58,11 +56,11 @@ export default class Search extends Component {
     this.setState({ users: users });
   }
 
+  sortByOnChange = (event) => {}
+
   render () {
     const listItems = this.state.users.map((user, index) =>
-      <div key={index}>
-        <Item user={user} />
-      </div>
+      <Item key={index} index={index} user={user} />
     );
 
     const countOfPages = Math.ceil(this.props.count / this.props.itemsOnPage);
@@ -73,27 +71,54 @@ export default class Search extends Component {
       <div>
         <Header isTransparent={false}></Header>
 
-        <Display if={false}>
-          <h2>Loading...</h2>
-        </Display>
-        <Display if={true}>
-          <section className="g-pt-50 g-pb-90">
-            <div className="container">            
-      
-              {listItems}
-      
-              {/* <!-- Pagination --> */}
-              <Pagination
-                countOfItems={this.props.count}
-                currentPage={(page && 0 < +page && countOfPages >= +page) ? +page : 1}
-                itemsOnPage={this.props.itemsOnPage}
-                pathName={page ? '' : pathName.slice(1) + '/'}>
-              </Pagination>
-              {/* <!-- End Pagination --> */}
-      
+        <section className="g-pt-50 g-pb-90">
+          <div className="container">
+            <div className="row">
+
+              {/* <!-- Sidebar --> */}
+              <div className="col-lg-3 g-pr-40--lg g-mb-50 g-mb-0--lg">
+
+                {/* <!-- Sort By --> */}
+                <h2 className="h5 text-uppercase g-color-gray-dark-v1">Sort By</h2>
+                <hr className="g-brd-gray-light-v4 g-my-15" />
+                <div className="btn-group justified-content g-mb-40">
+                  <label className="u-check">
+                    <input onChange={this.sortByOnChange} className="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="radGroupBtn1_1" type="radio" checked={true} />
+                    <span className="btn btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked rounded-0">Date Added</span>
+                  </label>
+                  <label className="u-check">
+                    <input onChange={this.sortByOnChange} className="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="radGroupBtn1_1" type="radio" checked={false} />
+                    <span className="btn btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked g-brd-left-none--md rounded-0">Relevance</span>
+                  </label>
+                </div>
+                {/* <!-- End Sort By --> */}
+
+              </div>
+              {/* <!-- End Sidebar --> */}
+
+              {/* <!-- Search Results --> */}
+              <div className="col-lg-9">
+                
+                {/* <!-- Content --> */}
+                <div className="row g-mb-40">
+                  {listItems}
+                </div>
+                {/* <!-- End Content --> */}
+
+                {/* <!-- Pagination --> */}
+                <Pagination
+                  countOfItems={this.props.count}
+                  currentPage={(page && 0 < +page && countOfPages >= +page) ? +page : 1}
+                  itemsOnPage={this.props.itemsOnPage}
+                  pathName={page ? '' : pathName.slice(1) + '/'}>
+                </Pagination>
+                {/* <!-- End Pagination --> */}
+
+              </div>
+              {/* <!-- End Search Results --> */}
             </div>
-          </section>
-        </Display>        
+          </div>
+        </section>
       </div>
     )
   }

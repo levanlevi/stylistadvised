@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
@@ -10,7 +10,7 @@ const badgeAwayStyle = 'u-badge-v2--sm g-mt-15 g-mr-15 g-bg-yellow';
 const badgeOfflineStyle = 'u-badge-v2--sm g-mt-15 g-mr-15 g-bg-red';
 const badgeOnlineStyle = 'u-badge-v2--sm g-mt-15 g-mr-15';
 
-class Contacts extends React.Component {  
+export default class Contacts extends Component {  
   constructor(props) {
     super(props);
   }
@@ -160,5 +160,3 @@ class Contacts extends React.Component {
     )
   }
 }
-
-export default Contacts;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
@@ -23,7 +23,7 @@ var secondImageCarouselStyle = {
   backgroundImage: 'url(' + SecondImage + ')'
 };
 
-class Signin extends React.Component {
+export default class Signin extends Component {
   static propTypes = {
     state: PropTypes.object.isRequired, 
     submit: PropTypes.func.isRequired,
@@ -182,5 +182,3 @@ class Signin extends React.Component {
     )
   }
 }
-
-export default Signin;

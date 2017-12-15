@@ -11,11 +11,12 @@ const config = require('../../../../config');
 const defaultResponse = {
   count: 39,
   users: [
-    { _id: '59eca251f0626a17ad08ddd2', name: 'flatorez', fname: 'Ilya', lname: 'Gurfinkel', aboutMe: '' },
-    { _id: '59eca2d1f0626a17ad08ddd3', name: 'SnowFlake', fname: 'Snow', lname: 'Flake', aboutMe: '' },
-    { _id: '5a2928767ce45202194fba23', name: 'velhover', fname: '', lname: 'Velhover', aboutMe: '' },
-    { _id: '5a2928767ce45202194fba24', name: 'dimentberg', fname: '', lname: 'Dimentberg', aboutMe: '' },
-    { _id: '5a2928767ce45202194fba25', name: 'insteadoffork', fname: '', lname: '', aboutMe: '' },
+    { _id: '59eca251f0626a17ad08ddd2', name: 'flatorez', fname: 'Ilya', lname: 'Gurfinkel', aboutMe: 'This is where I sit down, grab a cup of coffee and dial in the details. Understanding the task at hand and ironing out the wrinkles is key.' },
+    { _id: '59eca2d1f0626a17ad08ddd3', name: 'SnowFlake', fname: 'Snow', lname: 'Flake', aboutMe: 'This is where I sit down, grab a cup of coffee and dial in the details. Understanding the task at hand and ironing out the wrinkles is key.' },
+    { _id: '5a2928767ce45202194fba23', name: 'velhover', fname: '', lname: 'Velhover', aboutMe: 'This is where I sit down, grab a cup of coffee and dial in the details. Understanding the task at hand and ironing out the wrinkles is key.' },
+    { _id: '5a2928767ce45202194fba24', name: 'dimentberg', fname: '', lname: 'Dimentberg', aboutMe: 'This is where I sit down, grab a cup of coffee and dial in the details. Understanding the task at hand and ironing out the wrinkles is key.' },
+    { _id: '5a2928767ce45202194fba25', name: 'insteadoffork', fname: '', lname: '', aboutMe: 'This is where I sit down, grab a cup of coffee and dial in the details. Understanding the task at hand and ironing out the wrinkles is key.' },
+    { _id: '5a2928767ce45202194fba25', name: 'InsteadOfSpoon', fname: '', lname: '', aboutMe: 'This is where I sit down, grab a cup of coffee and dial in the details. Understanding the task at hand and ironing out the wrinkles is key.' },
   ],
 }
 
