@@ -1,7 +1,8 @@
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const ACCOUNT_USER_RECEIVED = 'ACCOUNT_USER_RECEIVED';
+export const ACCOUNT_GET_USER_START = 'ACCOUNT_GET_USER_START';
+export const ACCOUNT_GET_USER_END = 'ACCOUNT_GET_USER_END';
 export const ACCOUNT_USER_SUBMIT = 'ACCOUNT_USER_SUBMIT';
 
 import auth from '../../auth/modules/auth';
@@ -17,6 +18,8 @@ function isValidId(id) {
 
 export function getUser(userId) {
   return async (dispatch) => {
+    dispatch({ type: ACCOUNT_GET_USER_START, payload: { loading: true, user: {}, }});
+
     try {
       if (isValidId(userId)) {
         const url = config.serverUrl + '/api/users/' + userId;
@@ -29,7 +32,7 @@ export function getUser(userId) {
         );
         const user = await response.json();
 
-        dispatch({ type: ACCOUNT_USER_RECEIVED, payload: user });  
+        dispatch({ type: ACCOUNT_GET_USER_END, payload: { loading: false, user: user }});  
       }
     } catch (error) {
       //dispatch(addToast('danger', 'An error occurred while updating the place.'));
@@ -68,7 +71,8 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [ACCOUNT_USER_RECEIVED]: (state, action) => state = action.payload,
+  [ACCOUNT_GET_USER_START]: (state, action) => state = action.payload,
+  [ACCOUNT_GET_USER_END]: (state, action) => state = action.payload,
   [ACCOUNT_USER_SUBMIT]: (state, action) => state,
 }
 
@@ -76,14 +80,8 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
-  fname: '',
-  lname: '',
-  name: '',
-  email: '',
-  location: '',
-  aboutMe: '',
-  password: '',
-  userType: '',
+  loading: false,
+  user: {},
 }
 
 export default function signinReducer (state = initialState, action) {

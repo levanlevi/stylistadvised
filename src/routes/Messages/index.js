@@ -11,9 +11,9 @@ export default (store) => ({
       injectReducer(store, { key: 'messages', reducer });
 
       store
-        .dispatch(actions.getMessagesForUser(nextState.params.id))
-        .then(() => cb(null, Messages))
-        .catch(cb);
+        .dispatch(actions.getMessagesForUser(nextState.params.id)) // set global spinner
+        .then(() => cb(null, Messages)) // success, data loaded, render component
+        .catch(cb); // return error to router (or render NotFoundComponent)
     }, 'messages');
   }
 })
