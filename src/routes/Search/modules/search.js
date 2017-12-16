@@ -8,18 +8,6 @@ import auth from '../../auth/modules/auth';
 
 const config = require('../../../../config');
 
-const defaultResponse = {
-  count: 39,
-  users: [
-    { _id: '59eca251f0626a17ad08ddd2', name: 'flatorez', fname: 'Ilya', lname: 'Gurfinkel', aboutMe: 'This is where I sit down, grab a cup of coffee and dial in the details. Understanding the task at hand and ironing out the wrinkles is key.' },
-    { _id: '59eca2d1f0626a17ad08ddd3', name: 'SnowFlake', fname: 'Snow', lname: 'Flake', aboutMe: 'This is where I sit down, grab a cup of coffee and dial in the details. Understanding the task at hand and ironing out the wrinkles is key.' },
-    { _id: '5a2928767ce45202194fba23', name: 'velhover', fname: '', lname: 'Velhover', aboutMe: 'This is where I sit down, grab a cup of coffee and dial in the details. Understanding the task at hand and ironing out the wrinkles is key.' },
-    { _id: '5a2928767ce45202194fba24', name: 'dimentberg', fname: '', lname: 'Dimentberg', aboutMe: 'This is where I sit down, grab a cup of coffee and dial in the details. Understanding the task at hand and ironing out the wrinkles is key.' },
-    { _id: '5a2928767ce45202194fba25', name: 'insteadoffork', fname: '', lname: '', aboutMe: 'This is where I sit down, grab a cup of coffee and dial in the details. Understanding the task at hand and ironing out the wrinkles is key.' },
-    { _id: '5a2928767ce45202194fba25', name: 'InsteadOfSpoon', fname: '', lname: '', aboutMe: 'This is where I sit down, grab a cup of coffee and dial in the details. Understanding the task at hand and ironing out the wrinkles is key.' },
-  ],
-}
-
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -30,21 +18,24 @@ function getUsers(page) {
 
     try {
       const itemsOnPage = config.itemsOnSearchPage;
+      let pagination = '&limit=' + itemsOnPage;
+      if (page && 1 < +page) {
+        pagination = '&skip=' + (+page - 1) * itemsOnPage + '&limit=' + itemsOnPage;
+      }
 
-      // const url = config.serverUrl + '/api/users/';
-      // const response = await fetch(
-      //   url,
-      //   {
-      //     method: 'GET',
-      //     headers: { 'Authorization': `bearer ${auth.getToken()}`},
-      //   }
-      // );
-      // const users = await response.json();
+      const url = config.serverUrl + '/api/users?userType=stylist' + pagination;      
 
-      const count = defaultResponse.count;
-      const users = defaultResponse.users;
+      const response = await fetch(
+        url,
+        {
+          method: 'GET',          
+          pagination: JSON.stringify(pagination),
+          headers: { 'Authorization': `bearer ${auth.getToken()}` },
+        }
+      );
+      const data = await response.json();
 
-      dispatch({ type: SEARCH_GET_USERS_END, payload: { count: count, itemsOnPage: itemsOnPage, users: users, }});
+      dispatch({ type: SEARCH_GET_USERS_END, payload: { count: data.count, itemsOnPage: itemsOnPage, users: data.users, }});
     } catch (error) {
       //dispatch(addToast('danger', 'An error occurred while updating the place.'));
     }

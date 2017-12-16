@@ -17,13 +17,29 @@ var userController = function () {
   };
 
   var get = function (req, res) {
-    var query = req.query;
+    let query = req.query;
 
-    Users.find(query, '_id fname lname name email userType picture location aboutMe', function (err, users) {
+    const pagination = {};
+    if (query.skip) {
+      pagination.skip = +query.skip;
+      delete query.skip;
+    }
+    if (query.limit) {
+      pagination.limit = +query.limit;
+      delete query.limit;
+    }
+
+    Users.find(query, '_id fname lname name email userType picture location aboutMe', pagination, function (err, users) {
       if (err)
         res.status(500).send(err);
       else {
-        res.json(users);
+        Users.count(query, function (error, count) {
+          if (error) {
+            res.status(500).send(error);
+          } else {
+            res.json({ count: count, users: users });
+          }
+        });        
       }
     });
   }
