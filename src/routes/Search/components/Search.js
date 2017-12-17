@@ -6,8 +6,10 @@ const io = require('socket.io-client');
 const config = require('../../../../config');
 
 import auth from '../../auth/modules/auth';
+import Display from '../../Parts/Display';
 import Header from '../../Parts/Header';
 import Pagination from '../../Parts/Pagination';
+import Spinner from '../../Parts/Spinner';
 
 import Item from './SearchItem';
 
@@ -16,16 +18,20 @@ const online = 'online';
 const offline = 'offline';
 
 export default class Search extends Component {
-  static propTypes = {    
+  static propTypes = {
+    loading: PropTypes.bool.isRequired, 
     count: PropTypes.number.isRequired,
     itemsOnPage: PropTypes.number.isRequired,
     users: PropTypes.array.isRequired,
+
+    getUsers: PropTypes.func.isRequired,
   }
 
   constructor(props) {
     super(props);
 
     this.state = {
+      loading: this.props.loading,
       audience: [],
       users: this.props.users,
     }
@@ -38,10 +44,19 @@ export default class Search extends Component {
   }
 
   componentDidMount() {
+    const page = this.props.routeParams.page;
+
+    this.props.getUsers(page);
+
     // initialization of rating
     $.HSCore.components.HSRating.init($('.js-rating'), {
       spacing: 2
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ loading: nextProps.loading });
+    this.setState({ users: nextProps.users });
   }
 
   updateAudience = (audience) => {
@@ -71,54 +86,59 @@ export default class Search extends Component {
       <div>
         <Header isTransparent={false}></Header>
 
-        <section className="g-pt-50 g-pb-90">
-          <div className="container">
-            <div className="row">
+        <Display if={this.state.loading}>
+          <Spinner />
+        </Display>
+        <Display if={!this.state.loading}>
+          <section className="g-pt-50 g-pb-90">
+            <div className="container">
+              <div className="row">
 
-              {/* <!-- Sidebar --> */}
-              <div className="col-lg-3 g-pr-40--lg g-mb-50 g-mb-0--lg">
+                {/* <!-- Sidebar --> */}
+                <div className="col-lg-3 g-pr-40--lg g-mb-50 g-mb-0--lg">
 
-                {/* <!-- Sort By --> */}
-                <h2 className="h5 text-uppercase g-color-gray-dark-v1">Sort By</h2>
-                <hr className="g-brd-gray-light-v4 g-my-15" />
-                <div className="btn-group justified-content g-mb-40">
-                  <label className="u-check">
-                    <input onChange={this.sortByOnChange} className="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="radGroupBtn1_1" type="radio" checked={true} />
-                    <span className="btn btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked rounded-0">Date Added</span>
-                  </label>
-                  <label className="u-check">
-                    <input onChange={this.sortByOnChange} className="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="radGroupBtn1_1" type="radio" checked={false} />
-                    <span className="btn btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked g-brd-left-none--md rounded-0">Relevance</span>
-                  </label>
+                  {/* <!-- Sort By --> */}
+                  <h2 className="h5 text-uppercase g-color-gray-dark-v1">Sort By</h2>
+                  <hr className="g-brd-gray-light-v4 g-my-15" />
+                  <div className="btn-group justified-content g-mb-40">
+                    <label className="u-check">
+                      <input onChange={this.sortByOnChange} className="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="radGroupBtn1_1" type="radio" checked={true} />
+                      <span className="btn btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked rounded-0">Date Added</span>
+                    </label>
+                    <label className="u-check">
+                      <input onChange={this.sortByOnChange} className="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="radGroupBtn1_1" type="radio" checked={false} />
+                      <span className="btn btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked g-brd-left-none--md rounded-0">Relevance</span>
+                    </label>
+                  </div>
+                  {/* <!-- End Sort By --> */}
+
                 </div>
-                {/* <!-- End Sort By --> */}
+                {/* <!-- End Sidebar --> */}
 
-              </div>
-              {/* <!-- End Sidebar --> */}
+                {/* <!-- Search Results --> */}
+                <div className="col-lg-9">
+                  
+                  {/* <!-- Content --> */}
+                  <div className="row g-mb-40">
+                    {listItems}
+                  </div>
+                  {/* <!-- End Content --> */}
 
-              {/* <!-- Search Results --> */}
-              <div className="col-lg-9">
-                
-                {/* <!-- Content --> */}
-                <div className="row g-mb-40">
-                  {listItems}
+                  {/* <!-- Pagination --> */}
+                  <Pagination
+                    countOfItems={this.props.count}
+                    currentPage={(page && 0 < +page && countOfPages >= +page) ? +page : 1}
+                    itemsOnPage={this.props.itemsOnPage}
+                    pathName={page ? '' : pathName.slice(1) + '/'}>
+                  </Pagination>
+                  {/* <!-- End Pagination --> */}
+
                 </div>
-                {/* <!-- End Content --> */}
-
-                {/* <!-- Pagination --> */}
-                <Pagination
-                  countOfItems={this.props.count}
-                  currentPage={(page && 0 < +page && countOfPages >= +page) ? +page : 1}
-                  itemsOnPage={this.props.itemsOnPage}
-                  pathName={page ? '' : pathName.slice(1) + '/'}>
-                </Pagination>
-                {/* <!-- End Pagination --> */}
-
+                {/* <!-- End Search Results --> */}
               </div>
-              {/* <!-- End Search Results --> */}
             </div>
-          </div>
-        </section>
+          </section>
+        </Display>
       </div>
     )
   }

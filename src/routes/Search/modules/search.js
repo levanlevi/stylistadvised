@@ -11,10 +11,10 @@ const config = require('../../../../config');
 // ------------------------------------
 // Actions
 // ------------------------------------
-function getUsers(page) {
+export function getUsers(page) {
   return async (dispatch) => {
 
-    dispatch({ type: SEARCH_GET_USERS_START, payload: { count: 0, itemsOnPage: 0, users: [], }});
+    dispatch({ type: SEARCH_GET_USERS_START, payload: { loading: true, count: 0, itemsOnPage: 0, users: [], }});
 
     try {
       const itemsOnPage = config.itemsOnSearchPage;
@@ -35,7 +35,7 @@ function getUsers(page) {
       );
       const data = await response.json();
 
-      dispatch({ type: SEARCH_GET_USERS_END, payload: { count: data.count, itemsOnPage: itemsOnPage, users: data.users, }});
+      dispatch({ type: SEARCH_GET_USERS_END, payload: { loading: false, count: data.count, itemsOnPage: itemsOnPage, users: data.users, }});
     } catch (error) {
       //dispatch(addToast('danger', 'An error occurred while updating the place.'));
     }
@@ -58,6 +58,7 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
+  loading: false,
   count: 0,
   itemsOnPage: 0,
   users: [],

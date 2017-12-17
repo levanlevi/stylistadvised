@@ -16,6 +16,7 @@ const listGroupItemActiveStyle = 'list-group-item list-group-item-action justify
 
 export default class Account extends Component {
   static propTypes = {
+    loading: PropTypes.bool.isRequired,
     user: PropTypes.object.isRequired,
 
     getUser: PropTypes.func.isRequired,
