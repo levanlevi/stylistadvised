@@ -103,11 +103,11 @@ export default class Search extends Component {
                   <div className="btn-group justified-content g-mb-40">
                     <label className="u-check">
                       <input onChange={this.sortByOnChange} className="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="radGroupBtn1_1" type="radio" checked={true} />
-                      <span className="btn btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked rounded-0">Date Added</span>
+                      <span className="btn btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked rounded-0">Name</span>
                     </label>
                     <label className="u-check">
                       <input onChange={this.sortByOnChange} className="g-hidden-xs-up g-pos-abs g-top-0 g-left-0" name="radGroupBtn1_1" type="radio" checked={false} />
-                      <span className="btn btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked g-brd-left-none--md rounded-0">Relevance</span>
+                      <span className="btn btn-block u-btn-outline-lightgray g-color-white--checked g-bg-primary--checked g-brd-left-none--md rounded-0">Rating</span>
                     </label>
                   </div>
                   {/* <!-- End Sort By --> */}

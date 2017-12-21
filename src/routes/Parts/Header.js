@@ -22,6 +22,7 @@ export default class Header extends Component {
         messagesLink: auth.isUserAuthenticated() ? '/messages/' + auth.getUserId() : null,
         name: auth.isUserAuthenticated() ? JSON.parse(auth.getUser()).name : null,        
         picture: (auth.isUserAuthenticated() && JSON.parse(auth.getUser()).picture) ? JSON.parse(auth.getUser()).picture : DefaultUserPicture,
+        searchLink: '/search',
       }
     };
 
@@ -100,6 +101,9 @@ export default class Header extends Component {
                         </li>
                         <li>
                           <a className="d-block g-color-secondary-dark-v1 g-color-primary--hover g-text-underline--none--hover g-py-5 g-px-20" href={this.state.user.messagesLink}>Messages</a>
+                        </li>
+                        <li>
+                          <a className="d-block g-color-secondary-dark-v1 g-color-primary--hover g-text-underline--none--hover g-py-5 g-px-20" href={this.state.user.searchLink}>Search</a>
                         </li>
                         <li>
                           <a onClick={this.signout} className="d-block g-color-secondary-dark-v1 g-color-primary--hover g-text-underline--none--hover g-py-5 g-px-20" href="/">Signout</a>
