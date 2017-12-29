@@ -12,6 +12,7 @@ const config = require('../../../../config');
 import auth from '../../auth/modules/auth';
 import Display from '../../Parts/Display';
 import Header from '../../Parts/Header';
+import Spinner from '../../Parts/Spinner';
 
 import ChannelItem from './ChannelItem';
 import FileItem from './FileItem';
@@ -35,32 +36,24 @@ const offline = 'offline';
 
 export default class Messages extends Component {
   static propTypes = {
-    channels: PropTypes.array,
+    loading: PropTypes.bool.isRequired, 
+
+    channels: PropTypes.array.isRequired,
     messages: PropTypes.array.isRequired,
+
+    getChannelsForUser: PropTypes.func.isRequired,
+    getMessagesForChannel: PropTypes.func.isRequired,
   }
 
   constructor(props) {
     super(props);
 
     this.state = {
+      loading: this.props.loading,
       activeChannel: null,
       audience: [],
-      channels: [
-        { name: 'flatorez+SnowFlake', id: '59eca251f0626a17ad08ddd2+59eca2d1f0626a17ad08ddd3', private: true, between: [ { id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, { id: '59eca2d1f0626a17ad08ddd3', name: 'SnowFlake' } ], status: offline, isActiveChannel: false, lastMessage: { id: '4', channelId: '1', text: 'I am fine, thanks!', user: { id: '59eca2d1f0626a17ad08ddd3', name: 'SnowFlake' }, time: 'Dec 1, 2017 6:18 PM' }, },
-        { name: 'flatorez+velhover', id: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', private: true, between: [ { id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, { id: '5a2928767ce45202194fba23', name: 'velhover' } ], status: offline, isActiveChannel: false, lastMessage: { id: '8', channelId: '2', text: 'I am fine, thanks!', user: { id: '5a2928767ce45202194fba23', name: 'velhover' }, time: 'Dec 1, 2017 6:18 PM' }, },
-      ],
-      messages: [
-        { id: '1', channelId: '59eca251f0626a17ad08ddd2+59eca2d1f0626a17ad08ddd3', text: 'Hi!', user: { id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, time: 'Dec 1, 2017 6:16 PM' },
-        { id: '2', channelId: '59eca251f0626a17ad08ddd2+59eca2d1f0626a17ad08ddd3', text: 'Good evening!', user: { id: '59eca2d1f0626a17ad08ddd3', name: 'SnowFlake' }, time: 'Dec 1, 2017 6:17 PM' },
-        { id: '3', channelId: '59eca251f0626a17ad08ddd2+59eca2d1f0626a17ad08ddd3', text: 'How are you?', user: { id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, time: 'Dec 1, 2017 6:17 PM' },
-        { id: '4', channelId: '59eca251f0626a17ad08ddd2+59eca2d1f0626a17ad08ddd3', text: 'I am fine, thanks!', user: { id: '59eca2d1f0626a17ad08ddd3', name: 'SnowFlake' }, time: 'Dec 1, 2017 6:18 PM' },
-
-        { id: '5', channelId: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', text: 'Good evening!', user: { id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, time: 'Dec 1, 2017 6:16 PM' },
-        { id: '6', channelId: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', text: 'Hello!', user: { id: '5a2928767ce45202194fba23', name: 'velhover' }, time: 'Dec 1, 2017 6:17 PM' },
-        { id: '7', channelId: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', text: 'Nice to see you!', user: { id: '5a2928767ce45202194fba23', name: 'velhover' }, time: 'Dec 1, 2017 6:17 PM' },
-        { id: '8', channelId: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', text: 'How are you?', user: { id: '59eca251f0626a17ad08ddd2', name: 'flatorez' }, time: 'Dec 1, 2017 6:17 PM' },
-        { id: '9', channelId: '59eca251f0626a17ad08ddd2+5a2928767ce45202194fba23', text: 'I am fine, thanks!', user: { id: '5a2928767ce45202194fba23', name: 'velhover' }, time: 'Dec 1, 2017 6:18 PM' },
-      ],
+      channels: this.props.channels,
+      messages: this.props.messages,
       files: [],
       newMessage: '',
       user: {
@@ -86,12 +79,19 @@ export default class Messages extends Component {
   }
 
   componentDidMount() {
+    if (this.state.user.id) {
+      this.props.getChannelsForUser(this.state.user.id);
+    }
+
     // initialization of HSScrollBar component
     $.HSCore.components.HSScrollBar.init( $('.js-scrollbar') );
-    // initialization of forms
-    $.HSCore.components.HSFileAttachment.init('.js-file-attachment');
     // Form Focus
     $.HSCore.helpers.HSFocusState.init();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ loading: nextProps.loading });
+    this.setState({ channels: nextProps.channels });
   }
 
   emit(eventName, payload) {
@@ -282,98 +282,103 @@ export default class Messages extends Component {
       <div>
         <Header isTransparent={false}></Header>
 
-        <section className="g-my-20 g-mb-100">
-          <div className="container">
-            <div className="row">
+        <Display if={this.state.loading}>
+          <Spinner />
+        </Display>
+        <Display if={!this.state.loading}>
+          <section className="g-my-20 g-mb-100">
+            <div className="container">
+              <div className="row">
 
-              {/* <!-- Sidebar --> */}
-              <div className="col-lg-3 g-mb-50 g-mb-0--lg">
-                <ul className="list-unstyled g-hidden-md-down mb-5">
-                  {channels}
-                </ul>
-              </div>
-              {/* <!-- End Sidebar --> */}
+                {/* <!-- Sidebar --> */}
+                <div className="col-lg-3 g-mb-50 g-mb-0--lg">
+                  <ul className="list-unstyled g-hidden-md-down mb-5">
+                    {channels}
+                  </ul>
+                </div>
+                {/* <!-- End Sidebar --> */}
 
-              {/* <!-- Content --> */}
-              <div className="col-lg-9">
+                {/* <!-- Content --> */}
+                <div className="col-lg-9">
 
-                {/* <!-- Panel Header --> */}
-                <div className="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15">
-                  <h3 className="h6 mb-0">
-                      <i className="icon-bubbles g-pos-rel g-top-1 g-mr-5"></i> Messages
-                    </h3>
-                  <div className="dropdown g-mb-10 g-mb-0--md">
-                    <span className="d-block g-color-primary--hover g-cursor-pointer g-mr-minus-5 g-pa-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i className="icon-options-vertical g-pos-rel g-top-1"></i>
-                      </span>
-                    <div className="dropdown-menu dropdown-menu-right rounded-0 g-mt-10">
-                      <a className="dropdown-item g-px-10" href="#!">
-                        <i className="icon-layers g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> Projects
-                      </a>
-                      <a className="dropdown-item g-px-10" href="#!">
-                        <i className="icon-wallet g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> Wallets
-                      </a>
-                      <a className="dropdown-item g-px-10" href="#!">
-                        <i className="icon-fire g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> Reports
-                      </a>
-                      <a className="dropdown-item g-px-10" href="#!">
-                        <i className="icon-settings g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> Users Setting
-                      </a>
+                  {/* <!-- Panel Header --> */}
+                  <div className="card-header d-flex align-items-center justify-content-between g-bg-gray-light-v5 border-0 g-mb-15">
+                    <h3 className="h6 mb-0">
+                        <i className="icon-bubbles g-pos-rel g-top-1 g-mr-5"></i> Messages
+                      </h3>
+                    <div className="dropdown g-mb-10 g-mb-0--md">
+                      <span className="d-block g-color-primary--hover g-cursor-pointer g-mr-minus-5 g-pa-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i className="icon-options-vertical g-pos-rel g-top-1"></i>
+                        </span>
+                      <div className="dropdown-menu dropdown-menu-right rounded-0 g-mt-10">
+                        <a className="dropdown-item g-px-10" href="#!">
+                          <i className="icon-layers g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> Projects
+                        </a>
+                        <a className="dropdown-item g-px-10" href="#!">
+                          <i className="icon-wallet g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> Wallets
+                        </a>
+                        <a className="dropdown-item g-px-10" href="#!">
+                          <i className="icon-fire g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> Reports
+                        </a>
+                        <a className="dropdown-item g-px-10" href="#!">
+                          <i className="icon-settings g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> Users Setting
+                        </a>
 
-                      <div className="dropdown-divider"></div>
+                        <div className="dropdown-divider"></div>
 
-                      <a className="dropdown-item g-px-10" href="#!">
-                        <i className="icon-plus g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> View More
-                      </a>
+                        <a className="dropdown-item g-px-10" href="#!">
+                          <i className="icon-plus g-font-size-12 g-color-gray-dark-v5 g-mr-5"></i> View More
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </div>
-                {/* <!-- End Panel Header --> */}
+                  {/* <!-- End Panel Header --> */}
 
-                {/* <!-- Messages --> */}
-                <div className="js-scrollbar g-height-350 g-brd-around g-brd-gray-light-v4 rounded g-pa-20 g-mb-30">
+                  {/* <!-- Messages --> */}
+                  <div className="js-scrollbar g-height-350 g-brd-around g-brd-gray-light-v4 rounded g-pa-20 g-mb-30">
+                    <div>
+                      {messages}
+                    </div>
+                  </div>
+                  {/* <!-- End Messages --> */}
+
+                  {/* <!-- New Message --> */}
                   <div>
-                    {messages}
-                  </div>
-                </div>
-                {/* <!-- End Messages --> */}
+                    <div className="g-mb-30">
+                      <div className="row g-mx-0">
+                        <div className="table-responsive">
+                          <table className="table table-bordered u-table--v2">                          
+                            <tbody>
+                              {files}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
 
-                {/* <!-- New Message --> */}
-                <div>
-                  <div className="g-mb-30">
-                    <div className="row g-mx-0">
-                      <div className="table-responsive">
-                        <table className="table table-bordered u-table--v2">                          
-                          <tbody>
-                            {files}
-                          </tbody>
-                        </table>
+                      <div className="input-group g-brd-primary--focus">
+                        <textarea onChange={this.changeMessage} value={this.state.newMessage} className="form-control form-control-md border-right-0 g-resize-none rounded-0 pr-0" rows="4" placeholder="Your message..."></textarea>
+                        <div className="input-group-addon d-flex justify-content-start g-color-gray-light-v1 g-bg-white rounded-0 g-py-12">
+                          <label className="u-file-attach-v2 g-color-gray-dark-v5 mb-0">
+                            <input onChange={this.onSelectFile} id="fileAttachment" name="file-attachment" type="file" />
+                            <i className="icon-cloud-upload g-font-size-16 g-pos-rel g-top-2 g-mr-5"></i>
+                            <span className="js-value">Attach file</span>
+                          </label>
+                        </div>
                       </div>
                     </div>
 
-                    <div className="input-group g-brd-primary--focus">
-                      <textarea onChange={this.changeMessage} value={this.state.newMessage} className="form-control form-control-md border-right-0 g-resize-none rounded-0 pr-0" rows="4" placeholder="Your message..."></textarea>
-                      <div className="input-group-addon d-flex justify-content-start g-color-gray-light-v1 g-bg-white rounded-0 g-py-12">
-                        <label className="u-file-attach-v2 g-color-gray-dark-v5 mb-0">
-                          <input onChange={this.onSelectFile} id="fileAttachment" name="file-attachment" type="file" />
-                          <i className="icon-cloud-upload g-font-size-16 g-pos-rel g-top-2 g-mr-5"></i>
-                          <span className="js-value">Attach file</span>
-                        </label>
-                      </div>
+                    <div className="d-flex align-items-center">
+                      <button onClick={this.sendMessage} className="btn u-btn-primary g-font-weight-600 g-font-size-12 text-uppercase g-py-12 g-px-25 mr-4" type="submit" role="button">Send</button>
                     </div>
                   </div>
+                  {/* <!-- End New Message --> */}
 
-                  <div className="d-flex align-items-center">
-                    <button onClick={this.sendMessage} className="btn u-btn-primary g-font-weight-600 g-font-size-12 text-uppercase g-py-12 g-px-25 mr-4" type="submit" role="button">Send</button>
-                  </div>
                 </div>
-                {/* <!-- End New Message --> */}
-
+                {/* <!-- End Content --> */}
               </div>
-              {/* <!-- End Content --> */}
             </div>
-          </div>
-        </section>
+          </section>
+        </Display>
       </div>
     )
   }

@@ -2,9 +2,11 @@ import { connect } from 'react-redux';
 
 import Search from '../components/Search';
 import { getUsers } from '../modules/search';
+import { setChannel } from '../modules/search';
 
 const mapDispatchToProps = {
   getUsers,
+  setChannel,
 }
 
 const mapStateToProps = (state) => ({

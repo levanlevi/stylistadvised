@@ -1,6 +1,20 @@
 import { injectReducer } from '../../store/reducers';
 
-export default (store) => ({
+export default (store) => ({  
+  path : 'messages',
+  getComponent (nextState, cb) {
+    require.ensure([], (require) => {
+      const Messages = require('./containers/MessagesContainer').default;
+      const reducer = require('./modules/messages').default;
+
+      injectReducer(store, { key: 'messages', reducer });
+
+      cb(null, Messages);
+    }, 'messages');
+  }
+})
+
+/*export default (store) => ({
   path: 'messages/:id',
   getComponent (nextState, cb) {
     require.ensure([], (require) => {
@@ -16,4 +30,4 @@ export default (store) => ({
         .catch(cb); // return error to router (or render NotFoundComponent)
     }, 'messages');
   }
-})
+})*/

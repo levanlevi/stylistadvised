@@ -19,7 +19,7 @@ export default class Header extends Component {
     this.state = {
       user: {
         accountLink: auth.isUserAuthenticated() ? '/account/' + auth.getUserId() : null,
-        messagesLink: auth.isUserAuthenticated() ? '/messages/' + auth.getUserId() : null,
+        messagesLink: '/messages',
         name: auth.isUserAuthenticated() ? JSON.parse(auth.getUser()).name : null,        
         picture: (auth.isUserAuthenticated() && JSON.parse(auth.getUser()).picture) ? JSON.parse(auth.getUser()).picture : DefaultUserPicture,
         searchLink: '/search',

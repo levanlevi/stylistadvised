@@ -25,6 +25,7 @@ export default class Search extends Component {
     users: PropTypes.array.isRequired,
 
     getUsers: PropTypes.func.isRequired,
+    setChannel: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -41,6 +42,9 @@ export default class Search extends Component {
     this.socket = io(config.serverUrl);
 
     this.socket.on('audience', this.updateAudience);
+
+    this.socket.on('new bc message', this.receiveRawMessage);
+    this.socket.on('receive private channel', this.receiveRawChannel);
   }
 
   componentDidMount() {
@@ -57,6 +61,23 @@ export default class Search extends Component {
   componentWillReceiveProps(nextProps) {
     this.setState({ loading: nextProps.loading });
     this.setState({ users: nextProps.users });
+  }
+
+  emit(eventName, payload) {
+    this.socket.emit(eventName, payload);
+  }
+
+  receiveRawMessage = (message) => {
+    const messages = this.state.messages.slice();
+    messages.push(message);
+
+    this.setState({ messages: messages });
+  }
+
+  receiveRawChannel = (channel) => {
+    this.onSelectChannel(channel.id);
+
+    this.emit('join channel', channel);
   }
 
   updateAudience = (audience) => {

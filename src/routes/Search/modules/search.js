@@ -3,6 +3,7 @@
 // ------------------------------------
 export const SEARCH_GET_USERS_START = 'SEARCH_GET_USERS_START';
 export const SEARCH_GET_USERS_END = 'SEARCH_GET_USERS_END';
+export const SEARCH_SET_CHANNEL = 'SEARCH_SET_CHANNEL';
 
 import auth from '../../auth/modules/auth';
 
@@ -42,8 +43,31 @@ export function getUsers(page) {
   }
 }
 
+export function setChannel(channel) {
+  return async (dispatch) => {
+    try {
+      const url = config.serverUrl + '/api/channels';
+      const response = await fetch(
+        url,
+        {
+          method: 'POST',
+          body: JSON.stringify(channel),
+          headers: { 'Content-type': 'application/json' },
+        }
+      );
+  
+      const result = await response.json();
+
+      dispatch({ type: SEARCH_SET_CHANNEL, payload: result });
+    } catch (error) {
+      //dispatch(addToast('danger', 'An error occurred while updating the place.'));
+    }
+  }
+}
+
 export const actions = {
   getUsers,
+  setChannel,
 }
 
 // ------------------------------------
@@ -52,6 +76,7 @@ export const actions = {
 const ACTION_HANDLERS = {
   [SEARCH_GET_USERS_START]: (state, action) => state = action.payload,
   [SEARCH_GET_USERS_END]: (state, action) => state = action.payload,
+  [SEARCH_SET_CHANNEL]: (state, action) => state = action.payload,
 }
 
 // ------------------------------------

@@ -1,11 +1,18 @@
 import { connect } from 'react-redux';
 
 import Messages from '../components/Messages';
+import { getChannelsForUser } from '../modules/messages';
+import { getMessagesForChannel } from '../modules/messages';
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+  getChannelsForUser,
+  getMessagesForChannel,
+}
 
 const mapStateToProps = (state) => ({
-  messages: state.messages,
+  loading: state.messages.loading,
+  channels: state.messages.channels,
+  messages: state.messages.messages,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages);
