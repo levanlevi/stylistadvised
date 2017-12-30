@@ -1,10 +1,10 @@
+const Channels = require('mongoose').model('Channels');
 const Messages = require('mongoose').model('Messages');
 
 var messageController = function () {
 
   var post = function (req, res) {
-    
-    var message = new Message(req.body);
+    var message = new Messages(req.body);
     message.save(function (error, data) {
       if(error) {
         console.log(error);
@@ -12,7 +12,13 @@ var messageController = function () {
         return res.status(500).json({msg: 'internal server error'});
       }
 
-      res.json(data);
+      Channels.findByIdAndUpdate(message.channelId, { $set: { lastMessage: data }}, { new: true }, function (err, channel) {
+        if (err) {
+          console.log(err);
+        }
+
+        res.json(data);
+      });    
     });
   };
 

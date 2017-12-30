@@ -3,7 +3,7 @@ const Users = require('mongoose').model('Users');
 var userController = function () {
 
   var post = function (req, res) {
-    var user = new User(req.body);
+    var user = new Users(req.body);
 
     if (!req.body.fname || !req.body.lname || !req.body.name || !req.body.email || !req.body.password) {
       res.status(400);
@@ -29,13 +29,13 @@ var userController = function () {
       delete query.limit;
     }
 
-    Users.find(query, '_id fname lname name email userType picture location aboutMe', pagination, function (err, users) {
-      if (err)
-        res.status(500).send(err);
+    Users.find(query, '_id fname lname name email userType picture location aboutMe', pagination, function (error, users) {
+      if (error)
+        res.status(500).send(error);
       else {
-        Users.count(query, function (error, count) {
-          if (error) {
-            res.status(500).send(error);
+        Users.count(query, function (err, count) {
+          if (err) {
+            res.status(500).send(err);
           } else {
             res.json({ count: count, users: users });
           }
@@ -45,9 +45,9 @@ var userController = function () {
   }
 
   var singleMiddleware = function (req, res, next) {
-    Users.findById(req.params.userId, function (err, user) {
-      if (err) {
-        res.status(500).send(err);
+    Users.findById(req.params.userId, function (error, user) {
+      if (error) {
+        res.status(500).send(error);
       }
       else if (user) {
         req.user = user;
@@ -86,9 +86,9 @@ var userController = function () {
       req.user[p] = req.user[p];
     }
 
-    req.user.save(function (err) {
-      if (err) {
-        res.status(500).send(err);
+    req.user.save(function (error) {
+      if (error) {
+        res.status(500).send(error);
       }
       else {
         res.json(req.user);
@@ -97,8 +97,8 @@ var userController = function () {
   }
 
   var deleteUser = function (req, res) {
-    req.user.remove(function (err) {
-      if (err) {
+    req.user.remove(function (error) {
+      if (error) {
         res.status(500).send();
       }
       else {

@@ -20,6 +20,9 @@ export default class SearchItem extends Component {
   static propTypes = {
     index: PropTypes.number.isRequired,
     user: PropTypes.object.isRequired,
+
+    setChannel: PropTypes.func.isRequired,
+    setMessage: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -41,6 +44,12 @@ export default class SearchItem extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user.channelId) {
+      this.sendMessage();
+    }
+  }
+
   getStatusStyle = () => {
     if (away === this.props.user.status) {
       return awayBadgeStyle;
@@ -56,30 +65,34 @@ export default class SearchItem extends Component {
   }
 
   sendMessage = (event) => {
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }    
 
     let currentUser = { id: auth.getUserId(), name: JSON.parse(auth.getUser()).name, };
     let targetUser = { id: this.state.user.id, name: this.state.user.name, };
 
-    let channel = {
-      id: `${currentUser.id}+${this.state.user.id}`,
-      name: `${currentUser.name}+${targetUser.name}`,      
-      private: true,
-      between: [ currentUser, targetUser ]
-    };
+    if (this.props.user.channelId) {
+      const message = {
+        id: `${Date.now()}${uuid.v4()}`,
+        channelId: this.props.user.channelId,
+        text: this.state.newMessage,
+        time: moment.utc().format('lll'),
+        user: currentUser,
+      };
 
-    const newMessage = {
-      id: `${Date.now()}${uuid.v4()}`,
-      channelId: channel.id,
-      text: this.state.newMessage,
-      time: moment.utc().format('lll'),
-      user: currentUser,
-    };
+      this.props.setMessage(message);
 
-    console.log(channel);
-    console.log(newMessage);
+      this.setState({ newMessage: '' });
+    } else {
+      let channel = {
+        id: `${currentUser.id}+${this.state.user.id}`,
+        name: `${currentUser.name}+${targetUser.name}`,      
+        between: [ currentUser, targetUser ],
+      };
 
-    this.setState({ newMessage: '' });
+      this.props.setChannel(channel);
+    }
   }
 
   render () {

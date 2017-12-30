@@ -3,8 +3,7 @@ const Channels = require('mongoose').model('Channels');
 var channelController = function () {
 
   var post = function (req, res) {
-    
-    var channel = new Channel(req.body);
+    var channel = new Channels(req.body);
     channel.save(function (error, data) {
       if(error) {
         console.log(error);

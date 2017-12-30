@@ -4,6 +4,7 @@
 export const SEARCH_GET_USERS_START = 'SEARCH_GET_USERS_START';
 export const SEARCH_GET_USERS_END = 'SEARCH_GET_USERS_END';
 export const SEARCH_SET_CHANNEL = 'SEARCH_SET_CHANNEL';
+export const SEARCH_SET_MESSAGE = 'SEARCH_SET_MESSAGE';
 
 import auth from '../../auth/modules/auth';
 
@@ -38,7 +39,7 @@ export function getUsers(page) {
 
       dispatch({ type: SEARCH_GET_USERS_END, payload: { loading: false, count: data.count, itemsOnPage: itemsOnPage, users: data.users, }});
     } catch (error) {
-      //dispatch(addToast('danger', 'An error occurred while updating the place.'));
+      //dispatch(addToast('danger', 'An error occurred.'));
     }
   }
 }
@@ -52,7 +53,7 @@ export function setChannel(channel) {
         {
           method: 'POST',
           body: JSON.stringify(channel),
-          headers: { 'Content-type': 'application/json' },
+          headers: { 'Authorization': `bearer ${auth.getToken()}`, 'Content-type': 'application/json' },
         }
       );
   
@@ -60,7 +61,29 @@ export function setChannel(channel) {
 
       dispatch({ type: SEARCH_SET_CHANNEL, payload: result });
     } catch (error) {
-      //dispatch(addToast('danger', 'An error occurred while updating the place.'));
+      //dispatch(addToast('danger', 'An error occurred.'));
+    }
+  }
+}
+
+export function setMessage(message) {
+  return async (dispatch) => {
+    try {
+      const url = config.serverUrl + '/api/messages';
+      const response = await fetch(
+        url,
+        {
+          method: 'POST',
+          body: JSON.stringify(message),
+          headers: { 'Authorization': `bearer ${auth.getToken()}`, 'Content-type': 'application/json' },
+        }
+      );
+  
+      const result = await response.json();
+
+      dispatch({ type: SEARCH_SET_MESSAGE, payload: result });
+    } catch (error) {
+      //dispatch(addToast('danger', 'An error occurred.'));
     }
   }
 }
@@ -68,6 +91,7 @@ export function setChannel(channel) {
 export const actions = {
   getUsers,
   setChannel,
+  setMessage,
 }
 
 // ------------------------------------
@@ -76,7 +100,8 @@ export const actions = {
 const ACTION_HANDLERS = {
   [SEARCH_GET_USERS_START]: (state, action) => state = action.payload,
   [SEARCH_GET_USERS_END]: (state, action) => state = action.payload,
-  [SEARCH_SET_CHANNEL]: (state, action) => state = action.payload,
+  [SEARCH_SET_CHANNEL]: (state, action) => state = { ...state, channel: action.payload },
+  [SEARCH_SET_MESSAGE]: (state, action) => state,
 }
 
 // ------------------------------------
@@ -86,7 +111,8 @@ const initialState = {
   loading: false,
   count: 0,
   itemsOnPage: 0,
-  users: [],
+  channel: {},
+  users: [],  
 };
 
 export default function reducer (state = initialState, action) {

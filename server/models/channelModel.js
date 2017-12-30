@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const channelSchema = mongoose.Schema({
-  name: { type: String, unique: true },
-  id: { type: String },
-  private: { type: Boolean },
+  id: { type: String, unique: true },
+  name: { type: String },
   between: { type: Array },
+  lastMessage: { type: Object },
 });
 
 module.exports = mongoose.model('Channels', channelSchema);

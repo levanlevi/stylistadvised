@@ -22,10 +22,12 @@ export default class Search extends Component {
     loading: PropTypes.bool.isRequired, 
     count: PropTypes.number.isRequired,
     itemsOnPage: PropTypes.number.isRequired,
+    channel: PropTypes.object,
     users: PropTypes.array.isRequired,
 
     getUsers: PropTypes.func.isRequired,
     setChannel: PropTypes.func.isRequired,
+    setMessage: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -60,7 +62,18 @@ export default class Search extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({ loading: nextProps.loading });
-    this.setState({ users: nextProps.users });
+
+    if (nextProps.channel) {
+      let users = nextProps.users.slice();
+      let user = _.findWhere(users, { _id: nextProps.channel.between[1].id });
+      if (user) {
+        user.channelId = nextProps.channel._id;
+      }
+
+      this.setState({ users: users });
+    } else {
+      this.setState({ users: nextProps.users });
+    }
   }
 
   emit(eventName, payload) {
@@ -96,7 +109,7 @@ export default class Search extends Component {
 
   render () {
     const listItems = this.state.users.map((user, index) =>
-      <Item key={index} index={index} user={user} />
+      <Item key={index} index={index} user={user} setChannel={this.props.setChannel} setMessage={this.props.setMessage} />
     );
 
     const countOfPages = Math.ceil(this.props.count / this.props.itemsOnPage);
