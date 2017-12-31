@@ -21,6 +21,7 @@ export default class SearchItem extends Component {
     index: PropTypes.number.isRequired,
     user: PropTypes.object.isRequired,
 
+    getChannel: PropTypes.func.isRequired,
     setChannel: PropTypes.func.isRequired,
     setMessage: PropTypes.func.isRequired,
   }
@@ -31,6 +32,7 @@ export default class SearchItem extends Component {
     const userName = this.props.user.fname ? this.props.user.fname + ' ' + this.props.user.lname : this.props.user.name;
 
     this.state = {
+      isChannelChecked: false,
       newMessage: '',
       user: {
         id: this.props.user._id,
@@ -47,6 +49,17 @@ export default class SearchItem extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.user.channelId) {
       this.sendMessage();
+    } else if (this.state.isChannelChecked) {
+      let currentUser = { id: auth.getUserId(), name: JSON.parse(auth.getUser()).name, };
+      let targetUser = { id: this.state.user.id, name: this.state.user.name, };
+
+      let channel = {
+        id: `${currentUser.id}+${targetUser.id}`,
+        name: `${currentUser.name}+${targetUser.name}`,
+        between: [ currentUser, targetUser ],
+      };
+
+      this.props.setChannel(channel);
     }
   }
 
@@ -85,13 +98,9 @@ export default class SearchItem extends Component {
 
       this.setState({ newMessage: '' });
     } else {
-      let channel = {
-        id: `${currentUser.id}+${this.state.user.id}`,
-        name: `${currentUser.name}+${targetUser.name}`,      
-        between: [ currentUser, targetUser ],
-      };
+      this.setState({ isChannelChecked: true });
 
-      this.props.setChannel(channel);
+      this.props.getChannel(`${currentUser.id}+${targetUser.id}`);
     }
   }
 

@@ -23,7 +23,7 @@ export function getChannelsForUser(userId) {
       if (isValidId(userId)) {
         dispatch({ type: MESSAGES_GET_CHANNELS_FOR_USER_START, payload: { loading: true, channels: [], messages: [], }});
 
-        const url = config.serverUrl + '/api/channels?userId=' + userId;
+        const url = (config.serverUrl + '/api/channels?userId=' + userId);
         const response = await fetch(
           url,
           {
@@ -47,7 +47,7 @@ export function getMessagesForChannel(channelId) {
     try {
       dispatch({ type: MESSAGES_MESSAGES_FOR_CHANNEL_START, payload: { loading: true, messages: [], }});
 
-      const url = config.serverUrl + '/api/messages?channelId=' + channelId;
+      const url = (config.serverUrl + '/api/messages?channelId=' + channelId);
       const response = await fetch(
         url,
         {

@@ -16,8 +16,12 @@ var channelController = function () {
   };
 
   var get = function (req, res) {
-    const query = req.query;
-    Channels.find({ "id": { "$regex": query.userId, "$options": "i" } }, function(error, data) {
+    let query = req.query;
+    if (query.userId) {
+      query = { "id": { "$regex": query.userId, "$options": "i" } };
+    }
+
+    Channels.find(query, function(error, data) {
       if(error) {
         console.log(error);
 

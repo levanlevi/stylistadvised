@@ -3,6 +3,7 @@
 // ------------------------------------
 export const SEARCH_GET_USERS_START = 'SEARCH_GET_USERS_START';
 export const SEARCH_GET_USERS_END = 'SEARCH_GET_USERS_END';
+export const SEARCH_GET_CHANNEL = 'SEARCH_GET_CHANNEL';
 export const SEARCH_SET_CHANNEL = 'SEARCH_SET_CHANNEL';
 export const SEARCH_SET_MESSAGE = 'SEARCH_SET_MESSAGE';
 
@@ -30,7 +31,7 @@ export function getUsers(page) {
 
     try {
       const pagination = getPagination(page);
-      const url = config.serverUrl + '/api/users?userType=stylist' + pagination;
+      const url = (config.serverUrl + '/api/users?userType=stylist' + pagination);
       const response = await fetch(
         url,
         {
@@ -49,10 +50,38 @@ export function getUsers(page) {
   }
 }
 
+function isValidId(id) {
+  return id.match(/^[0-9a-fA-F]{24}[+][0-9a-fA-F]{24}$/);
+}
+
+export function getChannel(channelId) {
+  return async (dispatch) => {
+    try {
+      if (isValidId(channelId)) {
+        const url = (config.serverUrl + '/api/channels?id=' + encodeURIComponent(channelId));
+        const response = await fetch(
+          url,
+          {
+            method: 'GET',
+            headers: { 'Authorization': `bearer ${auth.getToken()}` },
+          }
+        );
+
+        const channels = await response.json();
+        const channel = 0 < channels.length ? channels[0] : null;
+
+        dispatch({ type: SEARCH_GET_CHANNEL, payload: channel });
+      }
+    } catch (error) {
+      //dispatch(addToast('danger', 'An error occurred.'));
+    }
+  }
+}
+
 export function setChannel(channel) {
   return async (dispatch) => {
     try {
-      const url = config.serverUrl + '/api/channels';
+      const url = (config.serverUrl + '/api/channels');
       const response = await fetch(
         url,
         {
@@ -74,7 +103,7 @@ export function setChannel(channel) {
 export function setMessage(message) {
   return async (dispatch) => {
     try {
-      const url = config.serverUrl + '/api/messages';
+      const url = (config.serverUrl + '/api/messages');
       const response = await fetch(
         url,
         {
@@ -95,6 +124,7 @@ export function setMessage(message) {
 
 export const actions = {
   getUsers,
+  getChannel,
   setChannel,
   setMessage,
 }
@@ -105,6 +135,7 @@ export const actions = {
 const ACTION_HANDLERS = {
   [SEARCH_GET_USERS_START]: (state, action) => state = action.payload,
   [SEARCH_GET_USERS_END]: (state, action) => state = action.payload,
+  [SEARCH_GET_CHANNEL]: (state, action) => state = { ...state, channel: action.payload },
   [SEARCH_SET_CHANNEL]: (state, action) => state = { ...state, channel: action.payload },
   [SEARCH_SET_MESSAGE]: (state, action) => state,
 }
@@ -116,7 +147,7 @@ const initialState = {
   loading: false,
   count: 0,
   itemsOnPage: 0,
-  channel: {},
+  channel: null,
   users: [],  
 };
 

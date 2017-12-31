@@ -26,6 +26,7 @@ export default class Search extends Component {
     users: PropTypes.array.isRequired,
 
     getUsers: PropTypes.func.isRequired,
+    getChannel: PropTypes.func.isRequired,
     setChannel: PropTypes.func.isRequired,
     setMessage: PropTypes.func.isRequired,
   }
@@ -109,7 +110,14 @@ export default class Search extends Component {
 
   render () {
     const listItems = this.state.users.map((user, index) =>
-      <Item key={index} index={index} user={user} setChannel={this.props.setChannel} setMessage={this.props.setMessage} />
+      <Item 
+        key={index} 
+        index={index} 
+        user={user} 
+        getChannel={this.props.getChannel} 
+        setChannel={this.props.setChannel} 
+        setMessage={this.props.setMessage}>
+      </Item>
     );
 
     const countOfPages = Math.ceil(this.props.count / this.props.itemsOnPage);
