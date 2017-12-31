@@ -23,7 +23,8 @@ var messageController = function () {
   };
 
   var get = function (req, res) {
-    Messages.find({channelId: req.params.channel}, {id: 1, channelID: 1, text: 1, user: 1, time: 1, _id: 0}, function(error, data) {
+    const query = req.query;
+    Messages.find({channelId: query.channelId}, function(error, data) {
       if(error) {
         console.log(error);
 

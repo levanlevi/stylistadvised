@@ -13,29 +13,34 @@ const config = require('../../../../config');
 // ------------------------------------
 // Actions
 // ------------------------------------
+function getPagination(page) {
+  const itemsOnPage = config.itemsOnSearchPage;
+  let pagination = '&limit=' + itemsOnPage;
+  if (page && 1 < +page) {
+    pagination = '&skip=' + (+page - 1) * itemsOnPage + '&limit=' + itemsOnPage;
+  }
+
+  return pagination;
+}
+
 export function getUsers(page) {
   return async (dispatch) => {
 
     dispatch({ type: SEARCH_GET_USERS_START, payload: { loading: true, count: 0, itemsOnPage: 0, users: [], }});
 
     try {
-      const itemsOnPage = config.itemsOnSearchPage;
-      let pagination = '&limit=' + itemsOnPage;
-      if (page && 1 < +page) {
-        pagination = '&skip=' + (+page - 1) * itemsOnPage + '&limit=' + itemsOnPage;
-      }
-
-      const url = config.serverUrl + '/api/users?userType=stylist' + pagination;      
-
+      const pagination = getPagination(page);
+      const url = config.serverUrl + '/api/users?userType=stylist' + pagination;
       const response = await fetch(
         url,
         {
-          method: 'GET',          
-          pagination: JSON.stringify(pagination),
+          method: 'GET',
           headers: { 'Authorization': `bearer ${auth.getToken()}` },
         }
       );
+
       const data = await response.json();
+      const itemsOnPage = config.itemsOnSearchPage;
 
       dispatch({ type: SEARCH_GET_USERS_END, payload: { loading: false, count: data.count, itemsOnPage: itemsOnPage, users: data.users, }});
     } catch (error) {

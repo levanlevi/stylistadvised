@@ -91,7 +91,16 @@ export default class Messages extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({ loading: nextProps.loading });
-    this.setState({ channels: nextProps.channels });
+
+    if (!nextProps.loading) {
+      let channels = nextProps.channels.slice();
+      channels.map(channel => {      
+        channel.isActiveChannel = (this.state.activeChannel && this.state.activeChannel._id === channel._id);
+      });
+
+      this.setState({ channels: channels });
+      this.setState({ messages: nextProps.messages });
+    }
   }
 
   emit(eventName, payload) {
@@ -152,7 +161,9 @@ export default class Messages extends Component {
   }
 
   initPrivateChannel = (channelId) => {
-    let selectedChannel = _.first(_.filter(this.state.channels, channel => { return channelId === channel.id; }));
+    let selectedChannel = _.first(_.filter(this.state.channels, channel => { return channelId === channel._id; }));
+    this.setState({ activeChannel: selectedChannel });
+
     let currentUser = _.first(_.filter(selectedChannel.between, user => { return this.state.user.id === user.id; }));
     let targetUser = _.first(_.filter(selectedChannel.between, user => { return this.state.user.id !== user.id; }));
 
@@ -161,13 +172,12 @@ export default class Messages extends Component {
       return;
     }
 
-    let channel = _.findWhere(this.state.channels, { id: channelId });
+    let channel = _.findWhere(this.state.channels, { _id: channelId });
     if (!channel) {
       channel = {
         id: `${currentUser.id}+${targetUser.id}`,
         name: `${currentUser.name}+${targetUser.name}`,      
-        private: true,
-        between: [ currentUser, targetUser ]
+        between: [ currentUser, targetUser ],
       };
     }
 
@@ -208,10 +218,12 @@ export default class Messages extends Component {
 
     let channels = this.state.channels.slice();
     channels.map(channel => {      
-      channel.isActiveChannel = channelId === channel.id;
+      channel.isActiveChannel = channelId === channel._id;
     });
 
     this.setState({ channels: channels });
+
+    this.props.getMessagesForChannel(channelId);
   }
 
   onSelectFile = (event) => {
@@ -251,7 +263,7 @@ export default class Messages extends Component {
     const channels = this.state.channels.map((channel, index) =>
       <ChannelItem
         key={index}
-        id={channel.id}
+        id={channel._id}
         isActiveChannel={channel.isActiveChannel}
         status={channel.status}
         message={channel.lastMessage}
@@ -260,7 +272,7 @@ export default class Messages extends Component {
       </ChannelItem>
     );
 
-    const messages = this.state.messages.filter(f => this.state.activeChannel && this.state.activeChannel.id === f.channelId).map((message, index) =>
+    const messages = this.state.messages.filter(f => this.state.activeChannel && this.state.activeChannel._id === f.channelId).map((message, index) =>
       <MessageItem 
         key={index}
         isOddMessage={this.state.user.id !== message.user.id}

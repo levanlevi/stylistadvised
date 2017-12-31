@@ -16,7 +16,8 @@ var channelController = function () {
   };
 
   var get = function (req, res) {
-    Channels.find({ $or: [ {between: req.params.name}, {private: false } ] }, {name: 1, id: 1, private: 1, between: 1, _id: 0}, function(error, data) {
+    const query = req.query;
+    Channels.find({ "id": { "$regex": query.userId, "$options": "i" } }, function(error, data) {
       if(error) {
         console.log(error);
 

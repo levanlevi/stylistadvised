@@ -5,8 +5,9 @@ var routes = function () {
 
   var channelController = require('./../controllers/channelController')();
 
-  channelRouter.route('/').post(channelController.post);
-  channelRouter.route('/:name').get(channelController.get);
+  channelRouter.route('/')
+    .post(channelController.post)
+    .get(channelController.get);
 
   return channelRouter;
 };

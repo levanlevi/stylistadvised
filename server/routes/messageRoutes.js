@@ -5,8 +5,9 @@ var routes = function () {
 
   var messageController = require('./../controllers/messageController')();
 
-  messageRouter.route('/').post(messageController.post);
-  messageRouter.route('/:channel').get(messageController.get);
+  messageRouter.route('/')
+    .post(messageController.post)
+    .get(messageController.get);
 
   return messageRouter;
 };

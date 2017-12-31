@@ -17,8 +17,8 @@ const offline = 'offline';
 export default class ChannelItem extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
-    isActiveChannel: PropTypes.bool.isRequired,
-    status: PropTypes.string.isRequired,
+    isActiveChannel: PropTypes.bool,
+    status: PropTypes.string,
     message: PropTypes.object.isRequired,
     userName: PropTypes.string.isRequired,
     
