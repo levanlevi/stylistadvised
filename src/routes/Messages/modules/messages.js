@@ -21,7 +21,7 @@ export function getChannelsForUser(userId) {
   return async (dispatch) => {
     try {
       if (isValidId(userId)) {
-        dispatch({ type: MESSAGES_GET_CHANNELS_FOR_USER_START, payload: { loading: true, channels: [], messages: [], }});
+        dispatch({ type: MESSAGES_GET_CHANNELS_FOR_USER_START, payload: { loading: true, channels: [], }});
 
         const url = (config.serverUrl + '/api/channels?userId=' + userId);
         const response = await fetch(
@@ -34,7 +34,7 @@ export function getChannelsForUser(userId) {
 
         const channels = await response.json();
 
-        dispatch({ type: MESSAGES_GET_CHANNELS_FOR_USER_END, payload: { loading: false, channels: channels, messages: [], }});
+        dispatch({ type: MESSAGES_GET_CHANNELS_FOR_USER_END, payload: { loading: false, channels: channels, }});
       }
     } catch (error) {
       //dispatch(addToast('danger', 'An error occurred.'));
@@ -71,22 +71,23 @@ export const actions = {
 }
 
 // ------------------------------------
-// Action Handlers loading: action.payload.loading,
+// Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [MESSAGES_GET_CHANNELS_FOR_USER_START]: (state, action) => state = action.payload,
-  [MESSAGES_GET_CHANNELS_FOR_USER_END]: (state, action) => state = action.payload,
-  [MESSAGES_MESSAGES_FOR_CHANNEL_START]: (state, action) => state = { ...state, messages: action.payload.messages },
-  [MESSAGES_MESSAGES_FOR_CHANNEL_END]: (state, action) => state = { ...state, messages: action.payload.messages },
+  [MESSAGES_GET_CHANNELS_FOR_USER_START]: (state, action) => state = { ...state, channelsLoading: action.payload.loading, channels: action.payload.channels, messages: null },
+  [MESSAGES_GET_CHANNELS_FOR_USER_END]: (state, action) => state = { ...state, channelsLoading: action.payload.loading, channels: action.payload.channels, messages: null },
+  [MESSAGES_MESSAGES_FOR_CHANNEL_START]: (state, action) => state = { ...state, messagesLoading: action.payload.loading, messages: action.payload.messages },
+  [MESSAGES_MESSAGES_FOR_CHANNEL_END]: (state, action) => state = { ...state, messagesLoading: action.payload.loading, messages: action.payload.messages },
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 const initialState = {
-  loading: false,
+  channelsLoading: false,
+  messagesLoading: false,
   channels: [],
-  messages: [],
+  messages: null,
 };
 
 export default function messagesReducer (state = initialState, action) {

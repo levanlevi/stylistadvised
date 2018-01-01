@@ -43,11 +43,12 @@ export default class Search extends Component {
 
   componentWillMount() {
     this.socket = io(config.serverUrl);
+    this.socket.on('connect', this.connect);
+    this.socket.on('disconnect', this.disconnect);
 
+    this.socket.on('joined', this.joined);
     this.socket.on('audience', this.updateAudience);
-
-    this.socket.on('new bc message', this.receiveRawMessage);
-    this.socket.on('receive private channel', this.receiveRawChannel);
+    this.socket.on('rooms', this.updateRooms);
   }
 
   componentDidMount() {
@@ -68,7 +69,7 @@ export default class Search extends Component {
       let users = nextProps.users.slice();
       let user = _.findWhere(users, { _id: nextProps.channel.between[1].id });
       if (user) {
-        user.channelId = nextProps.channel._id;
+        user.channel = nextProps.channel;
       }
 
       this.setState({ users: users });
@@ -81,17 +82,22 @@ export default class Search extends Component {
     this.socket.emit(eventName, payload);
   }
 
-  receiveRawMessage = (message) => {
-    const messages = this.state.messages.slice();
-    messages.push(message);
-
-    this.setState({ messages: messages });
+  connect = () => {    
+    var member = (sessionStorage.member) ? JSON.parse(sessionStorage.member) : null;
+    
+    if (member) {
+      this.emit('join', member);
+    } else {
+      this.emit('join', { id: auth.getUserId(), name: JSON.parse(auth.getUser()).name });
+    }
   }
 
-  receiveRawChannel = (channel) => {
-    this.onSelectChannel(channel.id);
+  disconnect = () => {
+    console.log('disconnected');
+  }
 
-    this.emit('join channel', channel);
+  joined = (member) => {
+    sessionStorage.member = JSON.stringify(member);   
   }
 
   updateAudience = (audience) => {
@@ -100,13 +106,36 @@ export default class Search extends Component {
       let onlineUser = _.findWhere(audience, { id: user._id });
 
       user.status = onlineUser ? online : away;
-    })
+    });
 
     this.setState({ audience: audience });
     this.setState({ users: users });
   }
 
+  updateRooms = (rooms) => {
+    let users = this.state.users.slice();
+    users.map(user => {
+      user.room = _.findWhere(rooms, { id: `${auth.getUserId()}+${user._id}` });
+    });
+
+    this.setState({ users: users });
+  }
+
   sortByOnChange = (event) => {}
+
+  sendMessage = (message) => {
+    this.emit('new message', message);
+  }
+
+  setRoomAndSendMessage = (channel, message) => {
+    let otherUser = _.first(_.filter(this.state.audience, user => { return channel.between[1].id === user.id; }));
+    if (!otherUser) {
+      return;
+    }
+
+    this.emit('new private channel', { socketId : otherUser.socketId, channel: channel, });
+    this.emit('join channel', channel);
+  }
 
   render () {
     const listItems = this.state.users.map((user, index) =>
@@ -116,7 +145,9 @@ export default class Search extends Component {
         user={user} 
         getChannel={this.props.getChannel} 
         setChannel={this.props.setChannel} 
-        setMessage={this.props.setMessage}>
+        setMessage={this.props.setMessage}
+        sendMessage={this.sendMessage}
+        setRoomAndSendMessage={this.setRoomAndSendMessage}>
       </Item>
     );
 

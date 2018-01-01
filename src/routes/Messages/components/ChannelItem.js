@@ -29,10 +29,6 @@ export default class ChannelItem extends Component {
     this.props.onSelectChannel(this.props.id);
   }
 
-  getChannelStyle = () => {
-    return this.props.isActiveChannel ? aActiveStyle : aStyle;
-  }
-
   getStatusStyle = () => {
     if (away === this.props.status) {
       return awaySpanStyle;
@@ -44,19 +40,23 @@ export default class ChannelItem extends Component {
   }
 
   render () {
+    const channelStyle = this.props.isActiveChannel ? aActiveStyle : aStyle;
+    const messageText = (25 < this.props.message.text.length ? this.props.message.text.slice(0, 22) + '...' : this.props.message.text);
+    const messageTime = (new Date(this.props.message.time)).toLocaleString();
+
     return (
       <li className="my-1">
         <a 
           onClick={this.onSelectChannel}
-          className={this.getChannelStyle()}>
+          className={channelStyle}>
           <div className="media">
             <div className="g-pos-rel g-mr-5">
               <span className={this.getStatusStyle()}></span>
               <img className="g-width-50 g-height-50 rounded-circle" src={DefaultUserPicture} alt="Image Description" />
             </div>
             <div className="media-body">
-              <p className="m-0"><strong>{this.props.userName}</strong> {this.props.message.text}</p>
-              <span className="g-font-size-12 g-color-gray">{this.props.message.time}</span>
+              <p className="m-0"><strong>{this.props.userName}</strong> {messageText}</p>
+              <span className="g-font-size-12 g-color-gray">{messageTime}</span>
             </div>
           </div>
         </a>

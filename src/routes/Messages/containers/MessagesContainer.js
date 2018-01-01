@@ -10,7 +10,8 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = (state) => ({
-  loading: state.messages.loading,
+  channelsLoading: state.messages.channelsLoading,
+  messagesLoading: state.messages.messagesLoading,
   channels: state.messages.channels,
   messages: state.messages.messages,
 })

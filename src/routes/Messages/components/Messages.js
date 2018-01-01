@@ -36,10 +36,11 @@ const offline = 'offline';
 
 export default class Messages extends Component {
   static propTypes = {
-    loading: PropTypes.bool.isRequired, 
+    channelsLoading: PropTypes.bool.isRequired,
+    messagesLoading: PropTypes.bool.isRequired, 
 
     channels: PropTypes.array.isRequired,
-    messages: PropTypes.array.isRequired,
+    messages: PropTypes.array,
 
     getChannelsForUser: PropTypes.func.isRequired,
     getMessagesForChannel: PropTypes.func.isRequired,
@@ -49,11 +50,12 @@ export default class Messages extends Component {
     super(props);
 
     this.state = {
-      loading: this.props.loading,
+      channelsLoading: this.props.channelsLoading,
+      messagesLoading: this.props.messagesLoading,
+
       activeChannel: null,
       audience: [],
       channels: this.props.channels,
-      messages: this.props.messages,
       files: [],
       newMessage: '',
       user: {
@@ -90,34 +92,23 @@ export default class Messages extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ loading: nextProps.loading });
+    this.setState({ channelsLoading: nextProps.channelsLoading });
+    this.setState({ messagesLoading: nextProps.messagesLoading });
 
-    if (!nextProps.loading) {
-      let channels = nextProps.channels.slice();
-      channels.map(channel => {      
-        channel.isActiveChannel = (this.state.activeChannel && this.state.activeChannel._id === channel._id);
-      });
+    if (!nextProps.messages) {
+      if (!nextProps.channelsLoading) {
+        this.setState({ channels: nextProps.channels });
+      }
+    } else if (!nextProps.messagesLoading) {
+      const channel = this.state.activeChannel;
+      channel.messages = nextProps.messages;
 
-      this.setState({ channels: channels });
-      this.setState({ messages: nextProps.messages });
+      this.setState({ activeChannel: channel });
     }
   }
 
   emit(eventName, payload) {
     this.socket.emit(eventName, payload);
-  }
-
-  receiveRawMessage = (message) => {
-    const messages = this.state.messages.slice();
-    messages.push(message);
-
-    this.setState({ messages: messages });
-  }
-
-  receiveRawChannel = (channel) => {
-    this.onSelectChannel(channel.id);
-
-    this.emit('join channel', channel);
   }
 
   connect = () => {    
@@ -135,7 +126,7 @@ export default class Messages extends Component {
   }
 
   joined = (member) => {
-    sessionStorage.member = JSON.stringify(member);    
+    sessionStorage.member = JSON.stringify(member);   
   }
 
   changeActiveChannel = (channel) => {
@@ -156,36 +147,21 @@ export default class Messages extends Component {
     this.setState({ channels: channels });
   }
 
-  changeMessage = (event) => {
-    this.setState({ newMessage: event.target.value });
+  receiveRawMessage = (message) => {console.log(message);
+    if (this.state.activeChannel && message.channelId === this.state.activeChannel._id) {
+      const channel = this.state.activeChannel;
+      channel.messages ? channel.messages.push(message) : channel.messages = [message];
+
+      this.setState({ activeChannel: channel });
+    }
   }
 
-  initPrivateChannel = (channelId) => {
-    let selectedChannel = _.first(_.filter(this.state.channels, channel => { return channelId === channel._id; }));
-    this.setState({ activeChannel: selectedChannel });
-
-    let currentUser = _.first(_.filter(selectedChannel.between, user => { return this.state.user.id === user.id; }));
-    let targetUser = _.first(_.filter(selectedChannel.between, user => { return this.state.user.id !== user.id; }));
-
-    let otherUser = _.first(_.filter(this.state.audience, user => { return targetUser.id === user.id; }));
-    if (!otherUser) {
-      return;
-    }
-
-    let channel = _.findWhere(this.state.channels, { _id: channelId });
-    if (!channel) {
-      channel = {
-        id: `${currentUser.id}+${targetUser.id}`,
-        name: `${currentUser.name}+${targetUser.name}`,      
-        between: [ currentUser, targetUser ],
-      };
-    }
-
-    this.emit('new private channel', { socketId : otherUser.socketId, channel: channel, });
-    
-    this.setState({ activeChannel: channel });
-
+  receiveRawChannel = (channel) => {
     this.emit('join channel', channel);
+  }
+
+  changeMessage = (event) => {
+    this.setState({ newMessage: event.target.value });
   }
 
   sendMessage = () => {
@@ -213,15 +189,28 @@ export default class Messages extends Component {
     this.setState( { newMessage: '' });
   }
 
+  initPrivateChannel = (channelId) => {
+    let selectedChannel = _.first(_.filter(this.state.channels, channel => { return channelId === channel._id; }));
+    if (!selectedChannel) {
+      return;
+    }
+
+    this.setState({ activeChannel: selectedChannel });
+
+    let currentUser = _.first(_.filter(selectedChannel.between, user => { return this.state.user.id === user.id; }));
+    let targetUser = _.first(_.filter(selectedChannel.between, user => { return this.state.user.id !== user.id; }));
+
+    let otherUser = _.first(_.filter(this.state.audience, user => { return targetUser.id === user.id; }));
+    if (!otherUser) {
+      return;
+    }
+
+    this.emit('new private channel', { socketId : otherUser.socketId, channel: selectedChannel, });
+    this.emit('join channel', selectedChannel);
+  }
+
   onSelectChannel = (channelId) => {
     this.initPrivateChannel(channelId);
-
-    let channels = this.state.channels.slice();
-    channels.map(channel => {      
-      channel.isActiveChannel = channelId === channel._id;
-    });
-
-    this.setState({ channels: channels });
 
     this.props.getMessagesForChannel(channelId);
   }
@@ -264,7 +253,7 @@ export default class Messages extends Component {
       <ChannelItem
         key={index}
         id={channel._id}
-        isActiveChannel={channel.isActiveChannel}
+        isActiveChannel={this.state.activeChannel && this.state.activeChannel._id === channel._id}
         status={channel.status}
         message={channel.lastMessage}
         userName={this.getTargetUserName(channel)}
@@ -272,7 +261,8 @@ export default class Messages extends Component {
       </ChannelItem>
     );
 
-    const messages = this.state.messages.filter(f => this.state.activeChannel && this.state.activeChannel._id === f.channelId).map((message, index) =>
+    const messagesSource = (this.state.activeChannel && this.state.activeChannel.messages) ? this.state.activeChannel.messages : [];
+    const messages = messagesSource.map((message, index) =>
       <MessageItem 
         key={index}
         isOddMessage={this.state.user.id !== message.user.id}
@@ -294,10 +284,10 @@ export default class Messages extends Component {
       <div>
         <Header isTransparent={false}></Header>
 
-        <Display if={this.state.loading}>
+        <Display if={this.state.channelsLoading}>
           <Spinner />
         </Display>
-        <Display if={!this.state.loading}>
+        <Display if={!this.state.channelsLoading}>
           <section className="g-my-20 g-mb-100">
             <div className="container">
               <div className="row">
@@ -349,9 +339,14 @@ export default class Messages extends Component {
                   {/* <!-- Messages --> */}
                   <div className="js-scrollbar g-height-350 g-brd-around g-brd-gray-light-v4 rounded g-pa-20 g-mb-30">
                     <div>
-                      {messages}
+                      <Display if={this.state.messagesLoading}>
+                        <Spinner />
+                      </Display>
+                      <Display if={!this.state.messagesLoading}>
+                        {messages}
+                      </Display>
                     </div>
-                  </div>
+                  </div>                  
                   {/* <!-- End Messages --> */}
 
                   {/* <!-- New Message --> */}

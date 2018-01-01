@@ -2,6 +2,7 @@ const _ = require('underscore');
 
 const connections = [];
 const audience = [];
+const rooms = [];
 
 var socketEvents = function(io) {
 
@@ -12,8 +13,16 @@ var socketEvents = function(io) {
       if (member) {
         audience.splice(audience.indexOf(member), 1);
         io.sockets.emit('audience', audience);
-        console.log("Left: %s (%s audience members)", member.name, audience.length)
-      }
+        console.log("Left: %s (%s audience members)", member.name, audience.length);
+
+        var room = _.find(rooms, function(room) { return member.id === room.between[0].id || member.id === room.between[1].id });
+      
+        if (room) {
+          rooms.splice(rooms.indexOf(room), 1);
+          io.sockets.emit('rooms', rooms);
+          console.log("Left: %s (%s rooms)", room.name, rooms.length);
+        }
+      }      
 
       connections.splice(connections.indexOf(socket), 1);
       socket.disconnect();
@@ -47,7 +56,16 @@ var socketEvents = function(io) {
     });
 
     socket.on('new private channel', function(data) {
-      socket.broadcast.to(data.socketId).emit('receive private channel', data.channel);
+      var room = _.findWhere(rooms, { id: data.channel.id });
+      if (room) {
+        socket.broadcast.to(data.socketId).emit('receive private channel', room);
+      } else {
+        socket.broadcast.to(data.socketId).emit('receive private channel', data.channel);
+
+        rooms.push(data.channel);
+        io.sockets.emit('room', rooms);
+        console.log("Rooms Joined: %s", room);
+      }
     });
 
     socket.on('join channel', function(channel) {

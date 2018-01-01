@@ -24,6 +24,8 @@ export default class SearchItem extends Component {
     getChannel: PropTypes.func.isRequired,
     setChannel: PropTypes.func.isRequired,
     setMessage: PropTypes.func.isRequired,
+    sendMessage: PropTypes.func.isRequired,
+    setRoomAndSendMessage: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -47,7 +49,7 @@ export default class SearchItem extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.user.channelId) {
+    if (nextProps.user.channel) {
       this.sendMessage();
     } else if (this.state.isChannelChecked) {
       let currentUser = { id: auth.getUserId(), name: JSON.parse(auth.getUser()).name, };
@@ -80,21 +82,29 @@ export default class SearchItem extends Component {
   sendMessage = (event) => {
     if (event) {
       event.preventDefault();
-    }    
+    }
 
     let currentUser = { id: auth.getUserId(), name: JSON.parse(auth.getUser()).name, };
     let targetUser = { id: this.state.user.id, name: this.state.user.name, };
 
-    if (this.props.user.channelId) {
+    if (this.props.user.channel) {
       const message = {
         id: `${Date.now()}${uuid.v4()}`,
-        channelId: this.props.user.channelId,
+        channelId: this.props.user.channel._id,
         text: this.state.newMessage,
         time: moment.utc().format('lll'),
         user: currentUser,
       };
 
       this.props.setMessage(message);
+
+      if (online === this.props.user.status) {
+        if (this.props.user.root) {
+          this.props.sendMessage(message);
+        } else {
+          this.props.setRoomAndSendMessage(this.props.user.channel, message);
+        }
+      }
 
       this.setState({ newMessage: '' });
     } else {
