@@ -22,12 +22,12 @@ class HomeView extends React.Component {
   }
 
   componentDidMount() {
-    const script = document.createElement('script');
+    // const script = document.createElement('script');
     
-    script.src = '/js/unifyInit.js';
-    script.async = true;
+    // script.src = '/js/custom.js';
+    // script.async = true;
 
-    document.body.appendChild(script);
+    // document.body.appendChild(script);
   }
 
   launchCustomer() {
@@ -235,6 +235,7 @@ class HomeView extends React.Component {
           </div>
         </div>
 
+        {/* <!-- How It Works --> */}
         <section id="howitworks" className="g-bg-secondary">
           <div className="container g-pt-100 g-pb-40">
             <div className="row justify-content-center g-mb-60">
@@ -299,6 +300,7 @@ class HomeView extends React.Component {
             </div>
           </div>
         </section>
+        {/* <!-- End How It Works --> */}
 
         {/* <!-- Footer --> */}
         <footer>

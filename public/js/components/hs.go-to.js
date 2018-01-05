@@ -57,6 +57,7 @@
           $target = $this.data('target'),
           type = $this.data('type'),
           showEffect = $this.data('show-effect'),
+          hideEffect = $this.data('hide-effect'),
           position = JSON.parse(el.getAttribute('data-position')),
           compensation = $($this.data('compensation')).outerHeight(),
           offsetTop = $this.data('offset-top');
@@ -83,12 +84,12 @@
           }, 800);
         });
 
-        if (!$this.data('offset-top') && !$this.hasClass('u-animation-was-fired')) {
+        if (!$this.data('offset-top') && !$this.hasClass('js-animation-was-fired')) {
           if ($this.offset().top <= $(window).height()) {
             $this.show();
 
             setTimeout(function() {
-              $this.addClass('u-animation-was-fired ' + showEffect).css({
+              $this.addClass('js-animation-was-fired ' + showEffect).css({
                 'opacity': ''
               });
             });
@@ -97,32 +98,36 @@
 
         $(window).on('scroll', function () {
           if ($this.data('offset-top')) {
-            if ($(window).scrollTop() >= offsetTop && !$this.hasClass('u-animation-was-fired')) {
+            if ($(window).scrollTop() >= offsetTop && !$this.hasClass('js-animation-was-fired')) {
               $this.show();
 
               setTimeout(function() {
-                $this.addClass('u-animation-was-fired ' + showEffect).css({
+                $this.addClass('js-animation-was-fired ' + showEffect).css({
                   'opacity': ''
                 });
               });
-            } else if ($(window).scrollTop() <= offsetTop && $this.hasClass('u-animation-was-fired')) {
-              $this.removeClass('u-animation-was-fired ' + showEffect).css({
-                'opacity': 0
-              });
+            } else if ($(window).scrollTop() <= offsetTop && $this.hasClass('js-animation-was-fired')) {
+              $this.removeClass('js-animation-was-fired ' + showEffect);
 
               setTimeout(function() {
-                $this.hide();
+                $this.addClass(hideEffect).css({
+                  'opacity': 0
+                });
+              }, 100);
+
+              setTimeout(function() {
+                $this.removeClass(hideEffect).hide();
               }, 400);
             }
           } else {
             var thisOffsetTop = $this.offset().top;
 
-            if (!$this.hasClass('u-animation-was-fired')) {
+            if (!$this.hasClass('js-animation-was-fired')) {
               if ($(window).scrollTop() >= thisOffsetTop - $(window).height()) {
                 $this.show();
 
                 setTimeout(function() {
-                  $this.addClass('u-animation-was-fired ' + showEffect).css({
+                  $this.addClass('js-animation-was-fired ' + showEffect).css({
                     'opacity': ''
                   });
                 });

@@ -14,7 +14,7 @@ class SettingsPayments extends React.Component {
   }
 
   componentDidMount() {
-    // Form Select
+    // initialization of custom select
     $.HSCore.components.HSSelect.init('.js-custom-select');
   }
 

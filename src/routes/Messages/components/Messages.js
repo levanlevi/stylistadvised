@@ -346,7 +346,7 @@ export default class Messages extends Component {
                         {messages}
                       </Display>
                     </div>
-                  </div>                  
+                  </div>
                   {/* <!-- End Messages --> */}
 
                   {/* <!-- New Message --> */}
@@ -354,7 +354,7 @@ export default class Messages extends Component {
                     <div className="g-mb-30">
                       <div className="row g-mx-0">
                         <div className="table-responsive">
-                          <table className="table table-bordered u-table--v2">                          
+                          <table className="table table-bordered u-table--v2">
                             <tbody>
                               {files}
                             </tbody>

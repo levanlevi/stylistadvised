@@ -25,8 +25,10 @@
       dropdownHideOnScroll: true,
       dropdownHideOnBlur: false,
       dropdownDelay: 350,
-      afterOpen: function (invoker) {},
-      afterClose: function (invoker) {}
+      afterOpen: function (invoker) {
+      },
+      afterClose: function (invoker) {
+      }
     },
 
     /**
@@ -52,6 +54,8 @@
       if (!collection || !collection.length) return;
 
       self = this;
+
+      var fieldsQty;
 
       collection.each(function (i, el) {
 
@@ -85,6 +89,9 @@
 
         self._pageCollection = self._pageCollection.add($this);
         self._bindEvents($this, itemConfig.dropdownEvent, itemConfig.dropdownDelay);
+        var DropDown = $(el).data('HSDropDown');
+
+        fieldsQty = $(DropDown.target).find('input, textarea').length;
 
       });
 
@@ -94,7 +101,14 @@
 
           self._pageCollection.each(function (i, el) {
 
-            $(el).data('HSDropDown').hide();
+            var windW = $(window).width(),
+              optIsMobileOnly = Boolean($(el).data('is-mobile-only'));
+
+            if (!optIsMobileOnly) {
+              $(el).data('HSDropDown').hide();
+            } else if (optIsMobileOnly && windW < 769) {
+              $(el).data('HSDropDown').hide();
+            }
 
           });
 
@@ -102,17 +116,50 @@
 
       });
 
+      $(window).on('click', function (e) {
+
+        self._pageCollection.each(function (i, el) {
+
+          var windW = $(window).width(),
+            optIsMobileOnly = Boolean($(el).data('is-mobile-only'));
+
+          if (!optIsMobileOnly) {
+            $(el).data('HSDropDown').hide();
+          } else if (optIsMobileOnly && windW < 769) {
+            $(el).data('HSDropDown').hide();
+          }
+
+        });
+
+      });
+
+      self._pageCollection.each(function (i, el) {
+
+        var target = $(el).data('HSDropDown').config.dropdownTarget;
+
+        $(target).on('click', function(e) {
+
+          e.stopPropagation();
+
+        });
+
+      });
+
       $(window).on('scroll.HSDropDown', function (e) {
 
         self._pageCollection.each(function (i, el) {
 
-            var DropDown = $(el).data('HSDropDown');
+          var DropDown = $(el).data('HSDropDown');
 
-            if (DropDown.getOption('dropdownHideOnScroll')) {
+          if (DropDown.getOption('dropdownHideOnScroll') && fieldsQty === 0) {
 
-              DropDown.hide();
+            DropDown.hide();
 
-            }
+          } else if (DropDown.getOption('dropdownHideOnScroll') && !(/iPhone|iPad|iPod/i.test(navigator.userAgent))) {
+
+            DropDown.hide();
+
+          }
 
         });
 
