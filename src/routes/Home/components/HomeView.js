@@ -22,12 +22,12 @@ class HomeView extends React.Component {
   }
 
   componentDidMount() {
-    // const script = document.createElement('script');
+    const script = document.createElement('script');
     
-    // script.src = '/js/custom.js';
-    // script.async = true;
+    script.src = '/js/custom.js';
+    script.async = true;
 
-    // document.body.appendChild(script);
+    document.body.appendChild(script);
   }
 
   launchCustomer() {
