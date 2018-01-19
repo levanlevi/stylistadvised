@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import auth from '../../auth/modules/auth';
+import auth from '../../Auth/modules/auth';
 import Display from '../../Parts/Display';
 import Header from '../../Parts/Header';
 import Spinner from '../../Parts/Spinner';

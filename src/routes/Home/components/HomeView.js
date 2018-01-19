@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import auth from '../../auth/modules/auth';
+import auth from '../../Auth/modules/auth';
 import Header from '../../Parts/Header';
 
 import DefaultUserPicture from '../../../assets/defaultUserPicture.jpg';

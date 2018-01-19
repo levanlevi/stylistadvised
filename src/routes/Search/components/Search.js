@@ -5,7 +5,7 @@ const _ = require('underscore');
 const io = require('socket.io-client');
 const config = require('../../../../config');
 
-import auth from '../../auth/modules/auth';
+import auth from '../../Auth/modules/auth';
 import Display from '../../Parts/Display';
 import Header from '../../Parts/Header';
 import Pagination from '../../Parts/Pagination';

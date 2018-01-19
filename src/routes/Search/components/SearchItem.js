@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import uuid from 'node-uuid';
 
-import auth from '../../auth/modules/auth';
+import auth from '../../Auth/modules/auth';
 
 import DefaultUserPicture from '../assets/defaultUserPicture.jpg';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-import auth from '../../auth/modules/auth';
+import auth from '../../Auth/modules/auth';
 
 import Notifications from './SettingsNotifications';
 import Payments from './SettingsPayments';

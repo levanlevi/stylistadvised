@@ -5,7 +5,7 @@ export const ACCOUNT_GET_USER_START = 'ACCOUNT_GET_USER_START';
 export const ACCOUNT_GET_USER_END = 'ACCOUNT_GET_USER_END';
 export const ACCOUNT_USER_SUBMIT = 'ACCOUNT_USER_SUBMIT';
 
-import auth from '../../auth/modules/auth';
+import auth from '../../Auth/modules/auth';
 
 const config = require('../../../../config');
 
