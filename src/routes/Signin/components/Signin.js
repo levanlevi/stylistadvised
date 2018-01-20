@@ -46,8 +46,8 @@ export default class Signin extends Component {
         password: null,
       },
       user: {
-        email: '', //'flatorez@gmail.com', //'snowflake33@yandex.ru', //velhover@ya.ru
-        password: 'cde32123',
+        email: '',
+        password: '',
       },
     };
 
