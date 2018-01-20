@@ -1,6 +1,19 @@
 # First step
 Install Docker on your OS [Ubuntu](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/) [MacOS](https://docs.docker.com/docker-for-mac/install/)
 
+# Working with docker
+List images:
+
+```docker images```
+
+Remove local image (after build new container^ it saves in local docker)
+
+```docker rmi -f IMAGE_ID```
+
+Stop running container
+
+```docker stop CONTAINER_ID```
+
 # Deploy
 1. In repo dir build container
 
@@ -22,9 +35,11 @@ Install Docker on your OS [Ubuntu](https://docs.docker.com/engine/installation/l
     
     ```ssh -i "path/to/ssh-key.pem.pem" ubuntu@YOUR_SERVER.compute.amazonaws.com```
 
-5. Load image and run 
+5. Load image, stop running container and run new container (use ```docker ps``` for check running container)
     
     ```docker load < stylistadvisedme.tar``` - will display Image Id.
+
+    ```docker stop CONTAINER_ID```
 
     ```docker run -p 3000:3000 -d IMAGEID```
 
