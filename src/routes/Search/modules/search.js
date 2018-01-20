@@ -7,7 +7,7 @@ export const SEARCH_GET_CHANNEL = 'SEARCH_GET_CHANNEL';
 export const SEARCH_SET_CHANNEL = 'SEARCH_SET_CHANNEL';
 export const SEARCH_SET_MESSAGE = 'SEARCH_SET_MESSAGE';
 
-import auth from '../../auth/modules/auth';
+import auth from '../../Auth/modules/auth';
 
 const config = require('../../../../config');
 

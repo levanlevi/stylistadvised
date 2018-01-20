@@ -6,7 +6,7 @@ export const MESSAGES_GET_CHANNELS_FOR_USER_END = 'MESSAGES_GET_CHANNELS_FOR_USE
 export const MESSAGES_MESSAGES_FOR_CHANNEL_START = 'MESSAGES_MESSAGES_FOR_CHANNEL_START';
 export const MESSAGES_MESSAGES_FOR_CHANNEL_END = 'MESSAGES_MESSAGES_FOR_CHANNEL_END';
 
-import auth from '../../auth/modules/auth';
+import auth from '../../Auth/modules/auth';
 
 const config = require('../../../../config');
 
