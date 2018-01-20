@@ -67,4 +67,6 @@ package-lock.json
 # Visual Studio Code settings
 .vscode
 
+## Project-wide
 .DS_Store
+stylistadvisedme.tar
