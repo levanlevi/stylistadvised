@@ -74,6 +74,7 @@ var socketEvents = function(io) {
 
     connections.push(socket);
     console.log("Connected: %s sockets connected.", connections.length);
+    socket.emit('connected');
   });
 }
 
