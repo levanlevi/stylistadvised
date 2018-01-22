@@ -7,8 +7,6 @@ const invalidEmailError = 'Please provide a correct email address.';
 
 export const PASSWORD_RECOVERY_SUBMIT = 'PASSWORD_RECOVERY_SUBMIT';
 
-const config = require('../../../../config');
-
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -33,7 +31,7 @@ export function submit(email) {
 
   return async (dispatch) => {
     try {
-      const url = config.serverUrl + '/auth/login';
+      const url = API + '/auth/login';
       const response = await fetch(
         url,
         {

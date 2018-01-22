@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const project = require('../project.config')
+const mainConfig = require('../config/index.json')
 
 const inProject = path.resolve.bind(path, project.basePath)
 const inProjectSrc = (file) => inProject(project.srcDir, file)
@@ -10,6 +11,7 @@ const inProjectSrc = (file) => inProject(project.srcDir, file)
 const __DEV__ = project.env === 'development'
 const __TEST__ = project.env === 'test'
 const __PROD__ = project.env === 'production'
+const serverUrl = process.env.npm_config_api ? process.env.npm_config_api : mainConfig.serverUrl
 
 const config = {
   entry: {
@@ -43,6 +45,7 @@ const config = {
       __DEV__,
       __TEST__,
       __PROD__,
+      API: JSON.stringify(serverUrl)
     }, project.globals))
   ],
 }

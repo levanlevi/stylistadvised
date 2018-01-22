@@ -31,7 +31,7 @@ export function getUsers(page) {
 
     try {
       const pagination = getPagination(page);
-      const url = (config.serverUrl + '/api/users?userType=stylist' + pagination);
+      const url = (API + '/api/users?userType=stylist' + pagination);
       const response = await fetch(
         url,
         {
@@ -58,7 +58,7 @@ export function getChannel(channelId) {
   return async (dispatch) => {
     try {
       if (isValidId(channelId)) {
-        const url = (config.serverUrl + '/api/channels?id=' + encodeURIComponent(channelId));
+        const url = (API + '/api/channels?id=' + encodeURIComponent(channelId));
         const response = await fetch(
           url,
           {
@@ -81,7 +81,7 @@ export function getChannel(channelId) {
 export function setChannel(channel) {
   return async (dispatch) => {
     try {
-      const url = (config.serverUrl + '/api/channels');
+      const url = (API + '/api/channels');
       const response = await fetch(
         url,
         {
@@ -103,7 +103,7 @@ export function setChannel(channel) {
 export function setMessage(message) {
   return async (dispatch) => {
     try {
-      const url = (config.serverUrl + '/api/messages');
+      const url = (API + '/api/messages');
       const response = await fetch(
         url,
         {

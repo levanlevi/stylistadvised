@@ -7,8 +7,6 @@ export const ACCOUNT_USER_SUBMIT = 'ACCOUNT_USER_SUBMIT';
 
 import auth from '../../Auth/modules/auth';
 
-const config = require('../../../../config');
-
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -22,7 +20,7 @@ export function getUser(userId) {
 
     try {
       if (isValidId(userId)) {
-        const url = config.serverUrl + '/api/users/' + userId;
+        const url = API + '/api/users/' + userId;
         const response = await fetch(
           url,
           {
@@ -44,7 +42,7 @@ export function submit(user) {
   return async (dispatch) => {
     try {
       if (isValidId(user._id)) {
-        const url = config.serverUrl + '/api/users/' + user._id;
+        const url = API + '/api/users/' + user._id;
         await fetch(
           url,
           {

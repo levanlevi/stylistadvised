@@ -7,7 +7,6 @@ import uuid from 'node-uuid';
 
 const _ = require('underscore');
 const io = require('socket.io-client');
-const config = require('../../../../config');
 
 import auth from '../../Auth/modules/auth';
 import Display from '../../Parts/Display';
@@ -69,7 +68,7 @@ export default class Messages extends Component {
   }
 
   componentWillMount() {
-    this.socket = io(config.serverUrl);
+    this.socket = io(API);
     this.socket.on('connect', this.connect);
     this.socket.on('disconnect', this.disconnect);
 

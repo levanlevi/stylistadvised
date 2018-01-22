@@ -11,8 +11,6 @@ const invalidPasswordError = 'Password must have at least 8 characters.';
 
 export const SIGNIN_SUBMIT = 'SIGNIN_SUBMIT';
 
-const config = require('../../../../config');
-
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -61,7 +59,7 @@ export function submit(user) {
 
   return async (dispatch) => {
     try {
-      const url = config.serverUrl + '/auth/login';
+      const url = API + '/auth/login';
       const response = await fetch(
         url,
         {

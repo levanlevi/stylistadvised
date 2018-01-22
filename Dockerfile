@@ -21,9 +21,11 @@ COPY config ./config
 COPY src ./src
 COPY server ./server
 
+ARG api
+
 # build frontend
 RUN npm install
-RUN npm run build
+RUN npm run build --api=${api}
 RUN rm -rf ./src
 
 EXPOSE 3000

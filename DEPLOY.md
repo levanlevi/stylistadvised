@@ -1,6 +1,12 @@
 # First step
 Install Docker on your OS [Ubuntu](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/) [MacOS](https://docs.docker.com/docker-for-mac/install/)
 
+# Automatic deploy
+
+    ```chmod 700 deploy.bash```
+
+    ```./deploy.bash```
+
 # Working with docker
 List images:
 
@@ -14,10 +20,14 @@ Stop running container
 
 ```docker stop CONTAINER_ID```
 
-# Deploy
+# Manual deploy
 1. In repo dir build container
 
-    ```docker build -t stylistadvisedme ./```
+    ```docker build -t stylistadvisedme --build-arg api=SERVER_URL ./```
+
+    For example:
+
+    ```docker build -t stylistadvisedme --build-arg api=http://ec2-54-93-155-232.eu-central-1.compute.amazonaws.com ./```
 
 2. Next, save container as file
 

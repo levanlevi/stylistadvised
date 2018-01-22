@@ -13,8 +13,6 @@ const invalidPasswordError = 'Password must have at least 8 characters.';
 export const SIGNUP_USERTYPE_RECEIVED = 'SIGNUP_USERTYPE_RECEIVED';
 export const SIGNUP_SUBMIT = 'SIGNUP_SUBMIT';
 
-const config = require('../../../../config');
-
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -72,7 +70,7 @@ export function submit(user) {
 
   return async (dispatch) => {
     try {
-      const url = config.serverUrl + '/auth/signup';
+      const url = API + '/auth/signup';
       const response = await fetch(
         url,
         {
