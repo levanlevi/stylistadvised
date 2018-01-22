@@ -94,6 +94,16 @@ if (project.env === 'development') {
   // the web server and not the app server, but this helps to demo the
   // server in production.
   app.use(express.static(path.resolve(project.basePath, project.outDir)))
+
+  app.use('/auth', authRouter);
+  app.use('/api/channels', channelRouter);
+  app.use('/api/messages', messageRouter);
+  app.use('/api/users', userRouter);
+
+  app.use('*', function (req, res, next) {
+    const filename = path.join(project.basePath, project.outDir, 'index.html')
+    res.sendFile(filename);
+  })
 }
 
 module.exports = app;
